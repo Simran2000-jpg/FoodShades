@@ -44,7 +44,7 @@ restaurant side.
 * Sound notification on payment success.
 
 ### Innovation:
-* Enable Door-to-Door Service
+* NA
 
 ### Tech Stack:
 
@@ -53,7 +53,7 @@ restaurant side.
 * Adobe XD - UI/Prototype
 
 #### ***Back End :***
-* Django Rest Framework
+* Firebase/Firestore
 
 
 
