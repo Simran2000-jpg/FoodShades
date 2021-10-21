@@ -34,6 +34,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  awesome_notifications: ^0.0.6+11
+  circular_countdown_timer: ^0.2.0
+  rflutter_alert: ^2.0.4
   firebase_auth: ^3.1.3
   cloud_firestore: ^2.5.3
   firebase_core: ^1.7.0
