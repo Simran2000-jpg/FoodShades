@@ -1,6 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shades_food/screens/auth/SignUpPage.dart';
 
 import 'order.dart';
 
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         //test for git
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: OrderPage(),
+      home: SignUpPage(),
     );
   }
 }
