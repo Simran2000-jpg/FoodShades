@@ -42,6 +42,7 @@ dependencies:
   firebase_core: ^1.7.0
   razorpay_flutter: ^1.2.1
   toast: ^0.1.5 
+  international_phone_input: ^1.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -90,6 +91,34 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  fonts:
+    - family: MenuIcon
+      fonts:
+          - asset: assets/fonts/MenuIcon.ttf
+
+    - family: Montserrat Light
+      fonts:
+        - asset: assets/fonts/Montserrat-Light.ttf
+          weight: 300
+
+    - family: Montserrat Regular
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+          weight: 400
+    - family: Montserrat Medium
+      fonts:
+        - asset: assets/fonts/Montserrat-Medium.ttf
+          weight: 500
+
+    - family: Montserrat SemiBold
+      fonts:
+        - asset: assets/fonts/Montserrat-SemiBold.ttf
+          weight: 600
+
+    - family: Montserrat Bold
+      fonts:
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
