@@ -9,6 +9,7 @@ import 'order.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   AwesomeNotifications().initialize(null, [
     NotificationChannel(
       channelKey: 'key1',

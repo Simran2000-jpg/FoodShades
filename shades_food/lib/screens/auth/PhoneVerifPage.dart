@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:international_phone_input/international_phone_input.dart';
-import 'package:shades_food/screens/auth/OTPpage.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/otp_field_style.dart';
+import 'package:otp_text_field/style.dart';
+import 'package:shades_food/screens/auth/Auth_Service.dart';
 
 class PhoneVerifPage extends StatefulWidget {
   const PhoneVerifPage({Key? key}) : super(key: key);
@@ -10,114 +14,230 @@ class PhoneVerifPage extends StatefulWidget {
 }
 
 class _PhoneVerifPageState extends State<PhoneVerifPage> {
-  late String phoneNumber = "", verificationId, smsCode;
-  bool codeSent = false;
-  String phoneIsoCode = "IN";
+  int start = 30;
+  bool wait = false;
+  String buttonName = "Send";
 
-  void onPhoneNumberChange(
-      String number, String internationalizedPhoneNumber, String isoCode) {
-    setState(() {
-      phoneNumber = number;
-      phoneIsoCode = isoCode;
-    });
-  }
+  TextEditingController phoneController = TextEditingController();
+  AuthClass authClass = AuthClass();
+
+  String verificationIdFinal = "";
+  String smsCode = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFFFC495),
-        appBar: AppBar(
-          backgroundColor: Color(0xFFFFC495),
-          iconTheme: IconThemeData(
-            color: Color(0xFF1E1E29),
+      backgroundColor: Colors.black87,
+      appBar: AppBar(
+        backgroundColor: Colors.black87,
+        title: Text(
+          "SignUp",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
           ),
-          elevation: 0,
         ),
-        body: SingleChildScrollView(
+        centerTitle: true,
+      ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                  margin: EdgeInsets.fromLTRB(40, 10, 40, 0),
-                  child: Text(
-                    "Enter Phone Number For Verification",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Montserrat SemiBold',
-                      color: Color(0xFF1E1E29),
-                    ),
-                  )),
-              Container(
-                  margin: EdgeInsets.fromLTRB(40, 5, 40, 0),
-                  child: Text(
-                    "This Number will be used for contact purpose. You shall receive an SMS with a code for verification.",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: 'Montserrat Medium',
-                      color: Color(0xFF454551),
-                    ),
-                  )),
-              Container(
-                margin: EdgeInsets.fromLTRB(40, 30, 40, 0),
-                child: InternationalPhoneInput(
-                    errorText: "Please Enter a valid phone number!",
-                    decoration: InputDecoration.collapsed(
-                        hintText: 'Enter Phone Number',
-                        hintStyle: TextStyle(
-                            fontFamily: "Montserrat Medium", fontSize: 15)),
-                    onPhoneNumberChange: onPhoneNumberChange,
-                    initialPhoneNumber: phoneNumber,
-                    initialSelection: phoneIsoCode,
-                    showCountryFlags: true,
-                    showCountryCodes: true),
+              SizedBox(
+                height: 110,
               ),
-              new Padding(
-                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                  child: new Divider(
-                    thickness: 2,
-                    color: Color(0xFFFFF7C6),
-                  )),
+              textField(),
+              SizedBox(
+                height: 30,
+              ),
               Container(
-                  margin: EdgeInsets.fromLTRB(25, 160, 25, 20),
-                  height: 56,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(17),
-                      color: Color(0xFF1E1E29)),
-                  child: FlatButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Spacer(),
-                        Text(
-                          "Next",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Montserrat SemiBold',
-                              fontSize: 16,
-                              color: Color(0xFFE5E5E5)),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Color(0xFFFFF7C6),
-                        )
-                      ],
+                width: MediaQuery.of(context).size.width - 30,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        color: Colors.grey,
+                        margin: EdgeInsets.symmetric(horizontal: 12),
+                      ),
                     ),
-                    onPressed: () {
-                      print(phoneNumber);
-                      // Toast.show("Incomplete!", context,
-                      //     duration: Toast.LENGTH_SHORT);
+                    Text(
+                      "Enter 6 digit OTP",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        color: Colors.grey,
+                        margin: EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              otpField(),
+              SizedBox(
+                height: 40,
+              ),
+              RichText(
+                  text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "Send OTP again in ",
+                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent),
+                  ),
+                  TextSpan(
+                    text: "00:$start",
+                    style: TextStyle(fontSize: 16, color: Colors.pinkAccent),
+                  ),
+                  TextSpan(
+                    text: " sec",
+                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent),
+                  ),
+                ],
+              )),
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  OTPpage("+91" + phoneNumber)));
-                    },
-                  ))
+              SizedBox(
+                height: 80,
+              ),
+              //
+              InkWell(
+                onTap: () {
+                  authClass.signInwithPhoneNumber(
+                      verificationIdFinal, smsCode, context);
+                },
+                child: Container(
+                  height: 60,
+                  width: MediaQuery.of(context).size.width - 60,
+                  decoration: BoxDecoration(
+                      color: Color(0xffff9601),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Center(
+                    child: Text(
+                      "Let's Go",
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Color(0xfffbe2ae),
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
-        ));
+        ),
+      ),
+    );
+  }
+
+  void startTimer() {
+    const onsec = Duration(seconds: 1);
+
+    Timer timer = Timer.periodic(onsec, (timer) {
+      if (start == 0) {
+        setState(() {
+          timer.cancel();
+          wait = false;
+        });
+      } else {
+        setState(() {
+          start--;
+        });
+      }
+    });
+  }
+
+  Widget otpField() {
+    return OTPTextField(
+      length: 6,
+      width: 1000,
+      fieldWidth: 40,
+      otpFieldStyle: OtpFieldStyle(
+        backgroundColor: Color(0xff1d1d1d),
+        borderColor: Colors.white,
+      ),
+      style: TextStyle(fontSize: 17, color: Colors.white),
+      textFieldAlignment: MainAxisAlignment.spaceAround,
+      fieldStyle: FieldStyle.underline,
+      onCompleted: (pin) {
+        print("Completed: " + pin);
+        setState(() {
+          smsCode = pin;
+        });
+      },
+      onChanged: (pin) {},
+    );
+  }
+
+  Widget textField() {
+    return Container(
+      width: 350,
+      height: 60,
+      decoration: BoxDecoration(
+        color: Color(0xff1d1d1d),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: TextFormField(
+        controller: phoneController,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: "Enter your phone number",
+          hintStyle: TextStyle(color: Colors.white54, fontSize: 17),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 19, horizontal: 8),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
+            child: Text(
+              " (+91) ",
+              style: TextStyle(color: Colors.white, fontSize: 17),
+            ),
+          ),
+
+          //
+
+          suffixIcon: InkWell(
+            onTap: wait
+                ? null
+                : () async {
+                    startTimer();
+                    setState(() {
+                      start = 30;
+                      wait = true;
+                      buttonName = "Resend";
+                    });
+                    await authClass.verifyPhoneNumber(
+                        "+91 ${phoneController.text}", context, setData);
+                  },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+              child: Text(
+                buttonName,
+                style: TextStyle(
+                    color: wait ? Colors.grey : Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void setData(verificationId) {
+    setState(() {
+      verificationIdFinal = verificationId;
+    });
+
+    startTimer();
   }
 }
