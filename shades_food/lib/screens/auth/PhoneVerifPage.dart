@@ -14,7 +14,7 @@ class PhoneVerifPage extends StatefulWidget {
 }
 
 class _PhoneVerifPageState extends State<PhoneVerifPage> {
-  int start = 30;
+  int start = 60;
   bool wait = false;
   String buttonName = "Send";
 
@@ -210,7 +210,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                 : () async {
                     startTimer();
                     setState(() {
-                      start = 30;
+                      start = 60;
                       wait = true;
                       buttonName = "Resend";
                     });

@@ -8,6 +8,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shades_food/confirm.dart';
 
+Future registerUser(String mobile, BuildContext context) async {}
+
 class AuthClass {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -74,7 +76,7 @@ class AuthClass {
       String phoneNumber, BuildContext context, Function setData) async {
     //
     PhoneVerificationCompleted verificationCompleted =
-        (PhoneAuthCredential phoneAuthCredential) async {
+        (PhoneAuthCredential phoneAuthCredential) {
       showSnackBar(context, "Verification Completed");
     };
 
@@ -84,13 +86,17 @@ class AuthClass {
     };
 
     PhoneCodeSent codeSent =
-        (String verificationID, [int? forceResendingtoken]) {
-      showSnackBar(context, "Verification Code sent on the phone number");
-      setData(verificationID);
+        (String verificationId, [int? forceResendingtoken]) {
+      showSnackBar(context, "Verification code sent on the phone number");
+      setData(verificationId);
     };
+    //     (String verificationID, [int forceResendingtoken]) {
+    //   showSnackBar(context, "Verification Code sent on the phone number");
+    //   setData(verificationID);
+    // };
 
     PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-        (String verificationID) {
+        (String verificationId) {
       showSnackBar(context, "Time out");
     };
     try {
