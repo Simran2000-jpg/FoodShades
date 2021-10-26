@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shades_food/confirm.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future registerUser(String mobile, BuildContext context) async {}
 
@@ -18,8 +19,9 @@ class AuthClass {
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
-
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final storage = new FlutterSecureStorage();
+  String _phone = "";
   // Future<void> googleSignIn(BuildContext context) async {
   //   try {
   //     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
@@ -75,6 +77,7 @@ class AuthClass {
   Future<void> verifyPhoneNumber(
       String phoneNumber, BuildContext context, Function setData) async {
     //
+    _phone = phoneNumber;
     PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential phoneAuthCredential) {
       showSnackBar(context, "Verification Completed");
@@ -121,7 +124,12 @@ class AuthClass {
           await _auth.signInWithCredential(credential);
 
       storeTokenAndData(userCredential);
-
+      var user = FirebaseAuth.instance.currentUser;
+      String _uid = user == null ? "" : user.uid;
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(_uid)
+          .set({'uid': _uid, "phone": _phone, 'role': "user"});
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (builder) => ConfirmPage()),
