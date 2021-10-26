@@ -186,6 +186,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
+        keyboardType: TextInputType.number,
         controller: phoneController,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(

@@ -4,7 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/auth/SignUpPage.dart';
-
+import 'package:shades_food/splashscreen.dart';
+import 'package:provider/provider.dart';
 import 'order.dart';
 
 void main() async {
@@ -42,7 +43,21 @@ class MyApp extends StatelessWidget {
         //test for git
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: PhoneVerifPage(),
+      home: SplashScreen(),
     );
+    // return MultiProvider(
+    //   providers: [
+    //     Provider<AuthService>(
+    //       create: (_) => AuthService(FirebaseAuth.instance),
+    //     ),
+    //     StreamProvider(
+    //       create: (context) => context.read<AuthService>().authStateChanges,
+    //     ),
+    //   ],
+    //   child: MaterialApp(
+    //     title: "APP",
+    //     home: AuthWrapper(),
+    //   ),
+    // );
   }
 }
