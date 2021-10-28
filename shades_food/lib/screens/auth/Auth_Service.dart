@@ -22,6 +22,7 @@ class AuthClass {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final storage = new FlutterSecureStorage();
   String _phone = "";
+
   // Future<void> googleSignIn(BuildContext context) async {
   //   try {
   //     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();

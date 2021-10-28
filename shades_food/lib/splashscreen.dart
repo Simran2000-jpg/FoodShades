@@ -18,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
+    Future.delayed(Duration(seconds: 5));
     super.initState();
     _checkRole();
   }
@@ -34,7 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
         await FirebaseFirestore.instance.collection('users').doc(_uid).get();
 
     setState(() {
-      role = snap['role'];
+      // role = snap['role'];
+      role = snap.toString().contains('role') ? snap['role'] : '';
     });
     print('Role >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + role);
     if (role == 'user') {
