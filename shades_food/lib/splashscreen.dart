@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  String role = 'user';
+  String role = '';
   String _uid = "";
 
   @override
@@ -32,10 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     _uid = (user == null) ? "" : user.uid;
     print('UserID ----------------------------------------- ' + _uid);
-    // if (_uid == "") {
-    //   navigateNext(SignUpPage());
-    //   return;
-    // }
+
     if (_uid != "") {
       final DocumentSnapshot snap =
           await FirebaseFirestore.instance.collection('users').doc(_uid).get();
