@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     print('Role >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + role);
     if (role == 'user') {
-      navigateNext(ConfirmPage());
+      navigateNext(PhoneVerifPage());
     } else if (role == 'admin') {
       navigateNext(AdminScreen());
     }
