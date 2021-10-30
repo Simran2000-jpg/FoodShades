@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shades_food/screens/admin/adminscreen.dart'; //adminScreen
 import 'package:shades_food/confirm.dart'; //homeScreen
 import 'package:flutter/material.dart';
+import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/auth/SignUpPage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,7 +25,11 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _checkRole() async {
+    //FirebaseAuth.instance.signOut();
     var user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      navigateNext(PhoneVerifPage());
+    }
     _uid = user == null ? "" : user.uid;
     print('UserID ----------------------------------------- ' + _uid);
     // if (_uid == "") {
