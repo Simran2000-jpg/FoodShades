@@ -30,19 +30,21 @@ class _SplashScreenState extends State<SplashScreen> {
     if (user == null) {
       navigateNext(PhoneVerifPage());
     }
-    _uid = user == null ? "" : user.uid;
+    _uid = (user == null) ? "" : user.uid;
     print('UserID ----------------------------------------- ' + _uid);
     // if (_uid == "") {
     //   navigateNext(SignUpPage());
     //   return;
     // }
-    final DocumentSnapshot snap =
-        await FirebaseFirestore.instance.collection('users').doc(_uid).get();
+    if (_uid != "") {
+      final DocumentSnapshot snap =
+          await FirebaseFirestore.instance.collection('users').doc(_uid).get();
 
-    setState(() {
-      // role = snap['role'];
-      role = snap.toString().contains('role') ? snap['role'] : '';
-    });
+      setState(() {
+        // role = snap['role'];
+        role = snap.toString().contains('role') ? snap['role'] : '';
+      });
+    }
     print('Role >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + role);
     if (role == 'user') {
       navigateNext(ConfirmPage());
