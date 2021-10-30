@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shades_food/confirm.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shades_food/splashscreen.dart';
 
 Future registerUser(String mobile, BuildContext context) async {}
 
@@ -133,7 +134,7 @@ class AuthClass {
           .set({'uid': _uid, "phone": _phone, 'role': "user"});
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (builder) => ConfirmPage()),
+          MaterialPageRoute(builder: (builder) => SplashScreen()),
           (route) => false);
 
       showSnackBar(context, "Logged in");
