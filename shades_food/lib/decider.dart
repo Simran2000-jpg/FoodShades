@@ -33,7 +33,7 @@ class Decider extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('animation/astro.png'),
+                image: AssetImage('assets/astro.png'),
               ),
             ),
           ),
