@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shades_food/screens/admin/adminscreen.dart'; //adminScreen
-import 'package:shades_food/confirm.dart'; //homeScreen
+import 'package:shades_food/homescreen.dart'; //homeScreen
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/auth/SignUpPage.dart';
@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     print('Role >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + role);
     if (role == 'user') {
-      navigateNext(ConfirmPage());
+      navigateNext(HomeScreen());
     } else if (role == 'admin') {
       navigateNext(AdminScreen());
     } else {
@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Welcome'),
+            Text('Splash Screen!!!'),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shades_food/screens/admin/admin_orderlist.dart';
 
 import '../../splashscreen.dart';
 
@@ -15,7 +16,7 @@ class _AdminScreenState extends State<AdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FoodShades'),
+        title: Text('FoodShadesAdmin'),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -31,7 +32,11 @@ class _AdminScreenState extends State<AdminScreen> {
           )
         ],
       ),
-      //body:
+      floatingActionButton: ElevatedButton(
+        onPressed: () {},
+        child: Text('ADD ITEM'),
+      ),
+      body: Admin_OrderList(),
     );
   }
 }
