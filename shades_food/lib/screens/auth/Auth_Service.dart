@@ -128,10 +128,14 @@ class AuthClass {
       storeTokenAndData(userCredential);
       var user = FirebaseAuth.instance.currentUser;
       String _uid = user == null ? "" : user.uid;
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(_uid)
-          .set({'uid': _uid, "phone": _phone, 'role': "user"});
+      final DocumentSnapshot snap =
+          await FirebaseFirestore.instance.collection('users').doc(_uid).get();
+      if (!snap.exists) {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(_uid)
+            .set({'uid': _uid, "phone": _phone, 'role': "user"});
+      }
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (builder) => SplashScreen()),

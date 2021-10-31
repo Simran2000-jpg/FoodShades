@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../splashscreen.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({Key? key}) : super(key: key);
@@ -19,8 +22,11 @@ class _AdminScreenState extends State<AdminScreen> {
               Icons.exit_to_app,
               color: Colors.white,
             ),
-            onPressed: () {
+            onPressed: () async {
               //signOutUser();
+              await FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => SplashScreen()));
             },
           )
         ],

@@ -19,27 +19,30 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 5));
-    super.initState();
     _checkRole();
+    //Future.delayed(Duration(seconds: 5));
+    super.initState();
   }
 
   void _checkRole() async {
-    //FirebaseAuth.instance.signOut();
+    _uid = '';
+    role = '';
     var user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       navigateNext(PhoneVerifPage());
+      return;
     }
-    _uid = (user == null) ? "" : user.uid;
+    _uid = user.uid;
     print('UserID ----------------------------------------- ' + _uid);
 
     if (_uid != "") {
       final DocumentSnapshot snap =
           await FirebaseFirestore.instance.collection('users').doc(_uid).get();
 
+      // role = snap['role'];
+      print("############### " + snap['role']);
       setState(() {
-        // role = snap['role'];
-        role = snap.toString().contains('role') ? snap['role'] : '';
+        role = snap['role'];
       });
     }
     print('Role >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + role);
@@ -47,6 +50,8 @@ class _SplashScreenState extends State<SplashScreen> {
       navigateNext(ConfirmPage());
     } else if (role == 'admin') {
       navigateNext(AdminScreen());
+    } else {
+      navigateNext(PhoneVerifPage());
     }
   }
 
