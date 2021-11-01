@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shades_food/screens/admin/adminscreen.dart'; //adminScreen
-import 'package:shades_food/homescreen.dart'; //homeScreen
+// import 'package:shades_food/homescreen.dart'; //homeScreen
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/auth/SignUpPage.dart';
+import 'package:shades_food/screens/home/homescreen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

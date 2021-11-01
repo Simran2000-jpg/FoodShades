@@ -49,6 +49,7 @@ dependencies:
   google_sign_in: ^5.2.0
   flutter_secure_storage: ^4.2.1
   shimmer: ^2.0.0
+  flutter_svg: ^0.23.0+1
   
 dev_dependencies:
   flutter_test:
