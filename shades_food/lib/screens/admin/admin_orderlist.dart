@@ -27,29 +27,34 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
                 ? ListView(
                     children: snapshot.data!.docs.map((document) {
                       return Center(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 20,
-                                  bottom: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.blueAccent)),
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 20,
+                                    bottom: 5,
+                                  ),
+                                  child: Text(
+                                    "Name of Dish: " + document['name'],
+                                  ),
                                 ),
-                                child: Text(
-                                  "Name of Dish: " + document['name'],
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 20,
+                                    bottom: 5,
+                                  ),
+                                  child: Text(
+                                    "Price of Dish: " + document['price'],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 20,
-                                  bottom: 5,
-                                ),
-                                child: Text(
-                                  "Price of Dish: " + document['price'],
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       );
