@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shades_food/screens/admin/additemAdmin.dart';
 import 'package:shades_food/screens/admin/admin_orderlist.dart';
 
 import '../../splashscreen.dart';
@@ -33,7 +34,15 @@ class _AdminScreenState extends State<AdminScreen> {
         ],
       ),
       floatingActionButton: ElevatedButton(
-        onPressed: () {},
+        style: ButtonStyle(
+            alignment: Alignment.center,
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.orange)),
+        onPressed: () {
+          showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (context) => AddItemAdmin());
+        },
         child: Text('ADD ITEM'),
       ),
       body: Admin_OrderList(),
