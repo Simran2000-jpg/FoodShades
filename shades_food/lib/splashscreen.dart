@@ -9,6 +9,8 @@ import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/auth/SignUpPage.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
 
+import 'screens/Food_Detail/fooddeatils.dart';
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -48,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     print('Role >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + role);
     if (role == 'user') {
-      navigateNext(HomeScreen());
+      navigateNext(FoodDetail());
     } else if (role == 'admin') {
       navigateNext(AdminScreen());
     } else {

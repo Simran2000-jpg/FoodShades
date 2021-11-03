@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FoodTile extends StatefulWidget {
-  final String image, title, price;
-  const FoodTile({
+  String image, title, price;
+  FoodTile({
     Key? key,
     required this.image,
     required this.title,
