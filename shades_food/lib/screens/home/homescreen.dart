@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/Food_Detail/fooddeatils.dart';
 import 'package:shades_food/screens/home/FoodTile.dart';
+import 'package:shades_food/screens/home/user_orderlist.dart';
 import 'package:shades_food/screens/profile/profile_screen.dart';
 
 import 'drawerstatus.dart';
@@ -231,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //         }),
                       //   ),
                       // )
+                      UserOrderList()
                     ],
                   ),
                 ),

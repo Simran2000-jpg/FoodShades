@@ -27,9 +27,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
       appBar: AppBar(
-        backgroundColor: Colors.black87,
         title: Text(
           "SignUp",
           style: TextStyle(
@@ -92,7 +90,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                 children: [
                   TextSpan(
                     text: "Send OTP again in ",
-                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent),
+                    style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   TextSpan(
                     text: "00:$start",
@@ -100,7 +98,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                   ),
                   TextSpan(
                     text: " sec",
-                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent),
+                    style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ],
               )),
