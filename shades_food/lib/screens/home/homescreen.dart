@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/home/FoodTile.dart';
+import 'package:shades_food/screens/home/user_orderlist.dart';
+
+import '../../splashscreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color.fromRGBO(235, 235, 235, 1),
       body: Container(
         margin: const EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Row(
@@ -46,7 +51,31 @@ class _HomeScreenState extends State<HomeScreen> {
                         size: 30,
                         color: Colors.orange,
                       ),
-                    ))
+                    )),
+                Spacer(),
+                GestureDetector(
+                  onTap: () async {
+                    //signOutUser();
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SplashScreen()));
+                  },
+                  child: Card(
+                      margin: const EdgeInsets.only(left: 15),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 10,
+                      child: const Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Icon(
+                          Icons.exit_to_app,
+                          size: 30,
+                          color: Colors.orange,
+                        ),
+                      )),
+                )
               ],
             ),
             SizedBox(
@@ -138,42 +167,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-              // child: SingleChildScrollView(
-              //   child: Column(
-              //     children: [
-              //       // ignore: prefer_const_constructors
-              //       const FoodTile(
-              //         title: "Soda Soups",
-              //         image: "assets/astro.png",
-              //         price: "10",
-              //       ),
-              //       const FoodTile(
-              //         title: "Soda Soups",
-              //         image: "assets/astro.png",
-              //         price: "10",
-              //       ),
-              //       const FoodTile(
-              //         title: "Soda Soups",
-              //         image: "assets/astro.png",
-              //         price: "10",
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: item.length,
-                itemBuilder: (context, index) {
-                  return FoodTile(
-                    title: item[index]["title"].toString(),
-                    image: item[index]["image"].toString(),
-                    price: item[index]["price"].toString(),
-                  );
-                },
-              ),
-            )
+            // Container(
+            //   padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+            //   // child: SingleChildScrollView(
+            //   //   child: Column(
+            //   //     children: [
+            //   //       // ignore: prefer_const_constructors
+            //   //       const FoodTile(
+            //   //         title: "Soda Soups",
+            //   //         image: "assets/astro.png",
+            //   //         price: "10",
+            //   //       ),
+            //   //       const FoodTile(
+            //   //         title: "Soda Soups",
+            //   //         image: "assets/astro.png",
+            //   //         price: "10",
+            //   //       ),
+            //   //       const FoodTile(
+            //   //         title: "Soda Soups",
+            //   //         image: "assets/astro.png",
+            //   //         price: "10",
+            //   //       ),
+            //   //     ],
+            //   //   ),
+            //   // ),
+            //   child: ListView.builder(
+            //     shrinkWrap: true,
+            //     itemCount: item.length,
+            //     itemBuilder: (context, index) {
+            //       return FoodTile(
+            //         title: item[index]["title"].toString(),
+            //         image: item[index]["image"].toString(),
+            //         price: item[index]["price"].toString(),
+            //       );
+            //     },
+            //   ),
+            // )
+            UserOrderList(),
           ],
         ),
       ),

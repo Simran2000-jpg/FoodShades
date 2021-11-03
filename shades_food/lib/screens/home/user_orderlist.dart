@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class Admin_OrderList extends StatefulWidget {
-  const Admin_OrderList({Key? key}) : super(key: key);
+class UserOrderList extends StatefulWidget {
+  const UserOrderList({Key? key}) : super(key: key);
 
   @override
-  _Admin_OrderListState createState() => _Admin_OrderListState();
+  _UserOrderListState createState() => _UserOrderListState();
 }
 
-class _Admin_OrderListState extends State<Admin_OrderList> {
+class _UserOrderListState extends State<UserOrderList> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -82,20 +81,3 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
     );
   }
 }
-//                                           Column(
-//                                           mainAxisAlignment:
-//                                               MainAxisAlignment.center,
-//                                           children: <Widget>[
-//                                             Text("DISH"),
-//                                             Row(
-//                                               children: <Widget>[
-//                                                 TextButton(
-//                                                     onPressed: () {},
-//                                                     child: Text('EDIT')),
-//                                                 TextButton(
-//                                                     onPressed: () {},
-//                                                     child: Text('DELETE')),
-//                                               ],
-//                                             )
-//                                           ],
-//                                         )
