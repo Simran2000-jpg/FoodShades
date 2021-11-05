@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/auth/SignUpPage.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'screens/Food_Detail/fooddeatils.dart';
 
@@ -17,13 +18,15 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Tween<double> _sizeTween = Tween<double>(begin: 20, end: 150);
   String role = '';
   String _uid = "";
 
   @override
   void initState() {
+    // Future.delayed(Duration(seconds: 5));
     _checkRole();
-    //Future.delayed(Duration(seconds: 5));
+    //
     super.initState();
   }
 
@@ -59,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigateNext(Widget route) {
-    Timer(Duration(milliseconds: 500), () {
+    Timer(Duration(milliseconds: 5000), () {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => route));
     });
@@ -68,14 +71,56 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Splash Screen!!!'),
-          ],
-        ),
-      ),
-    );
+        backgroundColor: Color(0xFFFFC495),
+        body: Container(
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TweenAnimationBuilder(
+                tween: _sizeTween,
+                duration: Duration(milliseconds: 1000),
+                builder: (_, size, __) {
+                  return Container(
+                    height: size as double,
+                    width: size as double,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage('assets/astro.png'),
+                      // image: AssetImage('./images/foodshades.jpg',
+                      //     package: "com.example.shades_food"),
+                      fit: BoxFit.fill,
+                    )),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              Shimmer.fromColors(
+                baseColor: Color(0xFF1E1E29),
+                highlightColor: Color(0xFFFFF7C6),
+                child: Text(
+                  "FOODSHADES",
+                  style: TextStyle(
+                    fontFamily: 'Montserrat Bold',
+                    color: Color(0xFF1E1E29),
+                    fontSize: 18,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+        // body: Center(
+        //   child: Column(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       Text('Splash Screen!!!'),
+        //     ],
+        //   ),
+        // ),
+        );
   }
 }
