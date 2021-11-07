@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/auth/SignUpPage.dart';
 import 'package:shades_food/screens/home/drawerstatus.dart';
+import 'package:shades_food/splashscreen.dart';
 
 import 'profile_menu.dart';
 
@@ -50,7 +51,7 @@ class Body extends StatelessWidget {
             press: () async {
               await FirebaseAuth.instance.signOut();
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const SignUpPage()));
+                  MaterialPageRoute(builder: (context) => SplashScreen()));
             },
           ),
         ],
