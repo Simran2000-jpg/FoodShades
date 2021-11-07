@@ -28,51 +28,45 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
                   ? ListView(
                       shrinkWrap: true,
                       children: snapshot.data!.docs.map((document) {
-                        return Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog<String>(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        SimpleDialog(
-                                          title: Text("Select An Option"),
+                        return ListTile(
+                          title: Text(document['name']),
+                          subtitle: Text(document['price']),
+                          leading: Image(image: AssetImage('assets/astro.png')),
+                          onTap: () {
+                            showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => SimpleDialog(
+                                      title: Text("Select An Option"),
+                                      children: <Widget>[
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: <Widget>[
-                                            SimpleDialogOption()
+                                            TextButton(
+                                                onPressed: () {},
+                                                child: Text('EDIT'),
+                                                style: TextButton.styleFrom(
+                                                  primary: Colors.white,
+                                                  backgroundColor: Colors.blue,
+                                                )),
+                                            TextButton(
+                                              onPressed: () {
+                                                deleteitem(document.id);
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .pop();
+                                              },
+                                              child: Text('DELETE'),
+                                              style: TextButton.styleFrom(
+                                                primary: Colors.white,
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            ),
                                           ],
-                                        ));
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Colors.blueAccent)),
-                                width: MediaQuery.of(context).size.width / 1.2,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 20,
-                                        bottom: 5,
-                                      ),
-                                      child: Text(
-                                        "Name of Dish: " + document['name'],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 20,
-                                        bottom: 5,
-                                      ),
-                                      child: Text(
-                                        "Price of Dish: " + document['price'],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                                        ),
+                                      ],
+                                    ));
+                          },
                         );
                       }).toList(),
                     )
@@ -81,21 +75,20 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
       ),
     );
   }
+
+  void deleteitem(String id) async {
+    try {
+      await FirebaseFirestore.instance.collection('Dish').doc(id).delete();
+      setState(() {
+        showSnackBar(context, 'Item Deleted Successfully');
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void showSnackBar(BuildContext context, String text) {
+    final snackBar = SnackBar(content: Text(text.toString()));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
-//                                           Column(
-//                                           mainAxisAlignment:
-//                                               MainAxisAlignment.center,
-//                                           children: <Widget>[
-//                                             Text("DISH"),
-//                                             Row(
-//                                               children: <Widget>[
-//                                                 TextButton(
-//                                                     onPressed: () {},
-//                                                     child: Text('EDIT')),
-//                                                 TextButton(
-//                                                     onPressed: () {},
-//                                                     child: Text('DELETE')),
-//                                               ],
-//                                             )
-//                                           ],
-//                                         )

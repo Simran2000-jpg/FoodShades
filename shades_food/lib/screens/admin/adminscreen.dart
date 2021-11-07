@@ -20,7 +20,11 @@ class _AdminScreenState extends State<AdminScreen> {
         style: ButtonStyle(
             alignment: Alignment.center,
             backgroundColor: MaterialStateProperty.all<Color>(Colors.orange)),
-        onPressed: () {},
+        onPressed: () {
+          print("ADD ITEM PRESSED_____________________");
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AddItemAdmin()));
+        },
         child: Text('ADD ITEM'),
       ),
       body: Container(

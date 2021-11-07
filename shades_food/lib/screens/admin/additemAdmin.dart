@@ -9,62 +9,53 @@ class AddItemAdmin extends StatefulWidget {
 }
 
 class _AddItemAdminState extends State<AddItemAdmin> {
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  String _name = "";
-  String _price = "";
-  void addData() async {
-    try {
-      await _firestore.collection("Dish").add({
-        'name': _name,
-        "price": _price,
-      });
-      ;
-    } catch (e) {
-      print(e);
-    }
-  }
-
+  String _name = "", _price = "";
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: MediaQuery.of(context).viewInsets,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              Text('ADD ITEM TO MENU'),
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    _name = value;
-                  });
-                },
-                autofocus: true,
-                decoration: new InputDecoration(
-                  hintText: 'Name: ',
-                ),
-              ),
-              TextField(
-                autofocus: true,
-                onChanged: (value) {
-                  setState(() {
-                    _price = value;
-                  });
-                },
-                decoration: new InputDecoration(
-                  hintText: 'Price: ',
-                ),
-              ),
-              TextButton(
-                  onPressed: () {
-                    addData();
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                Text('ADD ITEM TO MENU'),
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _name = value;
+                    });
                   },
-                  child: Text('ADD'),
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.orange))),
-            ],
+                  autofocus: true,
+                  decoration: new InputDecoration(
+                    hintText: 'Name: ',
+                  ),
+                ),
+                TextField(
+                  autofocus: true,
+                  onChanged: (value) {
+                    setState(() {
+                      _price = value;
+                    });
+                  },
+                  decoration: new InputDecoration(
+                    hintText: 'Price: ',
+                  ),
+                ),
+                TextButton(
+                    onPressed: () async {
+                      await FirebaseFirestore.instance.collection('Dish').add({
+                        'name': _name,
+                        'price': _price,
+                      });
+                    },
+                    child: Text('ADD'),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.orange))),
+              ],
+            ),
           ),
         ),
       ),
