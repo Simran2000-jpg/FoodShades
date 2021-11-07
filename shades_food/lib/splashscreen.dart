@@ -53,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     print('Role >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + role);
     if (role == 'user') {
-      navigateNext(FoodDetail());
+      navigateNext(HomeScreen());
     } else if (role == 'admin') {
       navigateNext(AdminScreen());
     } else {
