@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shades_food/screens/Food_Detail/fooddeatils.dart';
+import 'package:shades_food/screens/home/FoodTile.dart';
 
 class UserOrderList extends StatefulWidget {
   const UserOrderList({Key? key}) : super(key: key);
@@ -12,7 +14,9 @@ class _UserOrderListState extends State<UserOrderList> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance.collection('Dish').snapshots(),
             builder:
@@ -27,51 +31,21 @@ class _UserOrderListState extends State<UserOrderList> {
                   ? ListView(
                       shrinkWrap: true,
                       children: snapshot.data!.docs.map((document) {
-                        return Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog<String>(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        SimpleDialog(
-                                          title: Text("Select An Option"),
-                                          children: <Widget>[
-                                            SimpleDialogOption()
-                                          ],
-                                        ));
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Colors.blueAccent)),
-                                width: MediaQuery.of(context).size.width / 1.2,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 20,
-                                        bottom: 5,
-                                      ),
-                                      child: Text(
-                                        "Name of Dish: " + document['name'],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 20,
-                                        bottom: 5,
-                                      ),
-                                      child: Text(
-                                        "Price of Dish: " + document['price'],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                        return InkWell(
+                          onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FoodDetail(
+                                          image: 'assets/astro.png',
+                                          title: document['name'],
+                                          price: document['price'],
+                                        )))
+                          },
+                          child: FoodTile(
+                              image: "assets/astro.png",
+                              title: document['name'],
+                              price: document['price']),
                         );
                       }).toList(),
                     )
