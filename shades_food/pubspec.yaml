@@ -78,6 +78,7 @@ flutter:
     - assets/images/foodshades.jpg
     - assets/astro.png
     - assets/icon/
+    - assets/google.svg
     
   # - assets/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
