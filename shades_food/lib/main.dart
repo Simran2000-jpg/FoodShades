@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shades_food/screens/admin/adminscreen.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/auth/SignUpPage.dart';
+import 'package:shades_food/screens/feedback.dart';
 import 'package:shades_food/splashscreen.dart';
 import 'package:provider/provider.dart';
 import 'order.dart';
