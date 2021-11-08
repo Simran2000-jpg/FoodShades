@@ -1,11 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shades_food/screens/Food_Detail/fooddeatils.dart';
-import 'package:shades_food/screens/home/FoodTile.dart';
+import 'package:shades_food/screens/cart/cart_screen.dart';
+
 import 'package:shades_food/screens/home/user_orderlist.dart';
 import 'package:shades_food/screens/profile/profile_screen.dart';
-
-import 'drawerstatus.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,11 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Map<String, dynamic>> item = [
-    {'title': 'Pizza', 'image': 'assets/astro.png', 'price': '80'},
-    {'title': 'Dosa', 'image': 'assets/astro.png', 'price': '100'},
-    {'title': 'Choumein', 'image': 'assets/astro.png', 'price': '60'},
-  ];
   bool isDrawerOpen = false;
   double xOffset = 0;
   double yOffset = 0;
@@ -83,157 +75,169 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.white,
                     size: 27,
                   ),
-                  onPressed: () => {},
+                  onPressed: () => {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CartScreen()))
+                  },
                 ),
                 backgroundColor: const Color.fromRGBO(235, 235, 235, 1),
-                body: Container(
-                  margin: const EdgeInsets.only(top: 40),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () => {onclick(!isDrawerOpen)},
-                            child: Card(
-                                margin: const EdgeInsets.only(left: 15),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                elevation: 10,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(5.0),
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 30,
-                                    color: Colors.orange,
-                                  ),
-                                )),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(20),
-                                child: const Text(
-                                  "Bika Canteen",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Icon(Icons.star, color: Colors.white, size: 15),
-                                Text(
-                                  "4.7",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(10),
-                                    topLeft: Radius.circular(10)),
-                                color: Colors.green),
-                          )
-                        ],
-                      ),
-                      SingleChildScrollView(
-                        //changing scroll direction into horizontal
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.circular(20)),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 15),
-                              child: const Text(
-                                "Recommended",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20)),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 15),
-                              child: const Text("Popular"),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20)),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 15),
-                              child: const Text("Noodles"),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20)),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 15),
-                              child: const Text("Pizza"),
+                body: SingleChildScrollView(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 40),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () => {onclick(!isDrawerOpen)},
+                              child: Card(
+                                  margin: const EdgeInsets.only(left: 15),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  elevation: 10,
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 30,
+                                      color: Colors.orange,
+                                    ),
+                                  )),
                             ),
                           ],
                         ),
-                      ),
-                      // InkWell(
-                      //   onTap: () => {
-                      //     Navigator.push(context,
-                      //         MaterialPageRoute(builder: (context) => FoodDetail())),
-                      //   },
-                      //   child: Container(
-                      //     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-                      //     child: StreamBuilder<QuerySnapshot>(
-                      //         stream: FirebaseFirestore.instance
-                      //             .collection('Dish')
-                      //             .snapshots(),
-                      //         builder: (BuildContext context,
-                      //             AsyncSnapshot<QuerySnapshot> snapshot) {
-                      //           if (snapshot.hasError) {
-                      //             return Text('Something went wrong');
-                      //           }
-                      //           if (snapshot.connectionState == ConnectionState.waiting) {
-                      //             return Text("Loading");
-                      //           }
-                      //           return snapshot.hasData
-                      //               ? ListView(
-                      //                   children: snapshot.data!.docs.map((document) {
-                      //                     return FoodTile(
-                      //                       title: document['name'],
-                      //                       image: "assets/astro.png",
-                      //                       price: document['price'],
-                      //                     );
-                      //                   }).toList(),
-                      //                 )
-                      //               : Text('Sorry! No dish available currently');
-                      //         }),
-                      //   ),
-                      // )
-                      UserOrderList()
-                    ],
+                        SizedBox(height: 20.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(20),
+                                  child: const Text(
+                                    "Bika Canteen",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Icon(Icons.star,
+                                      color: Colors.white, size: 15),
+                                  Text(
+                                    "4.7",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      topLeft: Radius.circular(10)),
+                                  color: Colors.green),
+                            )
+                          ],
+                        ),
+                        SingleChildScrollView(
+                          //changing scroll direction into horizontal
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                    color: Colors.orange,
+                                    borderRadius: BorderRadius.circular(20)),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 15),
+                                child: const Text(
+                                  "Recommended",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20)),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 15),
+                                child: const Text("Popular"),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20)),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 15),
+                                child: const Text("Noodles"),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20)),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 15),
+                                child: const Text("Pizza"),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // InkWell(
+                        //   onTap: () => {
+                        //     Navigator.push(context,
+                        //         MaterialPageRoute(builder: (context) => FoodDetail())),
+                        //   },
+                        //   child: Container(
+                        //     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+                        //     child: StreamBuilder<QuerySnapshot>(
+                        //         stream: FirebaseFirestore.instance
+                        //             .collection('Dish')
+                        //             .snapshots(),
+                        //         builder: (BuildContext context,
+                        //             AsyncSnapshot<QuerySnapshot> snapshot) {
+                        //           if (snapshot.hasError) {
+                        //             return Text('Something went wrong');
+                        //           }
+                        //           if (snapshot.connectionState == ConnectionState.waiting) {
+                        //             return Text("Loading");
+                        //           }
+                        //           return snapshot.hasData
+                        //               ? ListView(
+                        //                   children: snapshot.data!.docs.map((document) {
+                        //                     return FoodTile(
+                        //                       title: document['name'],
+                        //                       image: "assets/astro.png",
+                        //                       price: document['price'],
+                        //                     );
+                        //                   }).toList(),
+                        //                 )
+                        //               : Text('Sorry! No dish available currently');
+                        //         }),
+                        //   ),
+                        // )
+                        // ignore: prefer_const_constructors
+                        UserOrderList()
+                      ],
+                    ),
                   ),
                 ),
               ),

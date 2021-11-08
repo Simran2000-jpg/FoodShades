@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+// ignore: must_be_immutable
 class Payment extends StatefulWidget {
+  int price;
+  Payment({
+    Key? key,
+    required this.price,
+  }) : super(key: key);
+
   @override
   _PaymentState createState() => _PaymentState();
 }
@@ -13,7 +20,7 @@ class _PaymentState extends State<Payment> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    razorpay = new Razorpay();
+    razorpay = Razorpay();
     razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
     razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerPaymentError);
     razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);

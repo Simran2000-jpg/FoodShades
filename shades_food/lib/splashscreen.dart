@@ -6,6 +6,7 @@ import 'package:shades_food/screens/admin/adminscreen.dart'; //adminScreen
 // import 'package:shades_food/homescreen.dart'; //homeScreen
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
+import 'package:shades_food/screens/auth/SignInPage.dart';
 import 'package:shades_food/screens/auth/SignUpPage.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     role = '';
     var user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      navigateNext(PhoneVerifPage());
+      navigateNext(SignUpPage());
       return;
     }
     _uid = user.uid;
@@ -53,11 +54,11 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     print('Role >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + role);
     if (role == 'user') {
-      navigateNext(FoodDetail());
+      navigateNext(SignInPage());
     } else if (role == 'admin') {
       navigateNext(AdminScreen());
     } else {
-      navigateNext(PhoneVerifPage());
+      navigateNext(SignUpPage());
     }
   }
 
