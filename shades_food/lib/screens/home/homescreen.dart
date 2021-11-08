@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shades_food/screens/cart/cart_screen.dart';
 
 import 'package:shades_food/screens/home/user_orderlist.dart';
 import 'package:shades_food/screens/profile/profile_screen.dart';
@@ -75,8 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     size: 27,
                   ),
                   onPressed: () => {
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => CartPage()))
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CartScreen()))
                   },
                 ),
                 backgroundColor: const Color.fromRGBO(235, 235, 235, 1),

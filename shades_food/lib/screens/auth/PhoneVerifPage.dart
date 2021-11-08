@@ -28,6 +28,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(
           "SignUp",
           style: TextStyle(
@@ -65,7 +66,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                       "Enter 6 digit OTP",
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                     Expanded(

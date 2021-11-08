@@ -56,7 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         // toolbarHeight: 35,
-        backgroundColor: Color(0xFFFFC495),
+        backgroundColor: Colors.black,
         iconTheme: IconThemeData(
           color: Color(0xFF1E1E29),
         ),
