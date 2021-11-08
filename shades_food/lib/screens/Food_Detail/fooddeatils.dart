@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:shades_food/screens/cart/cart_screen.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
 
 int currentprice = 0;
@@ -50,7 +51,10 @@ class _FoodDetailState extends State<FoodDetail> {
           color: Colors.white,
           size: 27,
         ),
-        onPressed: () => {},
+        onPressed: () => {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => CartScreen()))
+        },
       ),
       backgroundColor: Colors.orange,
       body: Container(
