@@ -9,7 +9,7 @@ import 'package:shades_food/screens/auth/SignInPage.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage({Key? key}) : super(key: key);
+  // SignUpPage({Key? key}) : super(key: key);
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -136,22 +136,22 @@ class _SignUpPageState extends State<SignUpPage> {
               isphoneverified = false;
             else
               isphoneverified = true;
-          } else if (!snap.exists) {
-            await FirebaseFirestore.instance.collection("users").doc(_uid).set({
-              'uid': _uid,
-              'role': "user",
-              'phone': "",
-              'email': _emailController.text.toString(),
-              'password': _pwdController.text.toString(),
-            });
           }
+          await FirebaseFirestore.instance.collection("users").doc(_uid).set({
+            'uid': _uid,
+            // 'role': "user",
+            if (isphoneverified == false) 'phone': "",
+            'email': _emailController.text.toString(),
+            'password': _pwdController.text.toString(),
+          });
+
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (builder) => PhoneVerifPage()),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+          // ScaffoldMessenger.of(context).showSnackBar(snackbar);
           setState(() {
             circular = false;
           });
