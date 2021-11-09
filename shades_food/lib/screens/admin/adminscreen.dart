@@ -23,7 +23,7 @@ class _AdminScreenState extends State<AdminScreen> {
         onPressed: () {
           print("ADD ITEM PRESSED_____________________");
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddItemAdmin()));
+              context, MaterialPageRoute(builder: (context) => Upload()));
         },
         child: Text('ADD ITEM'),
       ),

@@ -1,16 +1,7 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shades_food/screens/admin/adminscreen.dart'; //adminScreen
-// import 'package:shades_food/homescreen.dart'; //homeScreen
 import 'package:flutter/material.dart';
-import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
-import 'package:shades_food/screens/auth/SignUpPage.dart';
-import 'package:shades_food/screens/home/homescreen.dart';
+import 'package:shades_food/screens/auth/Auth_Service.dart';
+// import 'package:karvaan/screens/services/authentication.dart';
 import 'package:shimmer/shimmer.dart';
-
-import 'screens/Food_Detail/fooddeatils.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -19,53 +10,13 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Tween<double> _sizeTween = Tween<double>(begin: 20, end: 150);
-  String role = '';
-  String _uid = "";
-
   @override
   void initState() {
-    // Future.delayed(Duration(seconds: 5));
-    _checkRole();
-    //
-    super.initState();
-  }
-
-  void _checkRole() async {
-    _uid = '';
-    role = '';
-    var user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      navigateNext(PhoneVerifPage());
-      return;
-    }
-    _uid = user.uid;
-    print('UserID ----------------------------------------- ' + _uid);
-
-    if (_uid != "") {
-      final DocumentSnapshot snap =
-          await FirebaseFirestore.instance.collection('users').doc(_uid).get();
-
-      // role = snap['role'];
-      print("############### " + snap['role']);
-      setState(() {
-        role = snap['role'];
-      });
-    }
-    print('Role >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + role);
-    if (role == 'user') {
-      navigateNext(HomeScreen());
-    } else if (role == 'admin') {
-      navigateNext(AdminScreen());
-    } else {
-      navigateNext(PhoneVerifPage());
-    }
-  }
-
-  void navigateNext(Widget route) {
-    Timer(Duration(milliseconds: 5000), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => route));
+    Future.delayed(Duration(seconds: 5), () {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => AuthClass().handleAuth()));
     });
+    super.initState();
   }
 
   @override
@@ -87,8 +38,6 @@ class _SplashScreenState extends State<SplashScreen> {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                       image: AssetImage('assets/astro.png'),
-                      // image: AssetImage('./images/foodshades.jpg',
-                      //     package: "com.example.shades_food"),
                       fit: BoxFit.fill,
                     )),
                   );
@@ -112,15 +61,6 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ],
           ),
-        )
-        // body: Center(
-        //   child: Column(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Text('Splash Screen!!!'),
-        //     ],
-        //   ),
-        // ),
-        );
+        ));
   }
 }

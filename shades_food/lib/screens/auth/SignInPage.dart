@@ -1,21 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:shades_food/screens/auth/Auth_Service.dart';
-import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
-import 'package:shades_food/screens/auth/SignInPage.dart';
+import 'package:shades_food/screens/auth/SignUpPage.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
 
-class SignUpPage extends StatefulWidget {
-  // SignUpPage({Key? key}) : super(key: key);
+class SignInPage extends StatefulWidget {
+  SignInPage({Key? key}) : super(key: key);
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignInPageState extends State<SignInPage> {
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _pwdController = TextEditingController();
@@ -34,7 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Sign Up",
+                "Sign In",
                 style: TextStyle(
                   fontSize: 35,
                   color: Colors.white,
@@ -44,16 +41,16 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 20,
               ),
-              buttonItem(
-                "assets/google.svg",
-                "Continue with Google",
-                25,
-              ),
+              buttonItem("assets/google.svg", "Continue with Google", 25),
               SizedBox(
                 height: 15,
               ),
+              // buttonItem("assets/phone.svg", "Continue with Mobile", 30, () {}),
+              SizedBox(
+                height: 18,
+              ),
               Text(
-                "OR",
+                "Or",
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
               SizedBox(
@@ -75,7 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "If you alredy have an Account? ",
+                    "If you don't have an Account? ",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -85,11 +82,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     onTap: () {
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (builder) => SignInPage()),
+                          MaterialPageRoute(builder: (builder) => SignUpPage()),
                           (route) => false);
                     },
                     child: Text(
-                      "Login",
+                      "SignUp",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -98,6 +95,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Forgot Password?",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
@@ -109,49 +117,21 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget colorButton() {
     return InkWell(
       onTap: () async {
-        setState(() {
-          circular = true;
-        });
         try {
           firebase_auth.UserCredential userCredential =
-              await firebaseAuth.createUserWithEmailAndPassword(
+              await firebaseAuth.signInWithEmailAndPassword(
                   email: _emailController.text, password: _pwdController.text);
           print(userCredential.user!.email);
           setState(() {
             circular = false;
           });
-
-          bool isphoneverified = false;
-
-          var user = FirebaseAuth.instance.currentUser;
-          String _uid = user == null ? "" : user.uid;
-          final DocumentSnapshot snap = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(_uid)
-              .get();
-
-          if (snap.exists) {
-            dynamic b = snap.get('phone');
-            if (b == "")
-              isphoneverified = false;
-            else
-              isphoneverified = true;
-          }
-          await FirebaseFirestore.instance.collection("users").doc(_uid).set({
-            'uid': _uid,
-            // 'role': "user",
-            if (isphoneverified == false) 'phone': "",
-            'email': _emailController.text.toString(),
-            'password': _pwdController.text.toString(),
-          });
-
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (builder) => PhoneVerifPage()),
+              MaterialPageRoute(builder: (builder) => HomeScreen()),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
-          // ScaffoldMessenger.of(context).showSnackBar(snackbar);
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
           setState(() {
             circular = false;
           });
@@ -172,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: circular
               ? CircularProgressIndicator()
               : Text(
-                  "Sign Up",
+                  "Sign In",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
