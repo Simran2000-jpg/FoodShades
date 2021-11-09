@@ -31,25 +31,29 @@ class _UserOrderListState extends State<UserOrderList> {
                   ? ListView(
                       shrinkWrap: true,
                       children: snapshot.data!.docs.map((document) {
+                        print(document['imageurl']);
                         return InkWell(
                           onTap: () => {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => FoodDetail(
-                                          image: 'assets/astro.png',
+                                          image: document['imageurl'],
                                           title: document['name'],
                                           price: document['price'],
+                                          description: document['description'],
                                         )))
                           },
                           child: FoodTile(
-                              image: "assets/astro.png",
-                              title: document['name'],
-                              price: document['price']),
+                            image: document['imageurl'],
+                            title: document['name'],
+                            price: document['price'],
+                            description: document['description'],
+                          ),
                         );
                       }).toList(),
                     )
-                  : Text('problem');
+                  : const Text('problem');
             }),
       ),
     );
