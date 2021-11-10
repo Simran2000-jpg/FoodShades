@@ -24,7 +24,8 @@ class Upload extends StatefulWidget {
 class _UploadState extends State<Upload> {
   String _uid = "";
   FirebaseAuth _auth = FirebaseAuth.instance;
-  String description = "", name = "", price = "";
+  String _description = "", _name = "", _price = "";
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   getUser() {
     //getting user id from database, cloud firestore
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -32,23 +33,6 @@ class _UploadState extends State<Upload> {
       _uid = auth.currentUser!.uid;
     }
   }
-
-  // Future getUserInfo() async {
-  //   //Extracting user info from firestore...
-  //   //to get user information
-  //   FirebaseFirestore.instance
-  //       .collection('Users')
-  //       .doc(_user.uid)
-  //       .snapshots()
-  //       .listen((snapshot) {
-  //     setState(() {
-  //       name = snapshot["name"];
-  //       email = snapshot["email"];
-  //       phone = snapshot["phoneno"];
-  //       address = snapshot["address"];
-  //     });
-  //   });
-  // }
 
   @override
   void initState() {
@@ -178,11 +162,11 @@ class _UploadState extends State<Upload> {
     //add data to firebase'
 
     await FirebaseFirestore.instance.collection("Dish").add({
-      'name': name,
-      'price': price,
+      'name': _name,
+      'price': _price,
       'userid': _uid,
       'imageurl': mediaUrl,
-      'description': description
+      'description': _description
     });
     Navigator.pop(context);
   }
@@ -203,18 +187,10 @@ class _UploadState extends State<Upload> {
           "Description",
           style: TextStyle(color: Colors.black),
         ),
-        actions: [
-          // ignore: deprecated_member_use
-          FlatButton(
-              onPressed: isUploading ? null : () => handleSubmit(),
-              child: Text(
-                "Post",
-                style: TextStyle(
-                    color: Colors.blueAccent,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0),
-              ))
-        ],
+      ),
+      floatingActionButton: ElevatedButton(
+        child: Text('Submit'),
+        onPressed: isUploading ? null : () => handleSubmit(),
       ),
       body: ListView(
         children: [
@@ -248,7 +224,7 @@ class _UploadState extends State<Upload> {
               width: 250,
               child: TextField(
                 onChanged: (value) {
-                  name = value;
+                  _name = value;
                 },
                 decoration: InputDecoration(
                   hintText: "Name",
@@ -269,7 +245,7 @@ class _UploadState extends State<Upload> {
               child: TextField(
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
-                  price = value;
+                  _price = value;
                 },
                 decoration: InputDecoration(
                   hintText: "Price",
@@ -289,7 +265,7 @@ class _UploadState extends State<Upload> {
               width: 250,
               child: TextField(
                 onChanged: (value) {
-                  description = value;
+                  _description = value;
                 },
                 decoration: InputDecoration(
                   hintText: "Write Description ....",
