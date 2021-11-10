@@ -16,6 +16,19 @@ import 'package:shades_food/splashscreen.dart';
 Future registerUser(String mobile, BuildContext context) async {}
 
 class AuthClass {
+  handleAuth() {
+    return StreamBuilder(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasData) {
+          return HomeScreen();
+        } else {
+          return SignUpPage();
+        }
+      },
+    );
+  }
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -58,26 +71,32 @@ class AuthClass {
               isphoneverified = false;
             else
               isphoneverified = true;
-          } else if (!snap.exists) {
-            await FirebaseFirestore.instance.collection("users").doc(_uid).set({
-              'uid': _uid,
-              'role': "user",
-              'phone': "",
-              'email': "",
-              'password': "",
-            });
           }
+          await FirebaseFirestore.instance.collection("users").doc(_uid).set({
+            'uid': _uid,
+            // 'role': "user",
+            if (isphoneverified == false) 'phone': "",
+            'email': "",
+            'password': "",
+          });
 
-          if (context == SignUpPage() || (isphoneverified == false)) {
+          if (context == SignUpPage()) {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (builder) => PhoneVerifPage()),
                 (route) => false);
           } else {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (builder) => HomeScreen()),
-                (route) => false);
+            if (isphoneverified == false) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (builder) => PhoneVerifPage()),
+                  (route) => false);
+            } else {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (builder) => HomeScreen()),
+                  (route) => false);
+            }
           }
         } catch (e) {
           final snackBar = SnackBar(content: Text(e.toString()));
@@ -89,7 +108,7 @@ class AuthClass {
       }
     } catch (e) {
       final snackBar = SnackBar(content: Text(e.toString()));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -203,7 +222,7 @@ class AuthClass {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(_uid)
-          .set({"phone": _phone});
+          .update({'phone': _phone});
       // }
       Navigator.pushAndRemoveUntil(
           context,

@@ -1,19 +1,21 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/cart/cart_screen.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
 
-int currentprice = 0;
-
 // ignore: must_be_immutable
 class FoodDetail extends StatefulWidget {
-  String image, title, price;
+  String image, title, price, description;
+
   FoodDetail({
     Key? key,
     required this.image,
     required this.title,
     required this.price,
+    required this.description,
   }) : super(key: key);
 
   @override
@@ -21,8 +23,19 @@ class FoodDetail extends StatefulWidget {
 }
 
 class _FoodDetailState extends State<FoodDetail> {
-  final counter = ValueNotifier<int>(1);
-  var tp = currentprice;
+  final counter = ValueNotifier<int>(0);
+  int currentprice = 0;
+
+  var tp = 0;
+  @override
+  initState() {
+    super.initState();
+    tp = int.parse(widget.price);
+    currentprice = int.parse(widget.price);
+
+    // Add listeners to this class
+  }
+
   void totalpriceinc() {
     setState(() {
       counter.value++;
@@ -32,16 +45,15 @@ class _FoodDetailState extends State<FoodDetail> {
 
   void totalpricedec() {
     setState(() {
-      if (counter.value > 1) {
+      if (counter.value >= 1) {
         counter.value--;
-        tp = counter.value * currentprice;
+        tp = max(counter.value * currentprice, currentprice);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    currentprice = int.parse(widget.price);
     print(currentprice);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -137,28 +149,56 @@ class _FoodDetailState extends State<FoodDetail> {
                           fontSize: MediaQuery.of(context).size.height * 0.03),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RaisedButton(
-                        onPressed: () => totalpricedec(),
-                        child: const Icon(Icons.remove),
-                      ),
-                      ValueListenableBuilder(
-                        valueListenable: counter,
-                        builder: (context, value, widget) {
-                          return Container(
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.width * 0.04),
-                              child: Text(value.toString()));
-                        },
-                      ),
-                      RaisedButton(
-                        onPressed: () => totalpriceinc(),
-                        child: const Icon(Icons.add),
-                      ),
-                    ],
-                  ),
+                  counter.value != (0)
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RaisedButton(
+                              onPressed: () => totalpricedec(),
+                              child: const Icon(Icons.remove),
+                            ),
+                            ValueListenableBuilder(
+                              valueListenable: counter,
+                              builder: (context, value, widget) {
+                                return Container(
+                                    padding: EdgeInsets.all(
+                                        MediaQuery.of(context).size.width *
+                                            0.04),
+                                    child: Text(value.toString()));
+                              },
+                            ),
+                            RaisedButton(
+                              onPressed: () => totalpriceinc(),
+                              child: const Icon(Icons.add),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: 50.0,
+                          margin: EdgeInsets.all(10),
+                          child: RaisedButton(
+                            onPressed: () => totalpriceinc(),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(80.0)),
+                            padding: EdgeInsets.all(0.0),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                  color: Colors.orange[300],
+                                  borderRadius: BorderRadius.circular(30.0)),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: 200.0, minHeight: 50.0),
+                                alignment: Alignment.center,
+                                child: const Text(
+                                  "Add to cart",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                   Container(
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.05,
@@ -175,8 +215,8 @@ class _FoodDetailState extends State<FoodDetail> {
                         top: MediaQuery.of(context).size.height * 0.01,
                         left: MediaQuery.of(context).size.width * 0.05),
                     alignment: Alignment.topLeft,
-                    child: const Text(
-                      "sx snc ans a x na j a ka  a x s xa sb sab ba b a sb ca scb sb a cm acasasaxascasjc ans ca xs cba csba sa  bas cb sb asb cb scba sbc asb b",
+                    child: Text(
+                      widget.description,
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                     ),
@@ -197,8 +237,8 @@ class _FoodDetailState extends State<FoodDetail> {
               margin: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * .15),
               alignment: Alignment.topCenter,
-              child: Image.asset(
-                "assets/astro.png",
+              child: Image.network(
+                widget.image,
                 height: 150,
               ),
             ),

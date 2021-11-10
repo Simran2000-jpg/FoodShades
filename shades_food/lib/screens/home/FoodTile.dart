@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class FoodTile extends StatefulWidget {
-  String image, title, price;
+  String image, title, price, description;
   FoodTile({
     Key? key,
     required this.image,
     required this.title,
     required this.price,
+    required this.description,
   }) : super(key: key);
 
   @override
@@ -24,7 +25,7 @@ class _FoodTileState extends State<FoodTile> {
           children: [
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Image.asset(
+              child: Image.network(
                 widget.image,
                 height: 100,
               ),
