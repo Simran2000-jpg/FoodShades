@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/Food_Detail/fooddeatils.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
@@ -12,6 +14,49 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  var udata = FirebaseAuth.instance.currentUser;
+  List<String> did = <String>[];
+  List<int> cnt = <int>[];
+  List<int> fcnt = <int>[];
+  List<DocumentSnapshot> datas = <DocumentSnapshot>[];
+  getData() async {
+    // print(uid);
+    QuerySnapshot snap =
+        await FirebaseFirestore.instance.collection("cart").get();
+    QuerySnapshot sp =
+        await FirebaseFirestore.instance.collection("Dish").get();
+    setState(() {
+      for (var it in snap.docs) {
+        // print(it.get("userid"));
+        // if (udata != null) print(udata!.uid);
+        if (it.get("userid") == udata!.uid)
+          did.add(it.get("dishid").toString().trim());
+        cnt.add(it.get("count"));
+
+        // if()
+      }
+      // print(did[0]);
+      for (var it in sp.docs) {
+        // print(it.id);
+        if (did.contains((it.id).toString())) {
+          int ind = did.indexOf(it.id);
+          datas.add(it);
+          fcnt.add(cnt[ind]);
+        }
+      }
+      // print(fcnt.length);
+      // print(datas.length);
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    getData();
+    // Add listeners to this class
+  }
+
   final counter = ValueNotifier<int>(1);
   var tp = currentprice;
   void totalpriceinc() {
@@ -73,208 +118,130 @@ class _CartScreenState extends State<CartScreen> {
                     fontSize: MediaQuery.of(context).size.aspectRatio * 60),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.03),
-              child: Column(
-                children: [
-                  Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Image.asset(
-                              "assets/astro.png",
-                              height: 100,
-                            ),
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: const [
-                                    Text(
-                                      "Noodles",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 20),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        '\u{20B9}20',
-                                        // textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 15,
-                                            color: Colors.orange),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
+            datas.length == 0
+                ? Container(
+                    child: (Text("Loading")),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: datas.length,
+                      itemBuilder: (context, index) {
+                        counter.value = fcnt[index];
+                        return Container(
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.03),
+                          child: Container(
+                              margin: EdgeInsets.only(bottom: 20),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Row(
                                 children: [
                                   Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.only(
-                                        left:
-                                            MediaQuery.of(context).size.width *
-                                                0.06),
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(255, 232, 209, 1),
-                                        border: Border.all(
-                                            color: Colors.deepOrange, width: 1),
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: GestureDetector(
-                                      // padding: EdgeInsets.all(25),
-                                      // alignment: Alignment.center,
-                                      child: Icon(Icons.remove),
-                                      onTap: () => {totalpricedec()},
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    child: Image.asset(
+                                      "assets/astro.png",
+                                      height: 100,
                                     ),
                                   ),
-                                  ValueListenableBuilder(
-                                    valueListenable: counter,
-                                    builder: (context, value, widget) {
-                                      return Container(
-                                          padding: EdgeInsets.all(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02),
-                                          child: Text(value.toString()));
-                                    },
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(255, 232, 209, 1),
-                                        border: Border.all(
-                                            color: Colors.deepOrange, width: 1),
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: GestureDetector(
-                                      // padding: EdgeInsets.all(25),
-                                      // alignment: Alignment.center,
-                                      child: Icon(Icons.add),
-                                      onTap: () => {totalpriceinc()},
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ],
-                      )),
-                  Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Image.asset(
-                              "assets/astro.png",
-                              height: 100,
-                            ),
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: const [
-                                    Text(
-                                      "Noodles",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 20),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        '\u{20B9}20',
-                                        // textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 15,
-                                            color: Colors.orange),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          // ignore: prefer_const_literals_to_create_immutables
+                                          children: [
+                                            Text(
+                                              datas[index]["name"],
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 20),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                '\u{20B9}${datas[index]["price"]}',
+                                                // textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w800,
+                                                    fontSize: 15,
+                                                    color: Colors.orange),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.only(
-                                        left:
-                                            MediaQuery.of(context).size.width *
-                                                0.06),
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(255, 232, 209, 1),
-                                        border: Border.all(
-                                            color: Colors.deepOrange, width: 1),
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: GestureDetector(
-                                      // padding: EdgeInsets.all(25),
-                                      // alignment: Alignment.center,
-                                      child: Icon(Icons.remove),
-                                      onTap: () => {totalpricedec()},
-                                    ),
-                                  ),
-                                  ValueListenableBuilder(
-                                    valueListenable: counter,
-                                    builder: (context, value, widget) {
-                                      return Container(
-                                          padding: EdgeInsets.all(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02),
-                                          child: Text(value.toString()));
-                                    },
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(255, 232, 209, 1),
-                                        border: Border.all(
-                                            color: Colors.deepOrange, width: 1),
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: GestureDetector(
-                                      // padding: EdgeInsets.all(25),
-                                      // alignment: Alignment.center,
-                                      child: Icon(Icons.add),
-                                      onTap: () => {totalpriceinc()},
-                                    ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.06),
+                                            height: 35,
+                                            width: 35,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    255, 242, 230, .7),
+                                                border: Border.all(
+                                                    color: Colors.orange,
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(7)),
+                                            child: GestureDetector(
+                                              // padding: EdgeInsets.all(25),
+                                              // alignment: Alignment.center,
+                                              child: Icon(Icons.remove),
+                                              onTap: () => {totalpricedec()},
+                                            ),
+                                          ),
+                                          ValueListenableBuilder(
+                                            valueListenable: counter,
+                                            builder: (context, value, widget) {
+                                              return Container(
+                                                  padding: EdgeInsets.all(
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02),
+                                                  child:
+                                                      Text(value.toString()));
+                                            },
+                                          ),
+                                          Container(
+                                            alignment: Alignment.center,
+                                            height: 35,
+                                            width: 35,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    255, 242, 230, .7),
+                                                border: Border.all(
+                                                    color: Colors.orange,
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(7)),
+                                            child: GestureDetector(
+                                              // padding: EdgeInsets.all(25),
+                                              // alignment: Alignment.center,
+                                              child: Icon(Icons.add),
+                                              onTap: () => {totalpriceinc()},
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
                                   ),
                                 ],
-                              )
-                            ],
-                          ),
-                        ],
-                      )),
-                ],
-              ),
-            ),
+                              )),
+                        );
+                      },
+                    ),
+                  )
           ],
         ),
         Container(

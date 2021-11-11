@@ -14,7 +14,7 @@ class _DeciderPageState extends State<DeciderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Decide'),
+        title: const Text('Decide'),
       ),
       body: Center(
         child: Column(

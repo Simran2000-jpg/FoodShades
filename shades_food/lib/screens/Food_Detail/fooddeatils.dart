@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/cart/cart_screen.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
@@ -23,6 +24,7 @@ class FoodDetail extends StatefulWidget {
 }
 
 class _FoodDetailState extends State<FoodDetail> {
+  final firestoreInstance = FirebaseFirestore.instance.collection('Dish');
   final counter = ValueNotifier<int>(0);
   int currentprice = 0;
 
@@ -153,9 +155,25 @@ class _FoodDetailState extends State<FoodDetail> {
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            RaisedButton(
-                              onPressed: () => totalpricedec(),
-                              child: const Icon(Icons.remove),
+                            Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.06),
+                              height: 35,
+                              width: 35,
+                              decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromRGBO(255, 242, 230, .7),
+                                  border: Border.all(
+                                      color: Colors.orange, width: 1),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: GestureDetector(
+                                // padding: EdgeInsets.all(25),
+                                // alignment: Alignment.center,
+                                child: const Icon(Icons.remove),
+                                onTap: () => {totalpricedec()},
+                              ),
                             ),
                             ValueListenableBuilder(
                               valueListenable: counter,
@@ -167,9 +185,21 @@ class _FoodDetailState extends State<FoodDetail> {
                                     child: Text(value.toString()));
                               },
                             ),
-                            RaisedButton(
-                              onPressed: () => totalpriceinc(),
-                              child: const Icon(Icons.add),
+                            Container(
+                              alignment: Alignment.center,
+                              height: 35,
+                              width: 35,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(255, 242, 230, .7),
+                                  border: Border.all(
+                                      color: Colors.orange, width: 1),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: GestureDetector(
+                                // padding: EdgeInsets.all(25),
+                                // alignment: Alignment.center,
+                                child: Icon(Icons.add),
+                                onTap: () => {totalpriceinc()},
+                              ),
                             ),
                           ],
                         )

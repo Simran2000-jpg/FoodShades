@@ -9,7 +9,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
-import 'package:shades_food/screens/auth/SignUpPage.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
 import 'package:shades_food/splashscreen.dart';
 
@@ -23,134 +22,127 @@ class AuthClass {
         if (snapshot.hasData) {
           return HomeScreen();
         } else {
-          return SignUpPage();
+          return PhoneVerifPage();
         }
       },
     );
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
+//   final GoogleSignIn _googleSignIn = GoogleSignIn(
+//     scopes: [
+//       'email',
+//       'https://www.googleapis.com/auth/contacts.readonly',
+//     ],
+//   );
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final storage = new FlutterSecureStorage();
   String _phone = "";
 
-  Future<void> googleSignIn(BuildContext context) async {
-    try {
-      GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+//   Future<void> googleSignIn(BuildContext context) async {
+//     try {
+//       GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
 
-      if (googleSignInAccount != null) {
-        GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+//       if (googleSignInAccount != null) {
+//         GoogleSignInAuthentication googleSignInAuthentication =
+//             await googleSignInAccount.authentication;
 
-        AuthCredential credential = GoogleAuthProvider.credential(
-          idToken: googleSignInAuthentication.idToken,
-          accessToken: googleSignInAuthentication.accessToken,
-        );
+//         AuthCredential credential = GoogleAuthProvider.credential(
+//           idToken: googleSignInAuthentication.idToken,
+//           accessToken: googleSignInAuthentication.accessToken,
+//         );
 
-        try {
-          bool isphoneverified = false;
-          UserCredential userCredential =
-              await _auth.signInWithCredential(credential);
+//         try {
+//           bool isphoneverified = false;
+//           UserCredential userCredential =
+//               await _auth.signInWithCredential(credential);
 
-          var user = FirebaseAuth.instance.currentUser;
-          String _uid = user == null ? "" : user.uid;
-          final DocumentSnapshot snap = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(_uid)
-              .get();
+//           var user = FirebaseAuth.instance.currentUser;
+//           String _uid = user == null ? "" : user.uid;
+//           final DocumentSnapshot snap = await FirebaseFirestore.instance
+//               .collection('users')
+//               .doc(_uid)
+//               .get();
 
-          if (snap.exists) {
-            dynamic b = snap.get('phone');
-            if (b == "")
-              isphoneverified = false;
-            else
-              isphoneverified = true;
-          }
-          await FirebaseFirestore.instance.collection("users").doc(_uid).set({
-            'uid': _uid,
-            // 'role': "user",
-            if (isphoneverified == false) 'phone': "",
-            'email': "",
-            'password': "",
-          });
+//           if (snap.exists) {
+//             dynamic b = snap.get('phone');
+//             if (b == "")
+//               isphoneverified = false;
+//             else
+//               isphoneverified = true;
+//           }
+//           await FirebaseFirestore.instance.collection("users").doc(_uid).set({
+//             'uid': _uid,
+//             // 'role': "user",
+//             if (isphoneverified == false) 'phone': "",
+//             'email': "",
+//             'password': "",
+//           });
 
-          if (context == SignUpPage()) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (builder) => PhoneVerifPage()),
-                (route) => false);
-          } else {
-            if (isphoneverified == false) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (builder) => PhoneVerifPage()),
-                  (route) => false);
-            } else {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (builder) => HomeScreen()),
-                  (route) => false);
-            }
-          }
-        } catch (e) {
-          final snackBar = SnackBar(content: Text(e.toString()));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      } else {
-        final snackBar = SnackBar(content: Text("Not Able to sign In"));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    } catch (e) {
-      final snackBar = SnackBar(content: Text(e.toString()));
-      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
+//           if (isphoneverified == false) {
+//             Navigator.pushAndRemoveUntil(
+//                 context,
+//                 MaterialPageRoute(builder: (builder) => PhoneVerifPage()),
+//                 (route) => false);
+//           } else {
+//             Navigator.pushAndRemoveUntil(
+//                 context,
+//                 MaterialPageRoute(builder: (builder) => HomeScreen()),
+//                 (route) => false);
+//           }
+//         } catch (e) {
+//           final snackBar = SnackBar(content: Text(e.toString()));
+//           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//         }
+//       } else {
+//         final snackBar = SnackBar(content: Text("Not Able to sign In"));
+//         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//       }
+//     } catch (e) {
+//       final snackBar = SnackBar(content: Text(e.toString()));
+//       // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//     }
+//   }
 
-  // Future<void> googleSignIn(BuildContext context) async {
-  //   try {
-  //     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
-  //     GoogleSignInAuthentication googleSignInAuthentication =
-  //         await googleSignInAccount.authentication;
-  //     AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleSignInAuthentication.accessToken,
-  //       idToken: googleSignInAuthentication.idToken,
-  //     );
-  //     if (googleSignInAccount != null) {
-  //       UserCredential userCredential =
-  //           await _auth.signInWithCredential(credential);
-  //       storeTokenAndData(userCredential);
-  //       Navigator.pushAndRemoveUntil(
-  //           context,
-  //           MaterialPageRoute(builder: (builder) => HomePage()),
-  //           (route) => false);
+//   // Future<void> googleSignIn(BuildContext context) async {
+//   //   try {
+//   //     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+//   //     GoogleSignInAuthentication googleSignInAuthentication =
+//   //         await googleSignInAccount.authentication;
+//   //     AuthCredential credential = GoogleAuthProvider.credential(
+//   //       accessToken: googleSignInAuthentication.accessToken,
+//   //       idToken: googleSignInAuthentication.idToken,
+//   //     );
+//   //     if (googleSignInAccount != null) {
+//   //       UserCredential userCredential =
+//   //           await _auth.signInWithCredential(credential);
+//   //       storeTokenAndData(userCredential);
+//   //       Navigator.pushAndRemoveUntil(
+//   //           context,
+//   //           MaterialPageRoute(builder: (builder) => HomePage()),
+//   //           (route) => false);
 
-  //       final snackBar =
-  //           SnackBar(content: Text(userCredential.user.displayName));
-  //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //     }
-  //   } catch (e) {
-  //     print("here---->");
-  //     final snackBar = SnackBar(content: Text(e.toString()));
-  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //   }
-  // }
+//   //       final snackBar =
+//   //           SnackBar(content: Text(userCredential.user.displayName));
+//   //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//   //     }
+//   //   } catch (e) {
+//   //     print("here---->");
+//   //     final snackBar = SnackBar(content: Text(e.toString()));
+//   //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//   //   }
+//   // }
 
-  Future<void> signOut({BuildContext? context}) async {
-    try {
-      await _googleSignIn.signOut();
-      await _auth.signOut();
-      await storage.delete(key: "token");
-    } catch (e) {
-      final snackBar = SnackBar(content: Text(e.toString()));
-      ScaffoldMessenger.of(context!).showSnackBar(snackBar);
-    }
-  }
+//   Future<void> signOut({BuildContext? context}) async {
+//     try {
+//       await _googleSignIn.signOut();
+//       await _auth.signOut();
+//       await storage.delete(key: "token");
+//     } catch (e) {
+//       final snackBar = SnackBar(content: Text(e.toString()));
+//       ScaffoldMessenger.of(context!).showSnackBar(snackBar);
+//     }
+//   }
 
   void storeTokenAndData(UserCredential userCredential) async {
     print("storing token and data");
@@ -226,10 +218,10 @@ class AuthClass {
       // }
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (builder) => SplashScreen()),
+          MaterialPageRoute(builder: (builder) => HomeScreen()),
           (route) => false);
 
-      showSnackBar(context, "Logged in");
+      // showSnackBar(context, "Logged in");
     } catch (e) {
       showSnackBar(context, e.toString());
     }
