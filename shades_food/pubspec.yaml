@@ -89,6 +89,9 @@ flutter:
     - assets/icon/
     - assets/foodorder.jpg
     - assets/foodorder.png
+    - assets/bg.png
+    - assets/bg2.jpg
+    - assets/saute.png
     
   # - assets/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
