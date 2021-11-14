@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:shades_food/appcolors.dart';
 import 'package:shades_food/screens/auth/Auth_Service.dart';
 
 class PhoneVerifPage extends StatefulWidget {
@@ -27,7 +28,8 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFF5151),
+      // backgroundColor: Color(0xffFF5151),
+
       // appBar: AppBar(
       //   backgroundColor: Colors.black,
       //   title: Text(
@@ -40,22 +42,25 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
       //   centerTitle: true,
       // ),
       body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/bgsp.jpg"), fit: BoxFit.cover)),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 8.0),
+                padding: const EdgeInsets.only(top: 200.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     // Padding(
                     // padding: const EdgeInsets.only(top: 30.0),
-                    Image.asset(
-                      "assets/foodorder.png",
-                      width: MediaQuery.of(context).size.width,
-                    ),
+                    // Image.asset(
+                    //   "assets/foodorder.png",
+                    //   width: MediaQuery.of(context).size.width,
+                    // ),
                     // ),
                   ],
                 ),
@@ -133,7 +138,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                   height: 60,
                   width: MediaQuery.of(context).size.width - 60,
                   decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: AppColors.sk1,
                       borderRadius: BorderRadius.circular(15)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -141,14 +146,14 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                       Center(
                         child: Text(
                           "Welcome",
-                          style: TextStyle(fontSize: 17, color: Colors.white),
+                          style: TextStyle(fontSize: 17, color: Colors.black),
                           // fontWeight: FontWeight.w700),
                         ),
                       ),
                       Center(
                         child: Icon(
                           Icons.arrow_forward,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       )
                     ],
@@ -185,7 +190,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
       width: 1000,
       fieldWidth: 40,
       otpFieldStyle: OtpFieldStyle(
-        backgroundColor: Color(0xffFFF9B6),
+        backgroundColor: AppColors.sk1,
         borderColor: Colors.white,
       ),
       style: TextStyle(fontSize: 17, color: Colors.black),
@@ -206,7 +211,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
       width: 330,
       height: 60,
       decoration: BoxDecoration(
-        color: Color(0xffFFF9B6),
+        color: AppColors.sk1,
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
