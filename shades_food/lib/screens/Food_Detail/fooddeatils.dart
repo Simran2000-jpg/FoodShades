@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/cart/cart_screen.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
@@ -10,13 +11,14 @@ import 'package:shades_food/screens/home/homescreen.dart';
 // ignore: must_be_immutable
 class FoodDetail extends StatefulWidget {
   String image, title, price, description;
-
+  String id;
   FoodDetail({
     Key? key,
     required this.image,
     required this.title,
     required this.price,
     required this.description,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -25,8 +27,30 @@ class FoodDetail extends StatefulWidget {
 
 class _FoodDetailState extends State<FoodDetail> {
   final firestoreInstance = FirebaseFirestore.instance.collection('Dish');
+  var udata = FirebaseAuth.instance.currentUser;
+
   final counter = ValueNotifier<int>(0);
   int currentprice = 0;
+  String id = "";
+  getData() async {
+    // print(uid);
+    final CollectionReference snap =
+        FirebaseFirestore.instance.collection("cart");
+    var udata = FirebaseAuth.instance.currentUser;
+    // print(udata!.uid);
+    // print(widget.id);
+    final Query cart = snap
+        .where("userid", isEqualTo: udata!.uid)
+        .where("dishid", isEqualTo: widget.id.toString().trim());
+    var data = await cart.get();
+    // print(data.docs.length);
+    if (data.docs.length > 0) {
+      setState(() {
+        id = data.docs.elementAt(0).id;
+        counter.value = data.docs.elementAt(0).get("count");
+      });
+    }
+  }
 
   var tp = 0;
   @override
@@ -34,7 +58,7 @@ class _FoodDetailState extends State<FoodDetail> {
     super.initState();
     tp = int.parse(widget.price);
     currentprice = int.parse(widget.price);
-
+    getData();
     // Add listeners to this class
   }
 
@@ -43,20 +67,48 @@ class _FoodDetailState extends State<FoodDetail> {
       counter.value++;
       tp = counter.value * currentprice;
     });
+    update();
   }
 
   void totalpricedec() {
     setState(() {
       if (counter.value >= 1) {
         counter.value--;
+
+        if (counter.value == 0) {
+          print(counter.value);
+          FirebaseFirestore.instance.collection("cart").doc(id).delete();
+        }
         tp = max(counter.value * currentprice, currentprice);
       }
     });
+    if (counter.value > 0) update();
+  }
+
+  void uploadData() {
+    FirebaseFirestore.instance.collection('cart').add(
+        {'count': 1, 'dishid': widget.id, 'userid': udata!.uid}).then((value) {
+      setState(() {
+        id = value.id;
+      });
+    });
+    setState(() {
+      counter.value = 1;
+    });
+  }
+
+  void update() {
+    FirebaseFirestore.instance
+        .collection("cart")
+        .doc(id)
+        .update({"count": counter.value});
+
+    // .update({"count": counter.value});
   }
 
   @override
   Widget build(BuildContext context) {
-    print(currentprice);
+    // print(widget.id);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.orange,
@@ -207,7 +259,7 @@ class _FoodDetailState extends State<FoodDetail> {
                           height: 50.0,
                           margin: EdgeInsets.all(10),
                           child: RaisedButton(
-                            onPressed: () => totalpriceinc(),
+                            onPressed: () => {uploadData()},
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(80.0)),
                             padding: EdgeInsets.all(0.0),
