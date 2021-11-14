@@ -15,11 +15,13 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool isLoading = true;
   var udata = FirebaseAuth.instance.currentUser;
   List<String> did = <String>[];
   List<int> cnt = <int>[];
   List<int> fcnt = <int>[];
   List<DocumentSnapshot> datas = <DocumentSnapshot>[];
+
   getData() async {
     // print(uid);
     QuerySnapshot snap =
@@ -42,9 +44,15 @@ class _CartScreenState extends State<CartScreen> {
         if (did.contains((it.id).toString())) {
           int ind = did.indexOf(it.id);
           datas.add(it);
+          // print(it.get("name"));
+          // print(it.get("price"));
+          // print(it.get("description"));
+          // print(cnt[ind]);
+          // print(datas.length);
           fcnt.add(cnt[ind]);
         }
       }
+      isLoading = false;
       // print(fcnt.length);
       // print(datas.length);
     });
@@ -57,20 +65,21 @@ class _CartScreenState extends State<CartScreen> {
     // Add listeners to this class
   }
 
-  final counter = ValueNotifier<int>(1);
+  // int counter = 1;
+  // final counter = ValueNotifier<int>(1);
   var tp = currentprice;
-  void totalpriceinc() {
+  void totalpriceinc(int i) {
     setState(() {
-      counter.value++;
-      tp = counter.value * currentprice;
+      fcnt[i]++;
+      tp = fcnt[i] * currentprice;
     });
   }
 
-  void totalpricedec() {
+  void totalpricedec(int i) {
     setState(() {
-      if (counter.value > 1) {
-        counter.value--;
-        tp = counter.value * currentprice;
+      if (fcnt[i] > 1) {
+        fcnt[i]--;
+        tp = fcnt[i] * currentprice;
       }
     });
   }
@@ -118,7 +127,7 @@ class _CartScreenState extends State<CartScreen> {
                     fontSize: MediaQuery.of(context).size.aspectRatio * 60),
               ),
             ),
-            datas.length == 0
+            isLoading == true
                 ? Container(
                     child: (Text("Loading")),
                   )
@@ -126,8 +135,9 @@ class _CartScreenState extends State<CartScreen> {
                     child: ListView.builder(
                       itemCount: datas.length,
                       itemBuilder: (context, index) {
-                        counter.value = fcnt[index];
+                        // counter = fcnt[index];
                         return Container(
+                          // color: Colors.amber,
                           margin: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height * 0.03),
                           child: Container(
@@ -197,21 +207,15 @@ class _CartScreenState extends State<CartScreen> {
                                               // padding: EdgeInsets.all(25),
                                               // alignment: Alignment.center,
                                               child: Icon(Icons.remove),
-                                              onTap: () => {totalpricedec()},
+                                              onTap: () =>
+                                                  {totalpricedec(index)},
                                             ),
                                           ),
-                                          ValueListenableBuilder(
-                                            valueListenable: counter,
-                                            builder: (context, value, widget) {
-                                              return Container(
-                                                  padding: EdgeInsets.all(
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.02),
-                                                  child:
-                                                      Text(value.toString()));
-                                            },
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4),
+                                            child:
+                                                Text((fcnt[index]).toString()),
                                           ),
                                           Container(
                                             alignment: Alignment.center,
@@ -229,7 +233,8 @@ class _CartScreenState extends State<CartScreen> {
                                               // padding: EdgeInsets.all(25),
                                               // alignment: Alignment.center,
                                               child: Icon(Icons.add),
-                                              onTap: () => {totalpriceinc()},
+                                              onTap: () =>
+                                                  {totalpriceinc(index)},
                                             ),
                                           ),
                                         ],

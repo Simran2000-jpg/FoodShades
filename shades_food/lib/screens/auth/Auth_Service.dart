@@ -12,7 +12,8 @@ import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
 import 'package:shades_food/splashscreen.dart';
 
-Future registerUser(String mobile, BuildContext context) async {}
+final FirebaseAuth _auth = FirebaseAuth.instance;
+var user = FirebaseAuth.instance.currentUser;
 
 class AuthClass {
   handleAuth() {
@@ -28,7 +29,6 @@ class AuthClass {
     );
   }
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 //   final GoogleSignIn _googleSignIn = GoogleSignIn(
 //     scopes: [
 //       'email',
