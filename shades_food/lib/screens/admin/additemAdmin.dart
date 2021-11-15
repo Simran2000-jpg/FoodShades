@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image/image.dart' as Im;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shades_food/screens/auth/SignInPage.dart';
+//import 'package:shades_food/screens/auth/SignInPage.dart';
 import 'package:shades_food/splashscreen.dart';
 import 'package:uuid/uuid.dart';
 
@@ -37,7 +37,7 @@ class _UploadState extends State<Upload> {
     if (_uid == "") {
       print('No User');
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => SignInPage()));
+          context, MaterialPageRoute(builder: (context) => SplashScreen()));
     }
     super.initState();
   }
