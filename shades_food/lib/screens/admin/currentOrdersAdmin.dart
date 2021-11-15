@@ -1,18 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import '../../splashscreen.dart';
-
-class Admin_OrderList extends StatefulWidget {
-  const Admin_OrderList({Key? key}) : super(key: key);
+class CurrentOrdersAdmin extends StatefulWidget {
+  const CurrentOrdersAdmin({Key? key}) : super(key: key);
 
   @override
-  _Admin_OrderListState createState() => _Admin_OrderListState();
+  _CurrentOrdersAdminState createState() => _CurrentOrdersAdminState();
 }
 
-class _Admin_OrderListState extends State<Admin_OrderList> {
+class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,7 +57,7 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
                                           context: context,
                                           builder: (BuildContext context) =>
                                               SimpleDialog(
-                                                title: Text("Select An Option"),
+                                                title: Text("CONFIRM ORDER?"),
                                                 children: <Widget>[
                                                   Row(
                                                     mainAxisAlignment:
@@ -70,29 +66,22 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
                                                     children: <Widget>[
                                                       TextButton(
                                                           onPressed: () {},
-                                                          child: Text('EDIT'),
+                                                          child: Text('NO'),
                                                           style: TextButton
                                                               .styleFrom(
                                                             primary:
                                                                 Colors.white,
                                                             backgroundColor:
-                                                                Colors.blue,
+                                                                Colors.red,
                                                           )),
                                                       TextButton(
-                                                        onPressed: () {
-                                                          deleteitem(
-                                                              document.id);
-                                                          Navigator.of(context,
-                                                                  rootNavigator:
-                                                                      true)
-                                                              .pop();
-                                                        },
-                                                        child: Text('DELETE'),
+                                                        onPressed: () {},
+                                                        child: Text('YES'),
                                                         style: TextButton
                                                             .styleFrom(
                                                           primary: Colors.white,
                                                           backgroundColor:
-                                                              Colors.red,
+                                                              Colors.green,
                                                         ),
                                                       ),
                                                     ],
@@ -111,21 +100,5 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
             ),
           )
         ]));
-  }
-
-  void deleteitem(String id) async {
-    try {
-      await FirebaseFirestore.instance.collection('Dish').doc(id).delete();
-      setState(() {
-        showSnackBar(context, 'Item Deleted Successfully');
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void showSnackBar(BuildContext context, String text) {
-    final snackBar = SnackBar(content: Text(text.toString()));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

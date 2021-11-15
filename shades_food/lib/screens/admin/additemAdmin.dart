@@ -8,13 +8,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image/image.dart' as Im;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+//import 'package:shades_food/screens/auth/SignInPage.dart';
 import 'package:shades_food/splashscreen.dart';
 import 'package:uuid/uuid.dart';
-
-final CollectionReference postsRef =
-    FirebaseFirestore.instance.collection('Posts');
-final CollectionReference usersRef =
-    FirebaseFirestore.instance.collection('Users');
 
 class Upload extends StatefulWidget {
   @override
@@ -24,7 +20,7 @@ class Upload extends StatefulWidget {
 class _UploadState extends State<Upload> {
   String _uid = "";
   FirebaseAuth _auth = FirebaseAuth.instance;
-  String _description = "", _name = "", _price = "";
+  String _description = "", _name = "", _price = "", _time = "", _rating = "";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   getUser() {
     //getting user id from database, cloud firestore
@@ -46,8 +42,6 @@ class _UploadState extends State<Upload> {
     super.initState();
   }
 
-  TextEditingController locationController = TextEditingController();
-  TextEditingController captionController = TextEditingController();
   var storageRef = FirebaseStorage.instance.ref();
   File? _image;
   final picker = ImagePicker();
@@ -166,7 +160,9 @@ class _UploadState extends State<Upload> {
       'price': _price,
       'userid': _uid,
       'imageurl': mediaUrl,
-      'description': _description
+      'description': _description,
+      'time': _time,
+      'rating': _rating,
     });
     Navigator.pop(context);
   }
@@ -269,6 +265,46 @@ class _UploadState extends State<Upload> {
                 },
                 decoration: InputDecoration(
                   hintText: "Write Description ....",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(
+              Icons.description,
+              color: Colors.orange,
+              size: 35.0,
+            ),
+            title: Container(
+              width: 250,
+              child: TextField(
+                onChanged: (value) {
+                  _time = value;
+                },
+                decoration: InputDecoration(
+                  hintText: "Time",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(
+              Icons.description,
+              color: Colors.orange,
+              size: 35.0,
+            ),
+            title: Container(
+              width: 250,
+              child: TextField(
+                onChanged: (value) {
+                  _rating = value;
+                },
+                decoration: InputDecoration(
+                  hintText: "Rating",
                   border: InputBorder.none,
                 ),
               ),
