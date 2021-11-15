@@ -40,6 +40,7 @@ class _UserOrderListState extends State<UserOrderList> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => FoodDetail(
+                                          id: document.id,
                                           image: document['imageurl'],
                                           title: document['name'],
                                           price: document['price'],

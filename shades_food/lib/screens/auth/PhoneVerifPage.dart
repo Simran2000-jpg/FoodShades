@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:shades_food/appcolors.dart';
 import 'package:shades_food/screens/auth/Auth_Service.dart';
 
 class PhoneVerifPage extends StatefulWidget {
@@ -27,26 +28,46 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          "SignUp",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-      ),
+      // backgroundColor: Color(0xffFF5151),
+
+      // appBar: AppBar(
+      //   backgroundColor: Colors.black,
+      //   title: Text(
+      //     "SignUp",
+      //     style: TextStyle(
+      //       color: Colors.white,
+      //       fontSize: 24,
+      //     ),
+      //   ),
+      //   centerTitle: true,
+      // ),
       body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/bgsp.jpg"), fit: BoxFit.cover)),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 110,
+              Padding(
+                padding: const EdgeInsets.only(top: 200.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // Padding(
+                    // padding: const EdgeInsets.only(top: 30.0),
+                    // Image.asset(
+                    //   "assets/foodorder.png",
+                    //   width: MediaQuery.of(context).size.width,
+                    // ),
+                    // ),
+                  ],
+                ),
               ),
+              // SizedBox(
+              //   height: 110,
+              // ),
               textField(),
               SizedBox(
                 height: 30,
@@ -66,7 +87,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                       "Enter 6 digit OTP",
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
                     Expanded(
@@ -91,15 +112,15 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                 children: [
                   TextSpan(
                     text: "Send OTP again in ",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                   TextSpan(
                     text: "00:$start",
-                    style: TextStyle(fontSize: 16, color: Colors.pinkAccent),
+                    style: TextStyle(fontSize: 16, color: Color(0xffFBFF00)),
                   ),
                   TextSpan(
                     text: " sec",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ],
               )),
@@ -117,16 +138,25 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                   height: 60,
                   width: MediaQuery.of(context).size.width - 60,
                   decoration: BoxDecoration(
-                      color: Color(0xffff9601),
+                      color: AppColors.sk1,
                       borderRadius: BorderRadius.circular(15)),
-                  child: Center(
-                    child: Text(
-                      "Let's Go",
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Color(0xfffbe2ae),
-                          fontWeight: FontWeight.w700),
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text(
+                          "Welcome",
+                          style: TextStyle(fontSize: 17, color: Colors.black),
+                          // fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      Center(
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.black,
+                        ),
+                      )
+                    ],
                   ),
                 ),
               )
@@ -160,10 +190,10 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
       width: 1000,
       fieldWidth: 40,
       otpFieldStyle: OtpFieldStyle(
-        backgroundColor: Color(0xff1d1d1d),
+        backgroundColor: AppColors.sk1,
         borderColor: Colors.white,
       ),
-      style: TextStyle(fontSize: 17, color: Colors.white),
+      style: TextStyle(fontSize: 17, color: Colors.black),
       textFieldAlignment: MainAxisAlignment.spaceAround,
       fieldStyle: FieldStyle.underline,
       onCompleted: (pin) {
@@ -178,27 +208,27 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
 
   Widget textField() {
     return Container(
-      width: 350,
+      width: 330,
       height: 60,
       decoration: BoxDecoration(
-        color: Color(0xff1d1d1d),
+        color: AppColors.sk1,
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
         keyboardType: TextInputType.number,
         controller: phoneController,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: "Enter your phone number",
-          hintStyle: TextStyle(color: Colors.white54, fontSize: 17),
+          hintStyle: TextStyle(color: Colors.black, fontSize: 17),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 19, horizontal: 8),
           prefixIcon: Padding(
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
             child: Text(
               " (+91) ",
-              style: TextStyle(color: Colors.white, fontSize: 17),
+              style: TextStyle(color: Colors.black, fontSize: 17),
             ),
           ),
 
@@ -222,7 +252,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
               child: Text(
                 buttonName,
                 style: TextStyle(
-                    color: wait ? Colors.grey : Colors.white,
+                    color: wait ? Colors.grey : Colors.black,
                     fontSize: 17,
                     fontWeight: FontWeight.bold),
               ),
