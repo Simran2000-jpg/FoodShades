@@ -1,14 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:shades_food/screens/cart/cart_screen.dart';
+
+import '../order.dart';
 
 // ignore: must_be_immutable
 
 class Payment extends StatefulWidget {
   int price = 0;
+  List<String> cartid = <String>[];
 
   Payment({
     Key? key,
     required this.price,
+    required this.cartid,
   }) : super(key: key);
 
   @override
@@ -57,8 +63,20 @@ class _PaymentState extends State<Payment> {
     }
   }
 
-  void handlerPaymentSuccess() {
+  void handlerPaymentSuccess(PaymentSuccessResponse response) async {
     //When payment is successfully completed
+    for (var it in widget.cartid) {
+      var v = await FirebaseFirestore.instance.collection("cart").doc(it).get();
+      FirebaseFirestore.instance.collection("CurrentOrders").add({
+        "count": v.get("count"),
+        "dishid": v.get("dishid"),
+        "userid": v.get("userid"),
+        "time": 10,
+      });
+      FirebaseFirestore.instance.collection("cart").doc(it).delete();
+    }
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => OrderPage()));
     print("Payment Success");
   }
 

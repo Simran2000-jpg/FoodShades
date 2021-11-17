@@ -100,7 +100,7 @@ class _OrderPageState extends State<OrderPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF2C2C37),
-        title: Text(
+        title: const Text(
           'FoodShades',
           style: TextStyle(
               fontFamily: "Montserrat Bold",
@@ -108,7 +108,7 @@ class _OrderPageState extends State<OrderPage> {
               fontSize: 20),
         ),
         elevation: 1,
-        actions: <Widget>[
+        actions: const <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 30.0),
           ),
@@ -129,7 +129,7 @@ class _OrderPageState extends State<OrderPage> {
                     margin: EdgeInsets.fromLTRB(30, 30, 10, 30),
 
                     child: Row(
-                      children: [
+                      children: const [
                         Padding(
                           padding: EdgeInsets.all(30),
                           child: Text(
