@@ -1,5 +1,12 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:passcode_screen/circle.dart';
+import 'package:passcode_screen/keyboard.dart';
+import 'package:passcode_screen/passcode_screen.dart';
+import 'package:shades_food/screens/admin/adminscreen.dart';
+import 'package:shades_food/screens/admin/checkpin.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/home/drawerstatus.dart';
 import 'package:shades_food/screens/profilepages/Dashboard.dart';
@@ -7,9 +14,61 @@ import 'package:shades_food/splashscreen.dart';
 
 import 'profile_menu.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   Body({required this.status});
   final statusCallback status;
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  final StreamController<bool> _verificationNotifier =
+      StreamController<bool>.broadcast();
+  String storedPasscode = "123456";
+  bool isAuthenticated = false;
+  _showLockScreen(
+    BuildContext context, {
+    required bool opaque,
+    CircleUIConfig? circleUIConfig,
+    KeyboardUIConfig? keyboardUIConfig,
+    required Widget cancelButton,
+    List<String>? digits,
+  }) {
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          opaque: opaque,
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              PasscodeScreen(
+            title: Text(
+              'Enter App Passcode',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontSize: 28),
+            ),
+            circleUIConfig: circleUIConfig,
+            keyboardUIConfig: keyboardUIConfig,
+            passwordEnteredCallback: _onPasscodeEntered,
+            cancelButton: cancelButton,
+            deleteButton: Text(
+              'Delete',
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+              semanticsLabel: 'Delete',
+            ),
+            shouldTriggerVerification: _verificationNotifier.stream,
+            backgroundColor: Colors.black.withOpacity(0.8),
+            digits: digits,
+            passwordDigits: 6,
+          ),
+        ));
+  }
+
+  _onPasscodeEntered(String enteredPasscode) {
+    if (enteredPasscode == storedPasscode) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => AdminScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -28,7 +87,7 @@ class Body extends StatelessWidget {
                 ),
                 GestureDetector(
                     onTap: () {
-                      status(false);
+                      widget.status(false);
                     },
                     child: const Icon(Icons.close))
               ],
@@ -49,7 +108,17 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Admin",
             icon: "assets/icon/Settings.svg",
-            press: () {},
+            press: () {
+              _showLockScreen(
+                context,
+                opaque: false,
+                cancelButton: Text(
+                  'Cancel',
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
+                  semanticsLabel: 'Cancel',
+                ),
+              );
+            },
           ),
           ProfileMenu(
             text: "Log Out",

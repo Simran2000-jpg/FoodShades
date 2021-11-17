@@ -44,7 +44,7 @@ class _PaymentState extends State<Payment> {
   void openCheckout() {
     var options = {
       "key": "rzp_test_xmnLBhmX7WPCYC",
-      "amount": widget.price,
+      "amount": widget.price * 100,
       "name": "Food Shades",
       "description": "Payment for the some random product",
       "prefill": {
