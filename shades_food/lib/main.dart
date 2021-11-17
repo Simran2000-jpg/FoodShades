@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/admin/adminscreen.dart';
 import 'package:shades_food/screens/admin/checkpin.dart';
+import 'package:shades_food/screens/home/homescreen.dart';
 import 'package:shades_food/splashscreen.dart';
 
 void main() async {
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: CheckPinAdmin(),
+      home: SplashScreen(),
     );
   }
 }
