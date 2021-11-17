@@ -326,7 +326,7 @@ class _CartScreenState extends State<CartScreen> {
                     onTap: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              Payment(price: totalprice)));
+                              Payment(price: totalprice, cartid: fcartid)));
                     },
                     child: Container(
                       color: Colors.orange,
