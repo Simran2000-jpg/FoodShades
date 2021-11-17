@@ -1,16 +1,12 @@
 // import 'package:firebase_app_web/pages/HomePage.dart';
-import 'dart:math';
+// ignore_for_file: prefer_function_declarations_over_variables
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
-import 'package:shades_food/splashscreen.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 var user = FirebaseAuth.instance.currentUser;
@@ -29,123 +25,11 @@ class AuthClass {
     );
   }
 
-//   final GoogleSignIn _googleSignIn = GoogleSignIn(
-//     scopes: [
-//       'email',
-//       'https://www.googleapis.com/auth/contacts.readonly',
-//     ],
-//   );
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final storage = new FlutterSecureStorage();
+  final storage = FlutterSecureStorage();
   String _phone = "";
 
-//   Future<void> googleSignIn(BuildContext context) async {
-//     try {
-//       GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
-
-//       if (googleSignInAccount != null) {
-//         GoogleSignInAuthentication googleSignInAuthentication =
-//             await googleSignInAccount.authentication;
-
-//         AuthCredential credential = GoogleAuthProvider.credential(
-//           idToken: googleSignInAuthentication.idToken,
-//           accessToken: googleSignInAuthentication.accessToken,
-//         );
-
-//         try {
-//           bool isphoneverified = false;
-//           UserCredential userCredential =
-//               await _auth.signInWithCredential(credential);
-
-//           var user = FirebaseAuth.instance.currentUser;
-//           String _uid = user == null ? "" : user.uid;
-//           final DocumentSnapshot snap = await FirebaseFirestore.instance
-//               .collection('users')
-//               .doc(_uid)
-//               .get();
-
-//           if (snap.exists) {
-//             dynamic b = snap.get('phone');
-//             if (b == "")
-//               isphoneverified = false;
-//             else
-//               isphoneverified = true;
-//           }
-//           await FirebaseFirestore.instance.collection("users").doc(_uid).set({
-//             'uid': _uid,
-//             // 'role': "user",
-//             if (isphoneverified == false) 'phone': "",
-//             'email': "",
-//             'password': "",
-//           });
-
-//           if (isphoneverified == false) {
-//             Navigator.pushAndRemoveUntil(
-//                 context,
-//                 MaterialPageRoute(builder: (builder) => PhoneVerifPage()),
-//                 (route) => false);
-//           } else {
-//             Navigator.pushAndRemoveUntil(
-//                 context,
-//                 MaterialPageRoute(builder: (builder) => HomeScreen()),
-//                 (route) => false);
-//           }
-//         } catch (e) {
-//           final snackBar = SnackBar(content: Text(e.toString()));
-//           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//         }
-//       } else {
-//         final snackBar = SnackBar(content: Text("Not Able to sign In"));
-//         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//       }
-//     } catch (e) {
-//       final snackBar = SnackBar(content: Text(e.toString()));
-//       // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//     }
-//   }
-
-//   // Future<void> googleSignIn(BuildContext context) async {
-//   //   try {
-//   //     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
-//   //     GoogleSignInAuthentication googleSignInAuthentication =
-//   //         await googleSignInAccount.authentication;
-//   //     AuthCredential credential = GoogleAuthProvider.credential(
-//   //       accessToken: googleSignInAuthentication.accessToken,
-//   //       idToken: googleSignInAuthentication.idToken,
-//   //     );
-//   //     if (googleSignInAccount != null) {
-//   //       UserCredential userCredential =
-//   //           await _auth.signInWithCredential(credential);
-//   //       storeTokenAndData(userCredential);
-//   //       Navigator.pushAndRemoveUntil(
-//   //           context,
-//   //           MaterialPageRoute(builder: (builder) => HomePage()),
-//   //           (route) => false);
-
-//   //       final snackBar =
-//   //           SnackBar(content: Text(userCredential.user.displayName));
-//   //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//   //     }
-//   //   } catch (e) {
-//   //     print("here---->");
-//   //     final snackBar = SnackBar(content: Text(e.toString()));
-//   //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//   //   }
-//   // }
-
-//   Future<void> signOut({BuildContext? context}) async {
-//     try {
-//       await _googleSignIn.signOut();
-//       await _auth.signOut();
-//       await storage.delete(key: "token");
-//     } catch (e) {
-//       final snackBar = SnackBar(content: Text(e.toString()));
-//       ScaffoldMessenger.of(context!).showSnackBar(snackBar);
-//     }
-//   }
-
   void storeTokenAndData(UserCredential userCredential) async {
-    print("storing token and data");
     await storage.write(
         key: "token", value: userCredential.credential!.token.toString());
     await storage.write(
@@ -160,10 +44,9 @@ class AuthClass {
       String phoneNumber, BuildContext context, Function setData) async {
     //
     _phone = phoneNumber;
+    // ignore: prefer_function_declarations_over_variables
     PhoneVerificationCompleted verificationCompleted =
-        (PhoneAuthCredential phoneAuthCredential) {
-      showSnackBar(context, "Verification Completed");
-    };
+        (PhoneAuthCredential phoneAuthCredential) {};
 
     PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException exception) {
@@ -175,10 +58,6 @@ class AuthClass {
       showSnackBar(context, "Verification code sent on the phone number");
       setData(verificationId);
     };
-    //     (String verificationID, [int forceResendingtoken]) {
-    //   showSnackBar(context, "Verification Code sent on the phone number");
-    //   setData(verificationID);
-    // };
 
     PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationId) {
@@ -228,7 +107,9 @@ class AuthClass {
   }
 
   void showSnackBar(BuildContext context, String text) {
-    final snackBar = SnackBar(content: Text(text.toString()));
+    final snackBar = SnackBar(
+      content: Text(text.toString()),
+    );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

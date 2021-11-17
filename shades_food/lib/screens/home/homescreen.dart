@@ -110,14 +110,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(20),
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 5, top: 20),
                                   child: const Text(
                                     "Bika Canteen",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 20),
+                                  child: Text(
+                                    "MNNIT ALLAHABAD",
+                                    style: TextStyle(
+                                        color: Colors.grey.shade600,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -147,93 +160,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             )
                           ],
                         ),
-                        SingleChildScrollView(
-                          //changing scroll direction into horizontal
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                decoration: BoxDecoration(
-                                    color: Colors.orange,
-                                    borderRadius: BorderRadius.circular(20)),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 15),
-                                child: const Text(
-                                  "Recommended",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20)),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 15),
-                                child: const Text("Popular"),
-                              ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20)),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 15),
-                                child: const Text("Noodles"),
-                              ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20)),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 15),
-                                child: const Text("Pizza"),
-                              ),
-                            ],
+                        Container(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 5, top: 20),
+                          child: const Text(
+                            "Dishes Available",
+                            style: TextStyle(
+                                color: Colors.orange,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                        // InkWell(
-                        //   onTap: () => {
-                        //     Navigator.push(context,
-                        //         MaterialPageRoute(builder: (context) => FoodDetail())),
-                        //   },
-                        //   child: Container(
-                        //     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-                        //     child: StreamBuilder<QuerySnapshot>(
-                        //         stream: FirebaseFirestore.instance
-                        //             .collection('Dish')
-                        //             .snapshots(),
-                        //         builder: (BuildContext context,
-                        //             AsyncSnapshot<QuerySnapshot> snapshot) {
-                        //           if (snapshot.hasError) {
-                        //             return Text('Something went wrong');
-                        //           }
-                        //           if (snapshot.connectionState == ConnectionState.waiting) {
-                        //             return Text("Loading");
-                        //           }
-                        //           return snapshot.hasData
-                        //               ? ListView(
-                        //                   children: snapshot.data!.docs.map((document) {
-                        //                     return FoodTile(
-                        //                       title: document['name'],
-                        //                       image: "assets/astro.png",
-                        //                       price: document['price'],
-                        //                     );
-                        //                   }).toList(),
-                        //                 )
-                        //               : Text('Sorry! No dish available currently');
-                        //         }),
-                        //   ),
-                        // )
-                        // ignore: prefer_const_constructors
                         UserOrderList()
                       ],
                     ),

@@ -145,7 +145,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                     children: [
                       Center(
                         child: Text(
-                          "Welcome",
+                          "Continue",
                           style: TextStyle(fontSize: 17, color: Colors.black),
                           // fontWeight: FontWeight.w700),
                         ),
