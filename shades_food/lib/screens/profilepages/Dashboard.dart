@@ -237,7 +237,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+// import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shades_food/screens/profilepages/EditProfile.dart';
 import 'package:toast/toast.dart';
 

@@ -281,15 +281,23 @@ class _CartScreenState extends State<CartScreen> {
               ),
               Flexible(
                 // flex: 3,
-                child: Container(
-                  color: Colors.orange,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "Checkout",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.aspectRatio * 40),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            Payment(price: 1000)));
+                  },
+                  child: Container(
+                    color: Colors.orange,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "Checkout",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize:
+                              MediaQuery.of(context).size.aspectRatio * 40),
+                    ),
                   ),
                 ),
               ),

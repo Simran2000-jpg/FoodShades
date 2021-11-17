@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 // ignore: must_be_immutable
+
 class Payment extends StatefulWidget {
-  int price;
+  int price = 0;
+
   Payment({
     Key? key,
     required this.price,
@@ -36,8 +38,8 @@ class _PaymentState extends State<Payment> {
   void openCheckout() {
     var options = {
       "key": "rzp_test_xmnLBhmX7WPCYC",
-      "amount": num.parse(textEditingController.text) * 100,
-      "name": "Sample App",
+      "amount": widget.price,
+      "name": "Food Shades",
       "description": "Payment for the some random product",
       "prefill": {
         "contact": "8081360868",
@@ -56,6 +58,7 @@ class _PaymentState extends State<Payment> {
   }
 
   void handlerPaymentSuccess() {
+    //When payment is successfully completed
     print("Payment Success");
   }
 
@@ -75,19 +78,19 @@ class _PaymentState extends State<Payment> {
       ),
       body: Padding(
         padding: EdgeInsets.all(30.0),
-        child: Column(children: <Widget>[
-          TextField(
-            controller: textEditingController,
-            decoration: InputDecoration(
-              hintText: "Enter Amount",
-            ),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                openCheckout();
-              },
-              child: Text("PAY")),
-        ]),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Your Total Amount is Rs${widget.price}',
+                style: TextStyle(fontSize: 40.0),
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    openCheckout();
+                  },
+                  child: Text("PAY")),
+            ]),
       ),
     );
   }
