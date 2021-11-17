@@ -17,8 +17,9 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  late String uId, name = "", phone = "", email = "";
-  late String _imageUrl, profImagePath;
+  late String uId, name = "Person", phone = "", email = "abcperson@gmail.com";
+  late String profImagePath;
+  dynamic _imageUrl = null;
   bool isLoading = false;
 
   late User user;
@@ -42,8 +43,8 @@ class _EditProfileState extends State<EditProfile> {
         .snapshots()
         .listen((snapshot) {
       setState(() {
-        name = "Anonymous";
-        email = "abcxyz@gmail.com";
+        name = 'Person';
+        email = 'abcperson@gmail.com';
         phone = snapshot['phone'];
       });
     });
@@ -66,7 +67,10 @@ class _EditProfileState extends State<EditProfile> {
     _usernameController = TextEditingController(text: name);
     var ref =
         FirebaseStorage.instance.ref().child('users/' + uId + '/profile.png');
-    ref.getDownloadURL().then((loc) => setState(() => _imageUrl = loc));
+    ref
+        .getDownloadURL()
+        .then((loc) => setState(() => _imageUrl = loc))
+        .catchError((err) => {_imageUrl = null});
   }
 
   @override

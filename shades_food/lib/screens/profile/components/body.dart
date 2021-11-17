@@ -98,7 +98,12 @@ class _BodyState extends State<Body> {
           ProfileMenu(
             text: "My Account",
             icon: "assets/icon/User.svg",
-            press: () => {},
+            press: () => {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (builder) => ProfilePage()),
+                  (route) => false)
+            },
           ),
           ProfileMenu(
             text: "My Orders",

@@ -13,17 +13,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late String uId,
-      name = "Error!",
-      phone = 'Error!',
-      email = "Error!"; //defined default values for the fields.
-  late String _imageUrl;
-  TextEditingController _newBikeNameController =
-      new TextEditingController(); //controller for bike name
-  TextEditingController _newBikeRentController =
-      new TextEditingController(); //controller for bike rent
-  TextEditingController
-      _newBikeLocationController = //controller for bike location
-      new TextEditingController();
+      name = "Person",
+      phone = "",
+      email = "abcperson@gmail.com"; //defined default values for the fields.
+  dynamic _imageUrl = null;
+
   bool isSwitched = false; //default value for switch
 
   getUserId() {
@@ -43,9 +37,9 @@ class _ProfilePageState extends State<ProfilePage> {
         .snapshots()
         .listen((snapshot) {
       setState(() {
-        name = snapshot["name"];
-        email = snapshot["email"];
-        phone = snapshot["phoneNo"];
+        name = "Person";
+        email = "abcperson@gmail.com";
+        phone = snapshot["phone"];
       });
     });
   }
@@ -56,10 +50,24 @@ class _ProfilePageState extends State<ProfilePage> {
     getUserId();
     getUserInfo();
     super.initState();
+
+//     const storageFile = bucket.file('path/to/file.txt');
+// storageFile
+//   .exists()
+//   .then((exists) => {
+//     if (exists[0]) {
+//       console.log("File exists");
+//     } else {
+//       console.log("File does not exist");
+//   })
+
     var ref =
         FirebaseStorage.instance.ref().child('users/' + uId + '/profile.png');
-    ref.getDownloadURL().then((loc) =>
-        setState(() => _imageUrl = loc)); //setting path for profile image
+    ref
+        .getDownloadURL()
+        .then((loc) => setState(() => _imageUrl = loc))
+        .catchError(
+            (err) => {_imageUrl = null}); //setting path for profile image
   }
 
   @override
@@ -122,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ])),
 
             Container(
-              height: 380,
+              height: 340,
               width: 250,
               color: Color(0xFF1E1E29),
               padding: const EdgeInsets.all(10.0),
@@ -143,6 +151,34 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Color(0xFFFFC495)),
                       ),
                     ),
+                    //name
+                    // Row(
+                    //   children: [
+                    //     Padding(
+                    //         padding: EdgeInsets.fromLTRB(30.0, 0.0, 10.0, 0.0),
+                    //         child: Text(
+                    //           'Email',
+                    //           style: TextStyle(
+                    //               fontSize: 16,
+                    //               fontFamily: "Montserrat Medium",
+                    //               color: Color(0xFFCA9367)),
+                    //         )),
+                    //   ],
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     Padding(
+                    //         padding: EdgeInsets.fromLTRB(20.0, 5.0, 10.0, 5.0),
+                    //         child: Text(
+                    //           name,
+                    //           style: TextStyle(
+                    //               fontSize: 19,
+                    //               fontFamily: "Montserrat Medium",
+                    //               color: Color(0xFFE5E5E5)),
+                    //         )),
+                    //   ],
+                    // ),
+                    //
                     Row(
                       children: [
                         Padding(
