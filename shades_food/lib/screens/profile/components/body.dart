@@ -6,7 +6,6 @@ import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/keyboard.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:shades_food/screens/admin/adminscreen.dart';
-import 'package:shades_food/screens/admin/checkpin.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/home/drawerstatus.dart';
 import 'package:shades_food/screens/profilepages/Dashboard.dart';
