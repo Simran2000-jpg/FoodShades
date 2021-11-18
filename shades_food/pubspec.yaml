@@ -46,7 +46,6 @@ dependencies:
   provider: ^6.0.1
   # flutter_secure_storage: ^4.2.1
   otp_text_field: ^1.1.1
-  google_sign_in: ^5.2.0
   flutter_secure_storage: ^4.2.1
   shimmer: ^2.0.0
   flutter_svg: ^0.23.0+1
@@ -62,6 +61,7 @@ dependencies:
   email_auth: ^1.0.0
   passcode_screen: ^2.0.0
   material_design_icons_flutter: ^5.0.6295
+  anim_search_bar: ^2.0.2
   
 dev_dependencies:
   flutter_test:
