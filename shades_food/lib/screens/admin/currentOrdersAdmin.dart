@@ -56,7 +56,10 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text('Total Price: Rs${document['totalprice']}')],
+              children: [
+                Text('Total Price: Rs${document['totalprice']}'),
+                Text('Total Price: Rs${document['totalprice']}'),
+              ],
             ),
           ),
         ],
