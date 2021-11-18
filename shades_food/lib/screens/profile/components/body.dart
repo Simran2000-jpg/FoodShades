@@ -9,6 +9,7 @@ import 'package:shades_food/screens/admin/adminscreen.dart';
 import 'package:shades_food/screens/admin/checkpin.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/home/drawerstatus.dart';
+import 'package:shades_food/screens/home/myorders.dart';
 import 'package:shades_food/screens/profilepages/Dashboard.dart';
 import 'package:shades_food/splashscreen.dart';
 
@@ -99,16 +100,19 @@ class _BodyState extends State<Body> {
             text: "My Account",
             icon: "assets/icon/User.svg",
             press: () => {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (builder) => ProfilePage()),
-                  (route) => false)
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (builder) => ProfilePage()),
+              )
             },
           ),
           ProfileMenu(
             text: "My Orders",
             icon: "assets/icon/Bell.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyOrder()));
+            },
           ),
           ProfileMenu(
             text: "Admin",

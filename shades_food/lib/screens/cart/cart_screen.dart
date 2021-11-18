@@ -33,35 +33,24 @@ class _CartScreenState extends State<CartScreen> {
         await FirebaseFirestore.instance.collection("Dish").get();
     setState(() {
       for (var it in snap.docs) {
-        // print(it.get("userid"));
-        // if (udata != null) print(udata!.uid);
         if (it.get("userid") == udata!.uid) {
           did.add(it.get("dishid").toString().trim());
           cnt.add(it.get("count"));
           cartid.add(it.id);
         }
-        // if()
       }
       print(cartid.length);
-      // print(did[0]);
       for (var it in sp.docs) {
-        // print(it.id);
         if (did.contains((it.id).toString())) {
           int ind = did.indexOf(it.id);
           datas.add(it);
-          // print(it.get("name"));
-          // print(it.get("price"));
-          // print(it.get("description"));
-          // print(cnt[ind]);
-          // print(datas.length);
+
           fcnt.add(cnt[ind]);
           fcartid.add(cartid[ind]);
           totalprice += int.parse(it.get("price")) * cnt[ind];
         }
       }
       isLoading = false;
-      // print(fcnt.length);
-      // print(datas.length);
     });
   }
 
@@ -69,11 +58,8 @@ class _CartScreenState extends State<CartScreen> {
   initState() {
     super.initState();
     getData();
-    // Add listeners to this class
   }
 
-  // int counter = 1;
-  // final counter = ValueNotifier<int>(1);
   var tp = currentprice;
   void totalpriceinc(int i) {
     setState(() {
@@ -109,8 +95,6 @@ class _CartScreenState extends State<CartScreen> {
         .collection("cart")
         .doc(id)
         .update({"count": cnt});
-
-    // .update({"count": counter.value});
   }
 
   @override
@@ -243,8 +227,6 @@ class _CartScreenState extends State<CartScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(7)),
                                               child: GestureDetector(
-                                                // padding: EdgeInsets.all(25),
-                                                // alignment: Alignment.center,
                                                 child: Icon(Icons.remove),
                                                 onTap: () =>
                                                     {totalpricedec(index)},

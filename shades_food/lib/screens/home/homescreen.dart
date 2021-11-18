@@ -1,3 +1,4 @@
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/cart/cart_screen.dart';
 import 'package:shades_food/screens/home/user_orderlist.dart';
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  TextEditingController textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
                               onTap: () => {onclick(!isDrawerOpen)},

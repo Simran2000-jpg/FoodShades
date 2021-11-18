@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'homescreen.dart';
@@ -10,7 +12,64 @@ class MyOrder extends StatefulWidget {
 }
 
 class _MyOrderState extends State<MyOrder> {
+  List<DocumentSnapshot> orders = <DocumentSnapshot>[];
+  var udata = FirebaseAuth.instance.currentUser;
   bool isLoading = true;
+  void showDialog(Map<String, dynamic> mp) {
+    showGeneralDialog(
+      barrierLabel: "Barrier",
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 500),
+      context: context,
+      pageBuilder: (_, __, ___) {
+        return Align(
+          alignment: Alignment.center,
+          child: Container(
+            height: 300,
+            child: SizedBox.expand(
+              child: Container(
+                child: Text("data"),
+              ),
+            ),
+            margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(40),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (_, anim, __, child) {
+        return SlideTransition(
+          position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim),
+          child: child,
+        );
+      },
+    );
+  }
+
+  getData() async {
+    QuerySnapshot snap =
+        await FirebaseFirestore.instance.collection("CurrentOrders").get();
+    setState(() {
+      for (var it in snap.docs) {
+        if (it.get("userid") == udata!.uid) {
+          orders.add(it);
+        }
+      }
+    });
+    print(orders.length);
+    isLoading = false;
+  }
+
+  @override
+  initState() {
+    super.initState();
+    getData();
+    // Add listeners to this class
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +115,52 @@ class _MyOrderState extends State<MyOrder> {
                     fontSize: MediaQuery.of(context).size.aspectRatio * 60),
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            isLoading == true
+                ? Container(
+                    child: Text("Loading"),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                        itemCount: orders.length,
+                        itemBuilder: (context, index) {
+                          print(orders[index]["totalprice"]);
+                          return GestureDetector(
+                            onTap: () =>
+                                {showDialog(orders[index]["dishandcount"])},
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.orange,
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                                // borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: EdgeInsets.all(20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "27/10/2000",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  const Text(
+                                    "Tap to view details",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  Text(
+                                    '\u{20B9} ${orders[index]["totalprice"]}',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }))
           ],
         ),
       ),
