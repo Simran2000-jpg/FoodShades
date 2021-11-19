@@ -45,6 +45,13 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
   }
 
   Widget OrderItem(QueryDocumentSnapshot document) {
+    Map<String, dynamic> mp = document['dishandcount'];
+    //DateTime dt = document['time'];
+    var totalprice = document['totalprice'];
+    var user = FirebaseFirestore.instance
+        .collection('users')
+        .doc(document['userid'])
+        .get();
     return Card(
       elevation: 8,
       clipBehavior: Clip.antiAlias,
@@ -57,8 +64,7 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Total Price: Rs${document['totalprice']}'),
-                Text('Total Price: Rs${document['totalprice']}'),
+                Text('Total Price: Rs ${totalprice}'),
               ],
             ),
           ),

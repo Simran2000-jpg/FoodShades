@@ -1,4 +1,5 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/cart/cart_screen.dart';
 import 'package:shades_food/screens/home/user_orderlist.dart';
@@ -16,6 +17,17 @@ class _HomeScreenState extends State<HomeScreen> {
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
+  @override
+  void initState() {
+    // TODO: implement initState
+    print('-----------------------------------' +
+        FirebaseAuth.instance.currentUser!.uid);
+    if (FirebaseAuth.instance.currentUser == null) {
+      Navigator.pop(context);
+    }
+    super.initState();
+  }
+
   void onclick(status) {
     // print(status);
     setState(() {
