@@ -88,26 +88,20 @@ class AuthClass {
       String _uid = user == null ? "" : user.uid;
       final DocumentSnapshot snap =
           await FirebaseFirestore.instance.collection('users').doc(_uid).get();
-      // if (!snap.exists) {
-      var usr =
-          await FirebaseFirestore.instance.collection("users").doc(_uid).get();
-      if (usr.exists) {
+
+      if (!snap.exists) {
         await FirebaseFirestore.instance.collection("users").doc(_uid).set({
           'phone': _phone,
-        });
-      } else {
-        await FirebaseFirestore.instance.collection("users").doc(_uid).set({
-          'name': "Anonymous",
-          'phone': _phone,
+          'name': "Enter your name",
+          'email': "Enter your email"
         });
       }
-      // }
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (builder) => HomeScreen()),
           (route) => false);
 
-      // showSnackBar(context, "Logged in");
+      showSnackBar(context, "Logged in");
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -117,6 +111,6 @@ class AuthClass {
     final snackBar = SnackBar(
       content: Text(text.toString()),
     );
-    //ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
