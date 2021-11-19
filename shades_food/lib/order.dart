@@ -8,6 +8,7 @@ import 'package:awesome_notifications/src/awesome_notifications_core.dart';
 // import 'foodshades/Confirmation.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:shades_food/screens/confirmPage.dart';
 
 // import 'feedback.dart';
 import 'notifications.dart';
@@ -168,7 +169,13 @@ class _OrderPageState extends State<OrderPage> {
                     isReverse: false,
                     onComplete: () {
                       createFoodNotifications();
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => ConfirmPage()));
+                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      //     builder: (BuildContext context) =>
+                      //         Payment(price: totalprice, cartid: fcartid)));
                     },
                     textStyle: TextStyle(fontSize: 50, color: Colors.black),
                   ),
