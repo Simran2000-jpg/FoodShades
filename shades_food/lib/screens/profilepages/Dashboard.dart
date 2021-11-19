@@ -12,10 +12,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late String uId,
-      name = "Person",
+  String uId = "",
+      name = "",
       phone = "",
-      email = "abcperson@gmail.com"; //defined default values for the fields.
+      email = ""; //defined default values for the fields.
   dynamic _imageUrl = null;
 
   bool isSwitched = false; //default value for switch
@@ -37,8 +37,8 @@ class _ProfilePageState extends State<ProfilePage> {
         .snapshots()
         .listen((snapshot) {
       setState(() {
-        name = "Person";
-        email = "abcperson@gmail.com";
+        name = snapshot['name'];
+        email = snapshot['email'];
         phone = snapshot["phone"];
       });
     });
@@ -246,6 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EditProfile(uId)));
+                            // getUserInfo();
                           },
                           child: Icon(
                             Icons.edit,

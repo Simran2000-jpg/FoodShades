@@ -17,8 +17,8 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  late String uId, name = "Person", phone = "", email = "abcperson@gmail.com";
-  late String profImagePath;
+  String uId = "", nameg = "", phoneg = "", emailg = "";
+  String profImagePath = "";
   dynamic _imageUrl = null;
   bool isLoading = false;
 
@@ -43,17 +43,17 @@ class _EditProfileState extends State<EditProfile> {
         .snapshots()
         .listen((snapshot) {
       setState(() {
-        name = 'Person';
-        email = 'abcperson@gmail.com';
-        phone = snapshot['phone'];
+        nameg = snapshot['name'];
+        emailg = snapshot['email'];
+        phoneg = snapshot['phone'];
       });
     });
   }
 
   Future updateInfo() async {
     FirebaseFirestore.instance.collection('users').doc(uId).update({
-      'name': name,
-      'email': email,
+      'name': _usernameController.text.toString(),
+      'email': _emailController.text.toString(),
     });
   }
 
@@ -63,8 +63,8 @@ class _EditProfileState extends State<EditProfile> {
     getUserInfo();
     // TODO: implement initState
     super.initState();
-    _emailController = TextEditingController(text: email);
-    _usernameController = TextEditingController(text: name);
+    _emailController = TextEditingController(text: emailg);
+    _usernameController = TextEditingController(text: nameg);
     var ref =
         FirebaseStorage.instance.ref().child('users/' + uId + '/profile.png');
     ref
@@ -104,8 +104,9 @@ class _EditProfileState extends State<EditProfile> {
             ),
             onPressed: () {
               updateInfo();
-              uploadProfilePicture(
-                  profImagePath); //saves and updates the changes in dashboard..
+              if (profImagePath != "")
+                uploadProfilePicture(
+                    profImagePath); //saves and updates the changes in dashboard..
               Toast.show("Changes Saved", context,
                   duration: Toast.LENGTH_SHORT);
             },
@@ -220,7 +221,7 @@ class _EditProfileState extends State<EditProfile> {
                                       color: Color(0xFFE5E5E5)),
                                 ),
                                 Text(
-                                  phone,
+                                  phoneg,
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontFamily: "Montserrat Medium",
@@ -329,7 +330,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
             onSubmitted: (newValue) {
               setState(() {
-                email = newValue;
+                emailg = newValue;
                 _isEditingText = false;
               });
             },
@@ -349,7 +350,7 @@ class _EditProfileState extends State<EditProfile> {
           Padding(
             padding: const EdgeInsets.only(left: 17),
             child: Text(
-              _isEditingText ? _emailController.text : email,
+              _isEditingText ? _emailController.text : emailg,
               style: TextStyle(
                   color: Color(0xFFE5E5E5),
                   fontSize: 16.0,
@@ -375,7 +376,7 @@ class _EditProfileState extends State<EditProfile> {
           ),
           onSubmitted: (newValue) {
             setState(() {
-              name = newValue;
+              nameg = newValue;
               _isEditingUser = false;
             });
           },
@@ -390,7 +391,7 @@ class _EditProfileState extends State<EditProfile> {
         });
       },
       child: Text(
-        _isEditingUser ? _usernameController.text : name,
+        _isEditingUser ? _usernameController.text : nameg,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 28.0,

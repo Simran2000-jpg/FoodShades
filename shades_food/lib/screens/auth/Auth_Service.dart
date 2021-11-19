@@ -90,10 +90,11 @@ class AuthClass {
       final DocumentSnapshot snap =
           await FirebaseFirestore.instance.collection('users').doc(_uid).get();
       if (!snap.exists) {
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(_uid)
-            .update({'phone': _phone});
+        await FirebaseFirestore.instance.collection("users").doc(_uid).set({
+          'phone': _phone,
+          'name': "Enter your name",
+          'email': "Enter your email"
+        });
       }
       Navigator.pushAndRemoveUntil(
           context,
