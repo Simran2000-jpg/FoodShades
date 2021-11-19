@@ -99,7 +99,7 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
             Ink.image(
               image: NetworkImage(document['imageurl']),
               height: 240,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

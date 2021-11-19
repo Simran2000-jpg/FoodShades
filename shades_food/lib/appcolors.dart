@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color primary = const Color(0xffFFF9B6);
@@ -6,7 +7,7 @@ class AppColors {
   static const Color green1 = const Color(0xffCEE5D0);
   static const Color blue1 = const Color(0xffA2D2FF);
   static const Color sk1 = const Color(0xffF9F3DF);
-  // static const Color blue1 = const Color(0xffA2D2FF);
+  static Color blue2 = Colors.blue.shade800;
   // static const Color blue1 = const Color(0xffA2D2FF);
   // static const Color blue1 = const Color(0xffA2D2FF);
   // static const Color blue1 = const Color(0xffA2D2FF);

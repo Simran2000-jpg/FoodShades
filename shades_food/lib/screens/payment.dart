@@ -65,18 +65,28 @@ class _PaymentState extends State<Payment> {
 
   void handlerPaymentSuccess(PaymentSuccessResponse response) async {
     //When payment is successfully completed
-    var userid = "";
+    String userid = "";
+    var customer;
     Map<String, int> mp = {};
     for (var it in widget.cartid) {
       var v = await FirebaseFirestore.instance.collection("cart").doc(it).get();
-      mp[v.get("dishid")] = v.get("count");
+      var dish = await FirebaseFirestore.instance
+          .collection('Dish')
+          .doc(v.get("dishid"))
+          .get();
+      mp[dish.get('name')] = v.get("count");
       userid = v.get("userid");
+      customer = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid)
+          .get();
       FirebaseFirestore.instance.collection("cart").doc(it).delete();
     }
     FirebaseFirestore.instance.collection("CurrentOrders").add({
       "dishandcount": mp,
       "totalprice": widget.price,
-      "userid": userid,
+      "customer_name": customer.get('name'),
+      "cutomer_phnno": customer.get('phone'),
       "time": DateTime.now(),
     });
     Navigator.pushReplacement(

@@ -80,7 +80,6 @@ class AuthClass {
     try {
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
-
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
 
@@ -89,18 +88,20 @@ class AuthClass {
       String _uid = user == null ? "" : user.uid;
       final DocumentSnapshot snap =
           await FirebaseFirestore.instance.collection('users').doc(_uid).get();
-      // if (!snap.exists) {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(_uid)
-          .update({'phone': _phone});
-      // }
+
+      if (!snap.exists) {
+        await FirebaseFirestore.instance.collection("users").doc(_uid).set({
+          'phone': _phone,
+          'name': "Enter your name",
+          'email': "Enter your email"
+        });
+      }
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (builder) => HomeScreen()),
           (route) => false);
 
-      // showSnackBar(context, "Logged in");
+      showSnackBar(context, "Logged in");
     } catch (e) {
       showSnackBar(context, e.toString());
     }
