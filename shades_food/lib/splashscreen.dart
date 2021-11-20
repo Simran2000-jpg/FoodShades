@@ -23,11 +23,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // backgroundColor: const Color(0xffFFE699),
+        // backgroundColor: const Color(0xffFFF9B6),
         body: Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage("assets/bg6.jpg"),
+        image: AssetImage("assets/bg2.jpg"),
         fit: BoxFit.cover,
       )),
       alignment: Alignment.center,
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: size,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                  image: AssetImage('assets/restaurant.png'),
+                  image: AssetImage('assets/saute.png'),
                   fit: BoxFit.fill,
                 )),
               );
