@@ -75,16 +75,16 @@ class _ProfilePageState extends State<ProfilePage> {
     //Here starts the UI of the overall Dashboard Screen....
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF2C2C37),
+          backgroundColor: Color(0xffFFF1AF),
           iconTheme: IconThemeData(
-            color: Color(0xFFFFC495),
+            color: Colors.orange,
           ),
           centerTitle: true,
           title: Text(
             "DASHBOARD",
             style: TextStyle(
                 fontFamily: "Montserrat Bold",
-                color: Color(0xFFE5E5E5),
+                color: Colors.orange,
                 fontSize: 16),
           ),
           elevation: 1,
@@ -94,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ],
         ),
-        backgroundColor: Color(0xFF1E1E29),
+        backgroundColor: Color(0xffFFE699),
         body: SingleChildScrollView(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,9 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: 160,
                 height: 160,
                 decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 4,
-                      color: Theme.of(context).scaffoldBackgroundColor),
+                  border: Border.all(width: 4, color: Color(0xffFFF1AF)),
                   boxShadow: [
                     BoxShadow(
                         spreadRadius: 2,
@@ -132,10 +130,10 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               height: 340,
               width: 250,
-              color: Color(0xFF1E1E29),
+              color: Color(0xffFFE699),
               padding: const EdgeInsets.all(10.0),
               child: Card(
-                color: Color(0xFF2C2C37),
+                color: Color(0xffFFF1AF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -147,8 +145,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 30,
-                            fontFamily: "Montserrat Bold",
-                            color: Color(0xFFFFC495)),
+                            fontFamily: "Montserrat SemiBold",
+                            color: Colors.black),
                       ),
                     ),
                     //name
@@ -188,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: "Montserrat Medium",
-                                  color: Color(0xFFCA9367)),
+                                  color: Color(0xFFC85C5C)),
                             )),
                       ],
                     ),
@@ -201,7 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               style: TextStyle(
                                   fontSize: 19,
                                   fontFamily: "Montserrat Medium",
-                                  color: Color(0xFFE5E5E5)),
+                                  color: Colors.black),
                             )),
                       ],
                     ),
@@ -214,7 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: "Montserrat Medium",
-                                  color: Color(0xFFCA9367)),
+                                  color: Color(0xFFC85C5C)),
                             )),
                       ],
                     ),
@@ -227,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               style: TextStyle(
                                   fontSize: 19,
                                   fontFamily: "Montserrat Medium",
-                                  color: Color(0xFFE5E5E5)),
+                                  color: Colors.black),
                             )),
                       ],
                     ),
@@ -236,7 +234,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 5.0),
                         child: FloatingActionButton(
                           heroTag: "btn1",
-                          backgroundColor: Color(0xFFCA9367),
+                          backgroundColor: Colors.orange,
                           onPressed: () {
                             // return Navigator.push(
                             //     context,
@@ -251,6 +249,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Icon(
                             Icons.edit,
                             size: 30,
+                            color: Colors.white,
                           ),
                         ),
                       ),

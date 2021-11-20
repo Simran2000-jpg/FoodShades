@@ -76,13 +76,13 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E1E29),
+      backgroundColor: Color(0xffFFE699),
       appBar: AppBar(
-        backgroundColor: Color(0xFF2C2C37),
+        backgroundColor: Color(0xffFFF1AF),
         leading: IconButton(
           icon: Icon(
             Icons.close,
-            color: Color(0xFFFFF7C6),
+            color: Colors.orange,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -93,14 +93,14 @@ class _EditProfileState extends State<EditProfile> {
           "Edit Profile",
           style: TextStyle(
               fontFamily: "Montserrat Bold",
-              color: Color(0xFFE5E5E5),
+              color: Colors.orange,
               fontSize: 16),
         ),
         actions: [
           IconButton(
             icon: Icon(
               Icons.check,
-              color: Color(0xFFFFF7C6),
+              color: Colors.orange,
             ),
             onPressed: () {
               updateInfo();
@@ -128,9 +128,7 @@ class _EditProfileState extends State<EditProfile> {
                     width: 130,
                     height: 130,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 4,
-                          color: Theme.of(context).scaffoldBackgroundColor),
+                      border: Border.all(width: 4, color: Color(0xffFFF1AF)),
                       boxShadow: [
                         BoxShadow(
                             spreadRadius: 2,
@@ -163,11 +161,11 @@ class _EditProfileState extends State<EditProfile> {
                             width: 4,
                             color: Theme.of(context).scaffoldBackgroundColor,
                           ),
-                          color: Color(0xFFFFC495),
+                          color: Colors.orange,
                         ),
                         child: Icon(
                           Icons.edit,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                       onTap: () async {
@@ -193,7 +191,7 @@ class _EditProfileState extends State<EditProfile> {
             Container(
               height: 230,
               child: Card(
-                color: Color(0xFF2C2C37),
+                color: Color(0xffFFF1AF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -205,7 +203,7 @@ class _EditProfileState extends State<EditProfile> {
                     GestureDetector(
                       child: Container(
                         margin: EdgeInsets.only(top: 5),
-                        color: Colors.grey[600],
+                        color: Color(0xffB2EA70),
                         padding: EdgeInsets.only(left: 18, top: 4, right: 7),
                         child: Row(
                           children: [
@@ -219,14 +217,14 @@ class _EditProfileState extends State<EditProfile> {
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontFamily: "Montserrat Medium",
-                                      color: Color(0xFFE5E5E5)),
+                                      color: Color(0xFFC85C5C)),
                                 ),
                                 Text(
                                   phoneg,
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontFamily: "Montserrat Medium",
-                                      color: Color(0xFFE5E5E5)),
+                                      color: Colors.black),
                                 )
                               ],
                             ),
@@ -269,7 +267,7 @@ class _EditProfileState extends State<EditProfile> {
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: "Montserrat Medium",
-                                        color: Color(0xFFCA9367)),
+                                        color: Color(0xFFC85C5C)),
                                   ),
                                 ),
                               ],
@@ -292,7 +290,7 @@ class _EditProfileState extends State<EditProfile> {
                 style: TextStyle(
                     fontSize: 13,
                     fontFamily: "Montserrat Medium",
-                    color: Color(0xFFCA9367)),
+                    color: Color(0xFFC85C5C)),
               ),
             )
           ],
@@ -326,7 +324,7 @@ class _EditProfileState extends State<EditProfile> {
         child: Center(
           child: TextField(
             style: TextStyle(
-              color: Color(0xFFE5E5E5),
+              color: Colors.black,
               fontFamily: 'Montserrat Regular',
             ),
             onSubmitted: (newValue) {
@@ -353,7 +351,7 @@ class _EditProfileState extends State<EditProfile> {
             child: Text(
               _isEditingText ? _emailController.text : emailg,
               style: TextStyle(
-                  color: Color(0xFFE5E5E5),
+                  color: Colors.black,
                   fontSize: 16.0,
                   fontFamily: "Montserrat Medium"),
             ),
@@ -372,7 +370,7 @@ class _EditProfileState extends State<EditProfile> {
         child: TextField(
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Color(0xFFFFC495),
+            color: Colors.black,
             fontFamily: 'Montserrat Regular',
           ),
           onSubmitted: (newValue) {
@@ -396,8 +394,8 @@ class _EditProfileState extends State<EditProfile> {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 28.0,
-          fontFamily: "Montserrat Bold",
-          color: Color(0xFFFFC495),
+          fontFamily: "Montserrat SemiBold",
+          color: Colors.black,
         ),
       ),
     );

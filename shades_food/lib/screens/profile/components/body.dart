@@ -73,73 +73,76 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Column(
-        children: [
-          Container(
-            height: 70,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  '',
-                  style: const TextStyle(fontSize: 18),
-                ),
-                GestureDetector(
-                    onTap: () {
-                      widget.status(false);
-                    },
-                    child: const Icon(Icons.close))
-              ],
+    return Container(
+      decoration: BoxDecoration(color: Color(0xffFFBC97)),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          children: [
+            Container(
+              height: 70,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    '',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        widget.status(false);
+                      },
+                      child: const Icon(Icons.close))
+                ],
+              ),
             ),
-          ),
-          // ProfilePic(),
-          const SizedBox(height: 20),
-          ProfileMenu(
-            text: "My Account",
-            icon: "assets/icon/User.svg",
-            press: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (builder) => ProfilePage()),
-              )
-            },
-          ),
-          ProfileMenu(
-            text: "My Orders",
-            icon: "assets/icon/Bell.svg",
-            press: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyOrder()));
-            },
-          ),
-          ProfileMenu(
-            text: "Admin",
-            icon: "assets/icon/Settings.svg",
-            press: () {
-              _showLockScreen(
-                context,
-                opaque: false,
-                cancelButton: Text(
-                  'Cancel',
-                  style: const TextStyle(fontSize: 16, color: Colors.white),
-                  semanticsLabel: 'Cancel',
-                ),
-              );
-            },
-          ),
-          ProfileMenu(
-            text: "Log Out",
-            icon: "assets/icon/Log out.svg",
-            press: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => PhoneVerifPage()));
-            },
-          ),
-        ],
+            // ProfilePic(),
+            const SizedBox(height: 20),
+            ProfileMenu(
+              text: "My Account",
+              icon: "assets/icon/User.svg",
+              press: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (builder) => ProfilePage()),
+                )
+              },
+            ),
+            ProfileMenu(
+              text: "My Orders",
+              icon: "assets/icon/Bell.svg",
+              press: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyOrder()));
+              },
+            ),
+            ProfileMenu(
+              text: "Admin",
+              icon: "assets/icon/Settings.svg",
+              press: () {
+                _showLockScreen(
+                  context,
+                  opaque: false,
+                  cancelButton: Text(
+                    'Cancel',
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                    semanticsLabel: 'Cancel',
+                  ),
+                );
+              },
+            ),
+            ProfileMenu(
+              text: "Log Out",
+              icon: "assets/icon/Log out.svg",
+              press: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => PhoneVerifPage()));
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

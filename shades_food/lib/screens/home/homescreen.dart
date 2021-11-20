@@ -51,150 +51,168 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          ProfileScreen(status: onclick),
-          AnimatedContainer(
-            transform: Matrix4.translationValues(xOffset, yOffset, 0)
-              ..scale(scaleFactor)
-              ..rotateY(isDrawerOpen ? 0 : 0),
-            duration: Duration(milliseconds: 250),
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                  color: Color(0xF1DDDDDD),
-                  blurRadius: 10,
-                  spreadRadius: 5,
-                  offset: Offset(0, 4)),
-            ]),
-            child: GestureDetector(
-              onVerticalDragEnd: (DragEndDetails dragEndDetails) {
-                // print(dragEndDetails.velocity.pixelsPerSecond.dx);
-                // print(dragEndDetails.velocity.pixelsPerSecond.dy);
-                if (dragEndDetails.velocity.pixelsPerSecond.dy > 0) {
-                  isDrawerOpen = true;
-                  // print(isDrawerOpen);
-                  onclick(isDrawerOpen);
-                } else {
-                  isDrawerOpen = false;
-                  // print(isDrawerOpen);
-                  onclick(isDrawerOpen);
-                }
-              },
-              child: Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  backgroundColor: Colors.orange,
-                  child: const Icon(
-                    Icons.store,
-                    color: Colors.white,
-                    size: 27,
+      backgroundColor: Color(0xffFFE699),
+      body: Container(
+        child: Stack(
+          children: [
+            ProfileScreen(status: onclick),
+            AnimatedContainer(
+              transform: Matrix4.translationValues(xOffset, yOffset, 0)
+                ..scale(scaleFactor)
+                ..rotateY(isDrawerOpen ? 0 : 0),
+              duration: Duration(milliseconds: 250),
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    color: Color(0xF1DDDDDD),
+                    blurRadius: 10,
+                    spreadRadius: 5,
+                    offset: Offset(0, 4)),
+              ]),
+              child: GestureDetector(
+                onVerticalDragEnd: (DragEndDetails dragEndDetails) {
+                  // print(dragEndDetails.velocity.pixelsPerSecond.dx);
+                  // print(dragEndDetails.velocity.pixelsPerSecond.dy);
+                  if (dragEndDetails.velocity.pixelsPerSecond.dy > 0) {
+                    isDrawerOpen = true;
+                    // print(isDrawerOpen);
+                    onclick(isDrawerOpen);
+                  } else {
+                    isDrawerOpen = false;
+                    // print(isDrawerOpen);
+                    onclick(isDrawerOpen);
+                  }
+                },
+                child: Scaffold(
+                  floatingActionButton: FloatingActionButton(
+                    backgroundColor: Colors.orange,
+                    child: const Icon(
+                      Icons.store,
+                      color: Colors.white,
+                      size: 27,
+                    ),
+                    onPressed: () => {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => CartScreen()))
+                    },
                   ),
-                  onPressed: () => {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CartScreen()))
-                  },
-                ),
-                backgroundColor: const Color.fromRGBO(235, 235, 235, 1),
-                body: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 40),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () => {onclick(!isDrawerOpen)},
-                              child: Card(
-                                  margin: const EdgeInsets.only(left: 15),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  elevation: 10,
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Icon(
-                                      Icons.person,
-                                      size: 30,
-                                      color: Colors.orange,
+                  // backgroundColor: const Color.fromRGBO(235, 235, 235, 1),
+                  backgroundColor: Color(0xffFFE699),
+
+                  body: SingleChildScrollView(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 40),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () => {onclick(!isDrawerOpen)},
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Card(
+                                      margin: const EdgeInsets.only(left: 15),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      elevation: 10,
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(5.0),
+                                        child: Icon(
+                                          Icons.person,
+                                          size: 30,
+                                          color: Colors.orange,
+                                        ),
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        bottom: 4.0,
+                                        top: 20),
+                                    child: const Text(
+                                      "Cafe 96",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Montserrat Bold'),
                                     ),
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20, bottom: 5, top: 20),
-                                  child: const Text(
-                                    "Bika Canteen",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20, bottom: 20),
-                                  child: Text(
-                                    "MNNIT ALLAHABAD",
-                                    style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  Icon(Icons.star,
-                                      color: Colors.white, size: 15),
-                                  Text(
-                                    "4.7",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        bottom: 15.0,
+                                        top: 2.0),
+                                    child: Text(
+                                      "MNNIT ALLAHABAD",
+                                      style: TextStyle(
+                                          color: Colors.grey.shade600,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Montserrat Bold'),
+                                    ),
                                   ),
                                 ],
                               ),
-                              decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      topLeft: Radius.circular(10)),
-                                  color: Colors.green),
-                            )
-                          ],
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 20, right: 20, bottom: 5, top: 20),
-                          child: const Text(
-                            "Dishes Available",
-                            style: TextStyle(
-                                color: Colors.orange,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
+                              Container(
+                                padding: const EdgeInsets.all(15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    Icon(Icons.star,
+                                        color: Colors.white, size: 15),
+                                    Text(
+                                      "4.7",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        topLeft: Radius.circular(10)),
+                                    color: Colors.green),
+                              )
+                            ],
                           ),
-                        ),
-                        UserOrderList()
-                      ],
+                          Container(
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, bottom: 1.0, top: 20),
+                            child: const Text(
+                              "Dishes Available",
+                              style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'MenuIcon'),
+                            ),
+                          ),
+                          UserOrderList()
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
