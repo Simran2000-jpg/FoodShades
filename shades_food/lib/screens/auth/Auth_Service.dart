@@ -80,7 +80,6 @@ class AuthClass {
     try {
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
-
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
 
@@ -89,12 +88,12 @@ class AuthClass {
       String _uid = user == null ? "" : user.uid;
       final DocumentSnapshot snap =
           await FirebaseFirestore.instance.collection('users').doc(_uid).get();
+
       if (!snap.exists) {
-        await FirebaseFirestore.instance.collection("users").doc(_uid).set({
-          'phone': _phone,
-          'name': "Enter your name",
-          'email': "Enter your email"
-        });
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(_uid)
+            .set({'phone': _phone, 'name': "Anonymous", 'email': "unknown"});
       }
       Navigator.pushAndRemoveUntil(
           context,
@@ -108,9 +107,10 @@ class AuthClass {
   }
 
   void showSnackBar(BuildContext context, String text) {
-    final snackBar = SnackBar(
-      content: Text(text.toString()),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    // final snackBar = SnackBar(
+    //   content: Text(text.toString()),
+    // );
+    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    print(text);
   }
 }

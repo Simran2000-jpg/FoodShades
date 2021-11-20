@@ -37,6 +37,7 @@ class _AdminScreenState extends State<AdminScreen> {
           child: Text('ADD ITEM'),
         ),
         appBar: AppBar(
+          backgroundColor: Colors.orange,
           elevation: 15,
           title: Text("ADMIN"),
           centerTitle: true,

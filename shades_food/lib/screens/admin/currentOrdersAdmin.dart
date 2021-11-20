@@ -11,40 +11,48 @@ class CurrentOrdersAdmin extends StatefulWidget {
 class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 40),
-        padding: const EdgeInsets.all(10),
-        child: Column(children: [
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('CurrentOrders')
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Something went wrong');
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text("Loading");
-                  }
-                  return snapshot.hasData
-                      ? ListView(
-                          shrinkWrap: true,
-                          children: snapshot.data!.docs.map((document) {
-                            return OrderItem(document);
-                          }).toList(),
-                        )
-                      : Text('problem');
-                }),
-          )
-        ]));
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+            margin: const EdgeInsets.only(top: 40),
+            padding: const EdgeInsets.all(10),
+            child: Column(children: [
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('CurrentOrders')
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Something went wrong');
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text("Loading");
+                      }
+                      return snapshot.hasData
+                          ? ListView(
+                              shrinkWrap: true,
+                              children: snapshot.data!.docs.map((document) {
+                                return OrderItem(document);
+                              }).toList(),
+                            )
+                          : Text('problem');
+                    }),
+              )
+            ])),
+      ),
+    );
   }
 
   Widget OrderItem(QueryDocumentSnapshot document) {
+    var totalprice = document['totalprice'];
+    String customer_name = document['customer_name'];
+    String customer_phone = document['customer_phnno'];
+    int orderno = document['orderno'];
     return Card(
       elevation: 8,
       clipBehavior: Clip.antiAlias,
@@ -54,16 +62,55 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Total Price: Rs${document['totalprice']}'),
-                Text('Total Price: Rs${document['totalprice']}'),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('OderNo. ${orderno}'),
+                  Text('Total Price: Rs ${totalprice}'),
+                  Text('Customer Name: Rs ${customer_name}'),
+                  Text('Customer Phn Number: Rs ${customer_phone}'),
+                  listOfItems(document),
+                ],
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget listOfItems(QueryDocumentSnapshot document) {
+    List<dynamic> mp = document['dishandcount'];
+    return ExpansionTile(
+      title: Text('List of Items Ordered'),
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Text('ITEM'),
+            Text('COUNT'),
+          ],
+        ),
+        Divider(height: 1),
+        ListView.separated(
+          shrinkWrap: true,
+          itemCount: mp.length,
+          separatorBuilder: (BuildContext context, int index) {
+            return SizedBox(height: 10);
+          },
+          itemBuilder: (context, index) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text(mp[index]['name']),
+                SizedBox(width: 20),
+                Text(mp[index]['count']),
+              ],
+            );
+          },
+        )
+      ],
     );
   }
 }

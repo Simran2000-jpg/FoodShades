@@ -41,6 +41,8 @@ class _FoodDetailState extends State<FoodDetail> {
     var udata = FirebaseAuth.instance.currentUser;
     // print(udata!.uid);
     // print(widget.id);
+    // print("-------------------------------------------------------------" +
+    //     udata!.uid);
     final Query cart = snap
         .where("userid", isEqualTo: udata!.uid)
         .where("dishid", isEqualTo: widget.id.toString().trim());

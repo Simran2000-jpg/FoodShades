@@ -32,6 +32,7 @@ class _PaymentState extends State<Payment> {
     razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
     razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerPaymentError);
     razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+    razorpay.on(Razorpay.PAYMENT_CANCELLED.toString(), handlerCancelPayment);
   }
 
   @override
@@ -65,19 +66,39 @@ class _PaymentState extends State<Payment> {
 
   void handlerPaymentSuccess(PaymentSuccessResponse response) async {
     //When payment is successfully completed
-    var userid = "";
-    Map<String, int> mp = {};
+    String userid = "";
+    var c = await FirebaseFirestore.instance
+        .collection('OrderNo')
+        .doc('OrderCount')
+        .get();
+    int count = c.get('current');
+    await FirebaseFirestore.instance
+        .collection('OrderNo')
+        .doc('OrderCount')
+        .set({'current': count + 1});
+    var customer;
+    List<Map<String, String>> mp = [];
     for (var it in widget.cartid) {
       var v = await FirebaseFirestore.instance.collection("cart").doc(it).get();
-      mp[v.get("dishid")] = v.get("count");
+      var dish = await FirebaseFirestore.instance
+          .collection('Dish')
+          .doc(v.get("dishid"))
+          .get();
+      mp.add({"name": dish.get('name'), "count": v.get("count").toString()});
       userid = v.get("userid");
+      customer = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid)
+          .get();
       FirebaseFirestore.instance.collection("cart").doc(it).delete();
     }
     FirebaseFirestore.instance.collection("CurrentOrders").add({
       "dishandcount": mp,
       "totalprice": widget.price,
-      "userid": userid,
+      "customer_name": customer.get('name'),
+      "customer_phnno": customer.get('phone'),
       "time": DateTime.now(),
+      "orderno": count,
     });
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => OrderPage()));
@@ -90,6 +111,10 @@ class _PaymentState extends State<Payment> {
 
   void handlerExternalWallet() {
     print("External Wallet");
+  }
+
+  void handlerCancelPayment() {
+    Navigator.pop(context);
   }
 
   @override
