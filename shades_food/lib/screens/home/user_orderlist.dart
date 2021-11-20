@@ -45,6 +45,8 @@ class _UserOrderListState extends State<UserOrderList> {
                                           title: document['name'],
                                           price: document['price'],
                                           description: document['description'],
+                                          time: document['time'],
+                                          rate: document['rating'],
                                         )))
                           },
                           child: FoodTile(

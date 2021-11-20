@@ -24,10 +24,12 @@ class _FoodTileState extends State<FoodTile> {
         child: Row(
           children: [
             Container(
+              width: MediaQuery.of(context).size.width * 0.4,
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Image.network(
                 widget.image,
                 height: 100,
+                fit: BoxFit.fill,
               ),
             ),
             Container(

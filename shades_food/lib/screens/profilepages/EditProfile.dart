@@ -109,6 +109,7 @@ class _EditProfileState extends State<EditProfile> {
                     profImagePath); //saves and updates the changes in dashboard..
               Toast.show("Changes Saved", context,
                   duration: Toast.LENGTH_SHORT);
+              Navigator.pop(context);
             },
           ),
         ],
