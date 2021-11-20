@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image/image.dart' as Im;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shades_food/screens/customText.dart';
 //import 'package:shades_food/screens/auth/SignInPage.dart';
 import 'package:shades_food/splashscreen.dart';
 import 'package:uuid/uuid.dart';
@@ -212,7 +214,7 @@ class _UploadState extends State<Upload> {
           ),
           ListTile(
             leading: Icon(
-              Icons.description,
+              Icons.people,
               color: Colors.orange,
               size: 35.0,
             ),
@@ -232,7 +234,7 @@ class _UploadState extends State<Upload> {
           Divider(),
           ListTile(
             leading: Icon(
-              Icons.description,
+              Icons.money,
               color: Colors.orange,
               size: 35.0,
             ),
@@ -260,6 +262,8 @@ class _UploadState extends State<Upload> {
             title: Container(
               width: 250,
               child: TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
                 onChanged: (value) {
                   _description = value;
                 },
@@ -273,18 +277,23 @@ class _UploadState extends State<Upload> {
           Divider(),
           ListTile(
             leading: Icon(
-              Icons.description,
+              Icons.timelapse,
               color: Colors.orange,
               size: 35.0,
             ),
             title: Container(
               width: 250,
               child: TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  NumericalRangeFormatter(min: 0.00, max: 2.60),
+                  LengthLimitingTextInputFormatter(4),
+                ],
                 onChanged: (value) {
                   _time = value;
                 },
                 decoration: InputDecoration(
-                  hintText: "Time",
+                  hintText: "Time (in hr)",
                   border: InputBorder.none,
                 ),
               ),
@@ -293,18 +302,23 @@ class _UploadState extends State<Upload> {
           Divider(),
           ListTile(
             leading: Icon(
-              Icons.description,
+              Icons.rate_review_outlined,
               color: Colors.orange,
               size: 35.0,
             ),
             title: Container(
               width: 250,
               child: TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  NumericalRangeFormatter(min: 0.0, max: 5.0),
+                  LengthLimitingTextInputFormatter(3),
+                ],
                 onChanged: (value) {
                   _rating = value;
                 },
                 decoration: InputDecoration(
-                  hintText: "Rating",
+                  hintText: "Rating (0.0-5.0)",
                   border: InputBorder.none,
                 ),
               ),

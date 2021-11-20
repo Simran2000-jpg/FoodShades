@@ -64,6 +64,7 @@ dependencies:
   anim_search_bar: ^2.0.2
   rating_dialog: ^2.0.3
   dio: ^4.0.3
+  date_time_picker: ^2.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
