@@ -61,14 +61,20 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('OderNo. ${orderno}'),
+                  Text(
+                    'OderNo. ${orderno}',
+                    style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green),
+                  ),
                   Text('Total Price: Rs ${totalprice}'),
-                  Text('Customer Name: Rs ${customer_name}'),
+                  Text('Customer Name: ${customer_name}'),
                   Text('Customer Phn Number: Rs ${customer_phone}'),
                   listOfItems(document),
                 ],
@@ -102,6 +108,7 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
           itemBuilder: (context, index) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(mp[index]['name']),
                 SizedBox(width: 20),

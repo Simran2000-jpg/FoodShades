@@ -22,51 +22,103 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        // backgroundColor: const Color(0xffFFF9B6),
-        body: Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage("assets/bg2.jpg"),
-        fit: BoxFit.cover,
-      )),
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TweenAnimationBuilder(
-            tween: _sizeTween,
-            duration: Duration(milliseconds: 1000),
-            builder: (_, size, __) {
-              return Container(
-                height: size as double,
-                width: size,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                  image: AssetImage('assets/saute.png'),
-                  fit: BoxFit.fill,
-                )),
-              );
-            },
-          ),
-          const SizedBox(
-            height: 3,
-          ),
-          Shimmer.fromColors(
-            baseColor: Color(0xFF1E1E29),
-            highlightColor: Color(0xFFFFF7C6),
-            child: const Text(
-              "FOODSHADES",
-              style: TextStyle(
-                fontFamily: 'Montserrat Bold',
-                color: Color(0xFF1E1E29),
-                fontSize: 18,
-                letterSpacing: 1.5,
+    return Stack(
+      children: [
+        Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+          image: AssetImage("assets/bg2.jpg"),
+          fit: BoxFit.cover,
+        ))),
+        Scaffold(
+            backgroundColor: Colors.transparent,
+            // backgroundColor: const Color(0xffFFF9B6),
+            body: Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TweenAnimationBuilder(
+                    tween: _sizeTween,
+                    duration: Duration(milliseconds: 1000),
+                    builder: (_, size, __) {
+                      return Container(
+                        height: size as double,
+                        width: size,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                          image: AssetImage('assets/saute.png'),
+                          fit: BoxFit.fill,
+                        )),
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Shimmer.fromColors(
+                    baseColor: Color(0xFF1E1E29),
+                    highlightColor: Color(0xFFFFF7C6),
+                    child: const Text(
+                      "FOODSHADES",
+                      style: TextStyle(
+                        fontFamily: 'Montserrat Bold',
+                        color: Color(0xFF1E1E29),
+                        fontSize: 18,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ),
-        ],
-      ),
-    ));
+            )),
+      ],
+    );
   }
 }
+// Scaffold(
+//         // backgroundColor: const Color(0xffFFF9B6),
+//         body: Container(
+//       decoration: BoxDecoration(
+//           image: DecorationImage(
+//         image: AssetImage("assets/bg2.jpg"),
+//         fit: BoxFit.cover,
+//       )),
+//       alignment: Alignment.center,
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           TweenAnimationBuilder(
+//             tween: _sizeTween,
+//             duration: Duration(milliseconds: 1000),
+//             builder: (_, size, __) {
+//               return Container(
+//                 height: size as double,
+//                 width: size,
+//                 decoration: const BoxDecoration(
+//                     image: DecorationImage(
+//                   image: AssetImage('assets/saute.png'),
+//                   fit: BoxFit.fill,
+//                 )),
+//               );
+//             },
+//           ),
+//           const SizedBox(
+//             height: 3,
+//           ),
+//           Shimmer.fromColors(
+//             baseColor: Color(0xFF1E1E29),
+//             highlightColor: Color(0xFFFFF7C6),
+//             child: const Text(
+//               "FOODSHADES",
+//               style: TextStyle(
+//                 fontFamily: 'Montserrat Bold',
+//                 color: Color(0xFF1E1E29),
+//                 fontSize: 18,
+//                 letterSpacing: 1.5,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     ));

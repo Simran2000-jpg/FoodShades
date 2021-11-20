@@ -3,17 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shades_food/screens/admin/editAdminScreen.dart';
 
 import '../../splashscreen.dart';
 
-class Admin_OrderList extends StatefulWidget {
-  const Admin_OrderList({Key? key}) : super(key: key);
+class Admin_DishList extends StatefulWidget {
+  const Admin_DishList({Key? key}) : super(key: key);
 
   @override
-  _Admin_OrderListState createState() => _Admin_OrderListState();
+  _Admin_DishListState createState() => _Admin_DishListState();
 }
 
-class _Admin_OrderListState extends State<Admin_OrderList> {
+class _Admin_DishListState extends State<Admin_DishList> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,7 +72,15 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                editItem(document);
+
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                                // Navigator.of(context).push(MaterialPageRoute(
+                                //     builder: (BuildContext context) =>
+                                //         EditAdminScreen()));
+                              },
                               child: Text('EDIT'),
                               style: TextButton.styleFrom(
                                 primary: Colors.white,
@@ -99,7 +108,7 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
             Ink.image(
               image: NetworkImage(document['imageurl']),
               height: 240,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -127,6 +136,18 @@ class _Admin_OrderListState extends State<Admin_OrderList> {
     } catch (e) {
       print(e);
     }
+  }
+
+  void editItem(QueryDocumentSnapshot document) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => EditAdminScreen(
+              name: document['name'],
+              price: document['price'],
+              time: document['price'],
+              description: document['description'],
+              imageurl: document['imageurl'],
+              dishid: document.id,
+            )));
   }
 
   void showSnackBar(BuildContext context, String text) {
