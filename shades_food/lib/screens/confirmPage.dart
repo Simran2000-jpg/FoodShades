@@ -92,12 +92,23 @@ class _ConfirmPageState extends State<ConfirmPage> {
       submitButtonText: 'Submit',
       onCancelled: () => print('cancelled'),
       onSubmitted: (response) async {
+        var customer_id = _auth.currentUser!.uid;
+        var customer = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(customer_id)
+            .get();
         print('rating: ${response.rating}, '
             'comment: ${response.comment}');
+        var num = await FirebaseFirestore.instance
+            .collection('OrderNo')
+            .doc('OrderCount')
+            .get();
         await FirebaseFirestore.instance.collection('FeedBack').add({
           'rating': response.rating,
           'comment': response.comment,
           'customer_id': _auth.currentUser!.uid,
+          'orderno': num.get('current') - 1,
+          'customer_name': customer.get('name'),
         });
         var r = await FirebaseFirestore.instance
             .collection('Rating')

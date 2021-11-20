@@ -81,12 +81,11 @@ class _PaymentState extends State<Payment> {
     List<Map<String, String>> mp = [];
     for (var it in widget.cartid) {
       var v = await FirebaseFirestore.instance.collection("cart").doc(it).get();
-      var dish = await FirebaseFirestore.instance
-          .collection('Dish')
-          .doc(v.get("dishid"))
-          .get();
+      var dishid = await v.get('dishid');
+      var dish =
+          await FirebaseFirestore.instance.collection('Dish').doc(dishid).get();
       int t = int.parse(dish.get('time'));
-      int c = v.get('count');
+      int c = await v.get('count');
       totaltime += t * c;
       mp.add({"name": dish.get('name'), "count": v.get("count").toString()});
       userid = v.get("userid");
