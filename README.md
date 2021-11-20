@@ -61,7 +61,6 @@ restaurant side.
 16. Cached Network Image 3.0.0: To store and retreive image.
 #### ***Front End :***
 * Flutter (Dart Programming Language)
-* Adobe XD - UI/Prototype
 
 #### ***Back End :***
 * Firebase/Firestore
