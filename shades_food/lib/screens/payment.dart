@@ -32,6 +32,7 @@ class _PaymentState extends State<Payment> {
     razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
     razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerPaymentError);
     razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+    razorpay.on(Razorpay.PAYMENT_CANCELLED.toString(), handlerCancelPayment);
   }
 
   @override
@@ -66,15 +67,24 @@ class _PaymentState extends State<Payment> {
   void handlerPaymentSuccess(PaymentSuccessResponse response) async {
     //When payment is successfully completed
     String userid = "";
+    var c = await FirebaseFirestore.instance
+        .collection('OrderNo')
+        .doc('OrderCount')
+        .get();
+    int count = c.get('current');
+    await FirebaseFirestore.instance
+        .collection('OrderNo')
+        .doc('OrderCount')
+        .set({'current': count + 1});
     var customer;
-    Map<String, int> mp = {};
+    List<Map<String, String>> mp = [];
     for (var it in widget.cartid) {
       var v = await FirebaseFirestore.instance.collection("cart").doc(it).get();
       var dish = await FirebaseFirestore.instance
           .collection('Dish')
           .doc(v.get("dishid"))
           .get();
-      mp[dish.get('name')] = v.get("count");
+      mp.add({"name": dish.get('name'), "count": v.get("count").toString()});
       userid = v.get("userid");
       customer = await FirebaseFirestore.instance
           .collection('users')
@@ -86,8 +96,9 @@ class _PaymentState extends State<Payment> {
       "dishandcount": mp,
       "totalprice": widget.price,
       "customer_name": customer.get('name'),
-      "cutomer_phnno": customer.get('phone'),
+      "customer_phnno": customer.get('phone'),
       "time": DateTime.now(),
+      "orderno": count,
     });
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => OrderPage()));
@@ -100,6 +111,10 @@ class _PaymentState extends State<Payment> {
 
   void handlerExternalWallet() {
     print("External Wallet");
+  }
+
+  void handlerCancelPayment() {
+    Navigator.pop(context);
   }
 
   @override
