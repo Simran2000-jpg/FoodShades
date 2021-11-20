@@ -9,6 +9,7 @@ import 'package:shades_food/order.dart';
 import 'package:shades_food/screens/admin/adminscreen.dart';
 import 'package:shades_food/screens/auth/PhoneVerifPage.dart';
 import 'package:shades_food/screens/confirmPage.dart';
+import 'package:shades_food/screens/feedbacks/feedback.dart';
 import 'package:shades_food/screens/home/drawerstatus.dart';
 import 'package:shades_food/screens/home/myorders.dart';
 import 'package:shades_food/screens/profilepages/Dashboard.dart';
@@ -130,6 +131,14 @@ class _BodyState extends State<Body> {
                     semanticsLabel: 'Cancel',
                   ),
                 );
+              },
+            ),
+            ProfileMenu(
+              text: "Feedbacks",
+              icon: "assets/icon/Bell.svg",
+              press: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FeedBackScreen()));
               },
             ),
             ProfileMenu(
