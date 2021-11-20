@@ -286,14 +286,13 @@ class _UploadState extends State<Upload> {
               child: TextField(
                 keyboardType: TextInputType.number,
                 inputFormatters: [
-                  NumericalRangeFormatter(min: 0.00, max: 2.60),
                   LengthLimitingTextInputFormatter(4),
                 ],
                 onChanged: (value) {
                   _time = value;
                 },
                 decoration: InputDecoration(
-                  hintText: "Time (in hr)",
+                  hintText: "Time (in min)",
                   border: InputBorder.none,
                 ),
               ),

@@ -125,11 +125,11 @@ class _BodyState extends State<Body> {
                 _showLockScreen(
                   context,
                   opaque: false,
-                  cancelButton: Text(
-                    'Cancel',
-                    style: const TextStyle(fontSize: 16, color: Colors.white),
-                    semanticsLabel: 'Cancel',
-                  ),
+                  cancelButton: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('CANCEL')),
                 );
               },
             ),

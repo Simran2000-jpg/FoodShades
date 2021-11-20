@@ -111,7 +111,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'OderNo. ${orderno}',
+                    'OrderNo. ${orderno}',
                     style: TextStyle(
                         fontSize: 25.0,
                         fontWeight: FontWeight.bold,

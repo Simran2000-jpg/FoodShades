@@ -7,6 +7,7 @@ import 'package:shades_food/screens/admin/additemAdmin.dart';
 import 'package:shades_food/screens/admin/adminscreen.dart';
 import 'package:shades_food/screens/confirmPage.dart';
 import 'package:shades_food/screens/home/homescreen.dart';
+import 'package:shades_food/screens/payment.dart';
 import 'package:shades_food/splashscreen.dart';
 
 void main() async {
