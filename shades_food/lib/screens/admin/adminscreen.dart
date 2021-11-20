@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/admin/additemAdmin.dart';
-import 'package:shades_food/screens/admin/admin_orderlist.dart';
+import 'package:shades_food/screens/admin/admin_dishlist.dart';
 import 'package:shades_food/screens/admin/currentOrdersAdmin.dart';
 
 import '../../splashscreen.dart';
@@ -53,15 +53,15 @@ class _AdminScreenState extends State<AdminScreen> {
           ],
           bottom: TabBar(tabs: [
             Tab(
-              text: 'Dishes',
+              text: 'DISHES',
             ),
             Tab(
-              text: 'Current Orders',
+              text: 'CURRENT ORDERS',
             )
           ]),
         ),
         body: TabBarView(
-          children: [Admin_OrderList(), CurrentOrdersAdmin()],
+          children: [Admin_DishList(), CurrentOrdersAdmin()],
         ),
       ),
     );
