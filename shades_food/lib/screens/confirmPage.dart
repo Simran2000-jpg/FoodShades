@@ -1,7 +1,12 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shades_food/screens/contact.dart';
+import 'package:shades_food/screens/home/homescreen.dart';
 
 class ConfirmPage extends StatefulWidget {
   @override
@@ -9,6 +14,7 @@ class ConfirmPage extends StatefulWidget {
 }
 
 class _ConfirmPageState extends State<ConfirmPage> {
+  var _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +65,17 @@ class _ConfirmPageState extends State<ConfirmPage> {
     );
   }
 
+  double roundOffToXDecimal(double number, {int numberOfDecimal = 1}) {
+    // To prevent number that ends with 5 not round up correctly in Dart (eg: 2.275 round off to 2.27 instead of 2.28)
+    String numbersAfterDecimal = number.toString().split('.')[1];
+    if (numbersAfterDecimal != '0') {
+      int existingNumberOfDecimal = numbersAfterDecimal.length;
+      number += 1 / (10 * pow(10, existingNumberOfDecimal));
+    }
+
+    return double.parse(number.toStringAsFixed(numberOfDecimal));
+  }
+
   void _showRatingAppDialog() {
     final _ratingDialog = RatingDialog(
       // ratingColor: Colors.amber,
@@ -74,15 +91,35 @@ class _ConfirmPageState extends State<ConfirmPage> {
       ),
       submitButtonText: 'Submit',
       onCancelled: () => print('cancelled'),
-      onSubmitted: (response) {
+      onSubmitted: (response) async {
         print('rating: ${response.rating}, '
             'comment: ${response.comment}');
-
-        if (response.rating < 3.0) {
-          print('response.rating: ${response.rating}');
-        } else {
-          Container();
-        }
+        await FirebaseFirestore.instance.collection('FeedBack').add({
+          'rating': response.rating,
+          'comment': response.comment,
+          'customer_id': _auth.currentUser!.uid,
+        });
+        var r = await FirebaseFirestore.instance
+            .collection('Rating')
+            .doc('CurrentRating')
+            .get();
+        double rating = r.get('rating');
+        rating = (rating * 5 + response.rating) / 6;
+        var rrating = roundOffToXDecimal(rating);
+        rating.truncateToDouble();
+        await FirebaseFirestore.instance
+            .collection('Rating')
+            .doc('CurrentRating')
+            .set({'rating': rrating});
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+            (route) => false);
+        // if (response.rating < 3.0) {
+        //   print('response.rating: ${response.rating}');
+        // } else {
+        //   Container();
+        // }
       },
     );
 

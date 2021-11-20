@@ -22,6 +22,7 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
+  int totaltime = 0;
   Razorpay razorpay = Razorpay();
   TextEditingController textEditingController = TextEditingController();
   @override
@@ -84,6 +85,9 @@ class _PaymentState extends State<Payment> {
           .collection('Dish')
           .doc(v.get("dishid"))
           .get();
+      int t = int.parse(dish.get('time'));
+      int c = v.get('count');
+      totaltime += t * c;
       mp.add({"name": dish.get('name'), "count": v.get("count").toString()});
       userid = v.get("userid");
       customer = await FirebaseFirestore.instance
@@ -97,12 +101,17 @@ class _PaymentState extends State<Payment> {
       "totalprice": widget.price,
       "customer_name": customer.get('name'),
       "customer_phnno": customer.get('phone'),
+      "totaltime": totaltime,
       "time": DateTime.now(),
       "orderno": count,
       "userid": userid,
     });
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => OrderPage()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => OrderPage(
+                  totaltime: totaltime,
+                )));
     print("Payment Success");
   }
 

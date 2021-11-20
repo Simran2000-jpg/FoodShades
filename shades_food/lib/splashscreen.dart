@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage("assets/bg6.jpg"),
+        image: AssetImage("assets/images/bg3.jpg"),
         fit: BoxFit.cover,
       )),
       alignment: Alignment.center,
@@ -53,14 +53,14 @@ class _SplashScreenState extends State<SplashScreen> {
             height: 3,
           ),
           Shimmer.fromColors(
-            baseColor: Color(0xFF1E1E29),
-            highlightColor: Color(0xFFFFF7C6),
+            baseColor: Colors.white,
+            highlightColor: Colors.white,
             child: const Text(
               "FOODSHADES",
               style: TextStyle(
                 fontFamily: 'Montserrat Bold',
-                color: Color(0xFF1E1E29),
-                fontSize: 18,
+                color: Colors.white,
+                fontSize: 40,
                 letterSpacing: 1.5,
               ),
             ),
