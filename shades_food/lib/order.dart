@@ -14,16 +14,19 @@ import 'package:shades_food/screens/confirmPage.dart';
 import 'notifications.dart';
 
 class OrderPage extends StatefulWidget {
-  const OrderPage({Key? key}) : super(key: key);
+  int totaltime = 0;
+  OrderPage({Key? key, required this.totaltime}) : super(key: key);
 
   @override
   _OrderPageState createState() => _OrderPageState();
 }
 
 class _OrderPageState extends State<OrderPage> {
+  int totaltime = 0;
   @override
   void initState() {
     // TODO: implement initState
+    totaltime = widget.totaltime;
     super.initState();
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
@@ -156,9 +159,11 @@ class _OrderPageState extends State<OrderPage> {
                     // ),
                   ),
                   CircularCountDownTimer(
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.height / 2,
-                    duration: 14,
+                    isReverseAnimation: true,
+                    isReverse: true,
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    height: MediaQuery.of(context).size.height / 1.5,
+                    duration: totaltime,
                     fillColor: Colors.amber,
                     ringColor: Colors.white,
                     controller: _controller,
@@ -166,7 +171,6 @@ class _OrderPageState extends State<OrderPage> {
                     strokeWidth: 10.0,
                     strokeCap: StrokeCap.round,
                     isTimerTextShown: true,
-                    isReverse: false,
                     onComplete: () {
                       createFoodNotifications();
                       Navigator.pushReplacement(

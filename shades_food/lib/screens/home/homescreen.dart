@@ -1,4 +1,5 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/cart/cart_screen.dart';
@@ -13,10 +14,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String rating = "-";
   bool isDrawerOpen = false;
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
+  void getRating() async {
+    var r = await FirebaseFirestore.instance
+        .collection('Rating')
+        .doc('CurrentRating')
+        .get();
+    setState(() {
+      rating = (r.get('rating')).toString();
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -26,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.pop(context);
     }
     super.initState();
+    getRating();
   }
 
   void onclick(status) {
@@ -96,118 +109,129 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                   // backgroundColor: const Color.fromRGBO(235, 235, 235, 1),
-                  backgroundColor: Color(0xffFFE699),
+                  // backgroundColor: Color(0xff000000),
 
-                  body: SingleChildScrollView(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 40),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: () => {onclick(!isDrawerOpen)},
-                                child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Card(
-                                      margin: const EdgeInsets.only(left: 15),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      elevation: 10,
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: Icon(
-                                          Icons.person,
-                                          size: 30,
-                                          color: Colors.orange,
-                                        ),
-                                      )),
+                  body: Stack(children: [
+                    Container(
+                      color: Colors.white,
+
+                      // decoration: BoxDecoration(
+                      //         image: DecorationImage(
+                      //   image: AssetImage("assets/bgsp.jpg"),
+                      //   fit: BoxFit.cover,
+                      // ))
+                    ),
+                    SingleChildScrollView(
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 40),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () => {onclick(!isDrawerOpen)},
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Card(
+                                        margin: const EdgeInsets.only(left: 15),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        elevation: 10,
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(5.0),
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 30,
+                                            color: Colors.orange,
+                                          ),
+                                        )),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 20.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        bottom: 4.0,
-                                        top: 20),
-                                    child: const Text(
-                                      "Cafe 96",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Montserrat Bold'),
+                              ],
+                            ),
+                            SizedBox(height: 20.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 20,
+                                          right: 20,
+                                          bottom: 4.0,
+                                          top: 20),
+                                      child: const Text(
+                                        "Cafe 96",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Montserrat Bold'),
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        bottom: 15.0,
-                                        top: 2.0),
-                                    child: Text(
-                                      "MNNIT ALLAHABAD",
-                                      style: TextStyle(
-                                          color: Colors.grey.shade600,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Montserrat Bold'),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(15),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Icon(Icons.star,
-                                        color: Colors.white, size: 15),
-                                    Text(
-                                      "4.7",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 20,
+                                          right: 20,
+                                          bottom: 15.0,
+                                          top: 2.0),
+                                      child: Text(
+                                        "MNNIT ALLAHABAD",
+                                        style: TextStyle(
+                                            color: Colors.grey.shade600,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Montserrat Bold'),
+                                      ),
                                     ),
                                   ],
                                 ),
-                                decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(10),
-                                        topLeft: Radius.circular(10)),
-                                    color: Colors.green),
-                              )
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, bottom: 1.0, top: 20),
-                            child: const Text(
-                              "Dishes Available",
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'MenuIcon'),
+                                Container(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Icon(Icons.star,
+                                          color: Colors.white, size: 15),
+                                      Text(
+                                        rating,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      color: Colors.green),
+                                )
+                              ],
                             ),
-                          ),
-                          UserOrderList()
-                        ],
+                            Container(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 1.0, top: 20),
+                              child: const Text(
+                                "Dishes Available",
+                                style: TextStyle(
+                                    color: Colors.orange,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'MenuIcon'),
+                              ),
+                            ),
+                            UserOrderList()
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ]),
                 ),
               ),
             ),
