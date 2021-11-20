@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shades_food/screens/cart/cart_screen.dart';
@@ -95,7 +96,10 @@ class _PaymentState extends State<Payment> {
           .get();
       FirebaseFirestore.instance.collection("cart").doc(it).delete();
     }
-    FirebaseFirestore.instance.collection("CurrentOrders").add({
+    FirebaseFirestore.instance
+        .collection("CurrentOrders")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({
       "dishandcount": mp,
       "totalprice": widget.price,
       "customer_name": customer.get('name'),
@@ -105,6 +109,7 @@ class _PaymentState extends State<Payment> {
       "orderno": count,
       "userid": userid,
     });
+
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -129,25 +134,61 @@ class _PaymentState extends State<Payment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Razor Pay"),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(30.0),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Your Total Amount is Rs${widget.price}',
-                style: TextStyle(fontSize: 40.0),
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    openCheckout();
-                  },
-                  child: Text("PAY")),
-            ]),
+      backgroundColor: Colors.grey,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            child: Padding(
+              padding: EdgeInsets.all(30.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 230.0,
+                      width: 300.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 10.0),
+                        borderRadius: BorderRadius.circular(100),
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/money.jpg'),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'Your Total Amount is To Pay is:',
+                      style: TextStyle(
+                        fontSize: 30.0,
+                      ),
+                    ),
+                    Text(
+                      'Rs ${widget.price}',
+                      style:
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 100.0,
+                      height: 50.0,
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            )),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.green),
+                          ),
+                          onPressed: () {
+                            openCheckout();
+                          },
+                          child: Text("PAY")),
+                    ),
+                  ]),
+            ),
+          ),
+        ],
       ),
     );
+    ;
   }
 }

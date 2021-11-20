@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:foodshades/confirm.dart';
 import 'package:awesome_notifications/src/awesome_notifications_core.dart';
@@ -171,9 +173,13 @@ class _OrderPageState extends State<OrderPage> {
                     strokeWidth: 10.0,
                     strokeCap: StrokeCap.round,
                     isTimerTextShown: true,
-                    onComplete: () {
+                    onComplete: () async {
+                      await FirebaseFirestore.instance
+                          .collection('CurrentOrders')
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .delete();
                       createFoodNotifications();
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (builder) => ConfirmPage()));
