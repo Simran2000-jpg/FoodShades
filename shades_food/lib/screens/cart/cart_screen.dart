@@ -153,122 +153,152 @@ class _CartScreenState extends State<CartScreen> {
                   ? Container(
                       child: (Text("Loading")),
                     )
-                  : Expanded(
-                      child: ListView.builder(
-                        itemCount: datas.length,
-                        itemBuilder: (context, index) {
-                          // counter = fcnt[index];
-                          return Container(
-                            // color: Colors.amber,
-                            margin: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.03),
-                            child: Container(
-                                margin: EdgeInsets.only(bottom: 20),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      child: Image.asset(
-                                        "assets/astro.png",
-                                        height: 100,
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Container(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            // ignore: prefer_const_literals_to_create_immutables
-                                            children: [
-                                              Text(
-                                                datas[index]["name"],
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w800,
-                                                    fontSize: 20),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  '\u{20B9}${datas[index]["price"]}',
-                                                  // textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                      fontSize: 15,
-                                                      color: Colors.orange),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                  : (datas.length > 0)
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: datas.length,
+                            itemBuilder: (context, index) {
+                              // counter = fcnt[index];
+                              return Container(
+                                // color: Colors.amber,
+                                margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.03),
+                                child: Container(
+                                    margin: EdgeInsets.only(bottom: 20),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: Offset(0,
+                                              3), // changes position of shadow
                                         ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.06),
-                                              height: 35,
-                                              width: 35,
-                                              decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      255, 242, 230, .7),
-                                                  border: Border.all(
-                                                      color: Colors.orange,
-                                                      width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7)),
-                                              child: GestureDetector(
-                                                child: Icon(Icons.remove),
-                                                onTap: () =>
-                                                    {totalpricedec(index)},
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 4),
-                                              child: Text(
-                                                  (fcnt[index]).toString()),
-                                            ),
-                                            Container(
-                                              alignment: Alignment.center,
-                                              height: 35,
-                                              width: 35,
-                                              decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      255, 242, 230, .7),
-                                                  border: Border.all(
-                                                      color: Colors.orange,
-                                                      width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7)),
-                                              child: GestureDetector(
-                                                // padding: EdgeInsets.all(25),
-                                                // alignment: Alignment.center,
-                                                child: Icon(Icons.add),
-                                                onTap: () =>
-                                                    {totalpriceinc(index)},
-                                              ),
-                                            ),
-                                          ],
-                                        )
                                       ],
                                     ),
-                                  ],
-                                )),
-                          );
-                        },
-                      ),
-                    )
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Image.network(
+                                            datas[index]["imageurl"],
+                                            height: 100,
+                                          ),
+                                        ),
+                                        Column(
+                                          children: [
+                                            Container(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                // ignore: prefer_const_literals_to_create_immutables
+                                                children: [
+                                                  Text(
+                                                    datas[index]["name"],
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w800,
+                                                        fontSize: 20),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      '\u{20B9}${datas[index]["price"]}',
+                                                      // textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w800,
+                                                          fontSize: 15,
+                                                          color: Colors.orange),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  margin: EdgeInsets.only(
+                                                      left:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.06),
+                                                  height: 35,
+                                                  width: 35,
+                                                  decoration: BoxDecoration(
+                                                      color: Color.fromRGBO(
+                                                          255, 242, 230, .7),
+                                                      border: Border.all(
+                                                          color: Colors.orange,
+                                                          width: 1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              7)),
+                                                  child: GestureDetector(
+                                                    child: Icon(Icons.remove),
+                                                    onTap: () =>
+                                                        {totalpricedec(index)},
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 4),
+                                                  child: Text(
+                                                      (fcnt[index]).toString()),
+                                                ),
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  height: 35,
+                                                  width: 35,
+                                                  decoration: BoxDecoration(
+                                                      color: Color.fromRGBO(
+                                                          255, 242, 230, .7),
+                                                      border: Border.all(
+                                                          color: Colors.orange,
+                                                          width: 1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              7)),
+                                                  child: GestureDetector(
+                                                    // padding: EdgeInsets.all(25),
+                                                    // alignment: Alignment.center,
+                                                    child: Icon(Icons.add),
+                                                    onTap: () =>
+                                                        {totalpriceinc(index)},
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                              );
+                            },
+                          ),
+                        )
+                      : Container(
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.2),
+                          // alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: Image.asset(
+                            "assets/images/cartempty.jpg",
+                            fit: BoxFit.fill,
+                          ))
             ],
           ),
           Container(

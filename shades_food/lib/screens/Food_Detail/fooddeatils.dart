@@ -11,7 +11,7 @@ import 'package:shades_food/screens/home/homescreen.dart';
 
 // ignore: must_be_immutable
 class FoodDetail extends StatefulWidget {
-  String image, title, price, description;
+  String image, title, price, description, time, rate;
   String id;
   FoodDetail({
     Key? key,
@@ -20,6 +20,8 @@ class FoodDetail extends StatefulWidget {
     required this.price,
     required this.description,
     required this.id,
+    required this.time,
+    required this.rate,
   }) : super(key: key);
 
   @override
@@ -39,15 +41,11 @@ class _FoodDetailState extends State<FoodDetail> {
     final CollectionReference snap =
         FirebaseFirestore.instance.collection("cart");
     var udata = FirebaseAuth.instance.currentUser;
-    // print(udata!.uid);
-    // print(widget.id);
-    // print("-------------------------------------------------------------" +
-    //     udata!.uid);
+
     final Query cart = snap
         .where("userid", isEqualTo: udata!.uid)
         .where("dishid", isEqualTo: widget.id.toString().trim());
     var data = await cart.get();
-    // print(data.docs.length);
     if (data.docs.length > 0) {
       setState(() {
         id = data.docs.elementAt(0).id;
@@ -108,8 +106,6 @@ class _FoodDetailState extends State<FoodDetail> {
         .collection("cart")
         .doc(id)
         .update({"count": counter.value});
-
-    // .update({"count": counter.value});
   }
 
   @override
@@ -132,7 +128,6 @@ class _FoodDetailState extends State<FoodDetail> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: Stack(
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
@@ -157,182 +152,171 @@ class _FoodDetailState extends State<FoodDetail> {
               ),
             ),
             Container(
-              // height: double.infinity,
               padding: EdgeInsets.only(top: 90),
-              child: SingleChildScrollView(
-                // clipBehavior: Clip.none,
-                // dragStartBehavior: DragStartBehavior.,
-                child: Column(
-                  children: [
-                    Text(
-                      widget.title,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.w800),
+              child: Column(
+                children: [
+                  Text(
+                    widget.title,
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          child: Row(children: [
+                        const Icon(Icons.lock_clock),
+                        Text(
+                          "${widget.time}min",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.03),
+                        ),
+                      ])),
+                      Container(
+                          margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.1),
+                          child: Row(children: [
+                            const Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                            ),
+                            Text(
+                              widget.rate,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.03),
+                            ),
+                          ])),
+                    ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.aspectRatio * 30),
+                    child: Text(
+                      '\u{20B9} $tp',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: MediaQuery.of(context).size.height * 0.03),
                     ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            child: Row(children: [
-                          const Icon(Icons.lock_clock),
-                          Text(
-                            "50min",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize:
-                                    MediaQuery.of(context).size.height * 0.03),
-                          ),
-                        ])),
-                        Container(
-                            margin: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.1),
-                            child: Row(children: [
-                              const Icon(
-                                Icons.star,
-                                color: Colors.yellow,
-                              ),
-                              Text(
-                                "4.8",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize:
-                                        MediaQuery.of(context).size.height *
-                                            0.03),
-                              ),
-                            ])),
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.aspectRatio * 30),
-                      child: Text(
-                        '\u{20B9} $tp',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.03),
-                      ),
-                    ),
-                    isLoading == true
-                        ? const CircularProgressIndicator(
-                            color: Colors.orange,
-                          )
-                        : counter.value != (0)
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.only(
-                                        left:
+                  ),
+                  isLoading == true
+                      ? const CircularProgressIndicator(
+                          color: Colors.orange,
+                        )
+                      : counter.value != (0)
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.06),
+                                  height: 35,
+                                  width: 35,
+                                  decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(
+                                          255, 242, 230, .7),
+                                      border: Border.all(
+                                          color: Colors.orange, width: 1),
+                                      borderRadius: BorderRadius.circular(7)),
+                                  child: GestureDetector(
+                                    // padding: EdgeInsets.all(25),
+                                    // alignment: Alignment.center,
+                                    child: const Icon(Icons.remove),
+                                    onTap: () => {totalpricedec()},
+                                  ),
+                                ),
+                                ValueListenableBuilder(
+                                  valueListenable: counter,
+                                  builder: (context, value, widget) {
+                                    return Container(
+                                        padding: EdgeInsets.all(
                                             MediaQuery.of(context).size.width *
-                                                0.06),
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            255, 242, 230, .7),
-                                        border: Border.all(
-                                            color: Colors.orange, width: 1),
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: GestureDetector(
-                                      // padding: EdgeInsets.all(25),
-                                      // alignment: Alignment.center,
-                                      child: const Icon(Icons.remove),
-                                      onTap: () => {totalpricedec()},
-                                    ),
+                                                0.04),
+                                        child: Text(value.toString()));
+                                  },
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: 35,
+                                  width: 35,
+                                  decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(
+                                          255, 242, 230, .7),
+                                      border: Border.all(
+                                          color: Colors.orange, width: 1),
+                                      borderRadius: BorderRadius.circular(7)),
+                                  child: GestureDetector(
+                                    // padding: EdgeInsets.all(25),
+                                    // alignment: Alignment.center,
+                                    child: const Icon(Icons.add),
+                                    onTap: () => {totalpriceinc()},
                                   ),
-                                  ValueListenableBuilder(
-                                    valueListenable: counter,
-                                    builder: (context, value, widget) {
-                                      return Container(
-                                          padding: EdgeInsets.all(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.04),
-                                          child: Text(value.toString()));
-                                    },
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            255, 242, 230, .7),
-                                        border: Border.all(
-                                            color: Colors.orange, width: 1),
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: GestureDetector(
-                                      // padding: EdgeInsets.all(25),
-                                      // alignment: Alignment.center,
-                                      child: const Icon(Icons.add),
-                                      onTap: () => {totalpriceinc()},
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container(
-                                height: 50.0,
-                                margin: const EdgeInsets.all(10),
-                                child: RaisedButton(
-                                  onPressed: () => {uploadData()},
-                                  shape: RoundedRectangleBorder(
+                                ),
+                              ],
+                            )
+                          : Container(
+                              height: 50.0,
+                              margin: const EdgeInsets.all(10),
+                              child: RaisedButton(
+                                onPressed: () => {uploadData()},
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80.0)),
+                                padding: const EdgeInsets.all(0.0),
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                      color: Colors.orange[300],
                                       borderRadius:
-                                          BorderRadius.circular(80.0)),
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Ink(
-                                    decoration: BoxDecoration(
-                                        color: Colors.orange[300],
-                                        borderRadius:
-                                            BorderRadius.circular(30.0)),
-                                    child: Container(
-                                      constraints: const BoxConstraints(
-                                          maxWidth: 200.0, minHeight: 50.0),
-                                      alignment: Alignment.center,
-                                      child: const Text(
-                                        "Add to cart",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                      ),
+                                          BorderRadius.circular(30.0)),
+                                  child: Container(
+                                    constraints: const BoxConstraints(
+                                        maxWidth: 200.0, minHeight: 50.0),
+                                    alignment: Alignment.center,
+                                    child: const Text(
+                                      "Add to cart",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
                                     ),
                                   ),
                                 ),
                               ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.05,
-                          left: MediaQuery.of(context).size.width * 0.05),
-                      alignment: Alignment.topLeft,
-                      child: const Text(
-                        "About",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24),
-                      ),
+                            ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.05,
+                        left: MediaQuery.of(context).size.width * 0.05),
+                    alignment: Alignment.topLeft,
+                    child: const Text(
+                      "About",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.01,
-                          left: MediaQuery.of(context).size.width * 0.05),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        widget.description,
-                        style: TextStyle(
-                            color: Colors.black54, fontWeight: FontWeight.w400),
-                      ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.01,
+                        left: MediaQuery.of(context).size.width * 0.05),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      widget.description,
+                      style: TextStyle(
+                          color: Colors.black54, fontWeight: FontWeight.w400),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .12,
-                    )
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * .12,
+                  )
+                ],
               ),
               margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * .25,

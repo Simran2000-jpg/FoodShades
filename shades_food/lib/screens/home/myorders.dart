@@ -15,7 +15,7 @@ class _MyOrderState extends State<MyOrder> {
   List<DocumentSnapshot> orders = <DocumentSnapshot>[];
   var udata = FirebaseAuth.instance.currentUser;
   bool isLoading = true;
-  void showDialog(Map<String, dynamic> mp) {
+  void showDialog(List<dynamic> mp) {
     showGeneralDialog(
       barrierLabel: "Barrier",
       barrierDismissible: true,
@@ -28,11 +28,70 @@ class _MyOrderState extends State<MyOrder> {
           child: Container(
             height: 300,
             child: SizedBox.expand(
-              child: Container(
-                child: Text("data"),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 2, vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: const <Widget>[
+                        Text(
+                          "Dish",
+                          style: TextStyle(
+                              color: Colors.black,
+                              decoration: TextDecoration.none,
+                              fontSize: 20),
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "Count",
+                          style: TextStyle(
+                              color: Colors.black,
+                              decoration: TextDecoration.none,
+                              fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: mp.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 2, vertical: 2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text(
+                              mp[index]['name'],
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 16),
+                            ),
+                            SizedBox(width: 20),
+                            Text(
+                              mp[index]['count'],
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
-            margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
+            margin: const EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(40),
@@ -115,9 +174,6 @@ class _MyOrderState extends State<MyOrder> {
                     fontSize: MediaQuery.of(context).size.aspectRatio * 60),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
             isLoading == true
                 ? Container(
                     child: Text("Loading"),
@@ -126,11 +182,12 @@ class _MyOrderState extends State<MyOrder> {
                     child: ListView.builder(
                         itemCount: orders.length,
                         itemBuilder: (context, index) {
-                          print(orders[index]["totalprice"]);
+                          // print(orders[index]["totalprice"]);
                           return GestureDetector(
                             onTap: () =>
                                 {showDialog(orders[index]["dishandcount"])},
                             child: Container(
+                              margin: EdgeInsets.only(top: 20),
                               decoration: BoxDecoration(
                                 color: Colors.orange,
                                 border: Border.all(
@@ -145,7 +202,7 @@ class _MyOrderState extends State<MyOrder> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "27/10/2000",
+                                    "hgh",
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   const Text(

@@ -63,11 +63,11 @@ class _ConfirmPageState extends State<ConfirmPage> {
     final _ratingDialog = RatingDialog(
       // ratingColor: Colors.amber,
       title: Text(
-        'Rating Dialog In Flutter',
+        'Rate this app and tell others what you think.',
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
-      message: Text('Rate this app and tell others what you think.'),
+
       image: Image.asset(
         "assets/saute.png",
         height: 200,
