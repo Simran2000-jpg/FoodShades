@@ -73,10 +73,13 @@ class _Admin_DishListState extends State<Admin_DishList> {
                         children: <Widget>[
                           TextButton(
                               onPressed: () {
+                                print('edit pressed');
+                                // Navigator.pop(context, true);
                                 editItem(document);
-
-                                Navigator.of(context, rootNavigator: true)
-                                    .pop();
+                                // Navigator.of(context, rootNavigator: true)
+                                //     .pop('dialog');
+                                // Navigator.of(context, rootNavigator: true)
+                                //     .pop();
                                 // Navigator.of(context).push(MaterialPageRoute(
                                 //     builder: (BuildContext context) =>
                                 //         EditAdminScreen()));
@@ -89,7 +92,8 @@ class _Admin_DishListState extends State<Admin_DishList> {
                           TextButton(
                             onPressed: () {
                               deleteitem(document.id);
-                              Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.of(context, rootNavigator: true)
+                                  .pop('dialog');
                             },
                             child: Text('DELETE'),
                             style: TextButton.styleFrom(
