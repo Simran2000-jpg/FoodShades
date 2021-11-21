@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shades_food/screens/cart/cart_screen.dart';
@@ -82,13 +81,14 @@ class _PaymentState extends State<Payment> {
     List<Map<String, String>> mp = [];
     for (var it in widget.cartid) {
       var v = await FirebaseFirestore.instance.collection("cart").doc(it).get();
-      var dishid = await v.get('dishid');
-      var dish =
-          await FirebaseFirestore.instance.collection('Dish').doc(dishid).get();
+      var dish = await FirebaseFirestore.instance
+          .collection('Dish')
+          .doc(v.get("dishid"))
+          .get();
       int t = int.parse(dish.get('time'));
       int c = await v.get('count');
       totaltime += t * c;
-      mp.add({"name": dish.get('name'), "count": v.get("count").toString()});
+      mp.add({"name": dish.id, "count": v.get("count").toString()});
       userid = v.get("userid");
       customer = await FirebaseFirestore.instance
           .collection('users')
@@ -96,20 +96,17 @@ class _PaymentState extends State<Payment> {
           .get();
       FirebaseFirestore.instance.collection("cart").doc(it).delete();
     }
-    FirebaseFirestore.instance
-        .collection("CurrentOrders")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({
-      "dishandcount": mp,
-      "totalprice": widget.price,
-      "customer_name": customer.get('name'),
-      "customer_phnno": customer.get('phone'),
-      "totaltime": totaltime,
-      "time": DateTime.now(),
-      "orderno": count,
-      "userid": userid,
-    });
-
+    for (var it in mp) {
+      FirebaseFirestore.instance.collection("CurrentOrders").add({
+        "dishandcount": [it],
+        "customer_name": customer.get('name'),
+        "customer_phnno": customer.get('phone'),
+        "time": DateTime.now(),
+        "orderno": count,
+        "userid": userid,
+        "totaltime": totaltime,
+      });
+    }
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -134,61 +131,34 @@ class _PaymentState extends State<Payment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            child: Padding(
-              padding: EdgeInsets.all(30.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      height: 230.0,
-                      width: 300.0,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 10.0),
-                        borderRadius: BorderRadius.circular(100),
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/money.jpg'),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Your Total Amount is To Pay is:',
-                      style: TextStyle(
-                        fontSize: 30.0,
-                      ),
-                    ),
-                    Text(
-                      'Rs ${widget.price}',
-                      style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: 100.0,
-                      height: 50.0,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            )),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.green),
-                          ),
-                          onPressed: () {
-                            openCheckout();
-                          },
-                          child: Text("PAY")),
-                    ),
-                  ]),
-            ),
-          ),
-        ],
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        title: Text("Razor Pay"),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(30.0),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Your Total Amount is Rs ${widget.price}',
+                style: TextStyle(fontSize: 25.0),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .3,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    openCheckout();
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.orange),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 15),
+                    child: Text("PAY"),
+                  )),
+            ]),
       ),
     );
-    ;
   }
 }

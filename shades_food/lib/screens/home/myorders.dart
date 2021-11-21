@@ -13,112 +13,29 @@ class MyOrder extends StatefulWidget {
 
 class _MyOrderState extends State<MyOrder> {
   List<DocumentSnapshot> orders = <DocumentSnapshot>[];
+  List<DocumentSnapshot> dish = <DocumentSnapshot>[];
+
   var udata = FirebaseAuth.instance.currentUser;
   bool isLoading = true;
-  void showDialog(List<dynamic> mp) {
-    showGeneralDialog(
-      barrierLabel: "Barrier",
-      barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.5),
-      transitionDuration: Duration(milliseconds: 500),
-      context: context,
-      pageBuilder: (_, __, ___) {
-        return Align(
-          alignment: Alignment.center,
-          child: Container(
-            height: 300,
-            child: SizedBox.expand(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 2, vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const <Widget>[
-                        Text(
-                          "Dish",
-                          style: TextStyle(
-                              color: Colors.black,
-                              decoration: TextDecoration.none,
-                              fontSize: 20),
-                        ),
-                        SizedBox(width: 20),
-                        Text(
-                          "Count",
-                          style: TextStyle(
-                              color: Colors.black,
-                              decoration: TextDecoration.none,
-                              fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: mp.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 2, vertical: 2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Text(
-                              mp[index]['name'],
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 16),
-                            ),
-                            SizedBox(width: 20),
-                            Text(
-                              mp[index]['count'],
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 16),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-            margin: const EdgeInsets.only(
-              left: 12,
-              right: 12,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(40),
-            ),
-          ),
-        );
-      },
-      transitionBuilder: (_, anim, __, child) {
-        return SlideTransition(
-          position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim),
-          child: child,
-        );
-      },
-    );
-  }
 
   getData() async {
     QuerySnapshot snap =
         await FirebaseFirestore.instance.collection("CurrentOrders").get();
+    QuerySnapshot snap2 =
+        await FirebaseFirestore.instance.collection("Dish").get();
     setState(() {
       for (var it in snap.docs) {
         if (it.get("userid") == udata!.uid) {
           orders.add(it);
+          for (var item in snap2.docs) {
+            if (item.id == it.get("dishandcount")[0]["name"]) {
+              dish.add(item);
+            }
+          }
         }
       }
     });
-    print(orders.length);
+
     isLoading = false;
   }
 
@@ -164,8 +81,7 @@ class _MyOrderState extends State<MyOrder> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.01),
+              margin: EdgeInsets.only(top: 5, bottom: 10),
               alignment: Alignment.center,
               child: Text(
                 "Order History",
@@ -182,39 +98,108 @@ class _MyOrderState extends State<MyOrder> {
                     child: ListView.builder(
                         itemCount: orders.length,
                         itemBuilder: (context, index) {
-                          // print(orders[index]["totalprice"]);
-                          return GestureDetector(
-                            onTap: () =>
-                                {showDialog(orders[index]["dishandcount"])},
-                            child: Container(
-                              margin: EdgeInsets.only(top: 20),
-                              decoration: BoxDecoration(
-                                color: Colors.orange,
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 1,
+                          Timestamp dt = orders[index]["time"];
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 20),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              // border: Border.all(
+                              //   color: Colors.black,
+                              //   width: 1,
+                              // ),
+                              // borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/astro.png'),
+                                              // image: NetworkImage(
+                                              //     dish[index]["imageurl"]),
+                                              fit: BoxFit.cover),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      height: 80,
+                                      width: 80,
+                                      child: null,
+                                    ),
+                                    SizedBox(
+                                      width: 25,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "DISH"
+                                          // orders[]
+                                          // dish[index]["name"],
+                                          ,
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: 1,
+                                        ),
+                                        Text(
+                                          "Qunatity: ${orders[index]["dishandcount"][0]["count"].toString()}",
+                                          style: TextStyle(
+                                              fontSize: 14, color: Colors.grey),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "Ordered on",
+                                          style: TextStyle(
+                                              fontSize: 14, color: Colors.grey),
+                                        ),
+                                        Text(
+                                          " ${dt.toDate().toString().trim().substring(0, dt.toDate().toString().trim().length - 7)}",
+                                          style: TextStyle(
+                                              fontSize: 10, color: Colors.grey),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                // borderRadius: BorderRadius.circular(8),
-                              ),
-                              padding: EdgeInsets.all(20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "hgh",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  const Text(
-                                    "Tap to view details",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  Text(
-                                    '\u{20B9} ${orders[index]["totalprice"]}',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
-                              ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Divider(
+                                  thickness: 1,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "\u{20B9} ${(int.parse(dish[index]["price"]) * (int.parse(orders[index]["dishandcount"][0]["count"]))).toString()}",
+                                      style: TextStyle(
+                                          color: Colors.orange,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "Delivered",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
                           );
                         }))
