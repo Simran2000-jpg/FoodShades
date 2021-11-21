@@ -150,8 +150,12 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ),
               isLoading == true
-                  ? Container(
-                      child: (Text("Loading")),
+                  ? Expanded(
+                      child: Container(
+                        child: Center(
+                          child: (CircularProgressIndicator()),
+                        ),
+                      ),
                     )
                   : (datas.length > 0)
                       ? Expanded(
@@ -163,9 +167,13 @@ class _CartScreenState extends State<CartScreen> {
                                 // color: Colors.amber,
                                 margin: EdgeInsets.only(
                                     top: MediaQuery.of(context).size.height *
+                                        0.03,
+                                    left: MediaQuery.of(context).size.width *
+                                        0.03,
+                                    right: MediaQuery.of(context).size.width *
                                         0.03),
                                 child: Container(
-                                    margin: EdgeInsets.only(bottom: 20),
+                                    // margin: EdgeInsets.only(bottom: 20),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(15),
@@ -185,16 +193,18 @@ class _CartScreenState extends State<CartScreen> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.4,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
+                                              0.3,
+                                          padding: EdgeInsets.only(left: 15),
                                           child: Image.network(
                                             datas[index]["imageurl"],
-                                            height: 100,
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
                                         Column(
                                           children: [
+                                            SizedBox(
+                                              height: 20,
+                                            ),
                                             Container(
                                               child: Column(
                                                 crossAxisAlignment:
@@ -254,7 +264,7 @@ class _CartScreenState extends State<CartScreen> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets
-                                                      .symmetric(horizontal: 4),
+                                                      .symmetric(horizontal: 8),
                                                   child: Text(
                                                       (fcnt[index]).toString()),
                                                 ),
@@ -280,6 +290,9 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                 ),
                                               ],
+                                            ),
+                                            SizedBox(
+                                              height: 20,
                                             )
                                           ],
                                         ),
@@ -336,9 +349,10 @@ class _CartScreenState extends State<CartScreen> {
                   // flex: 3,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              Payment(price: totalprice, cartid: fcartid)));
+                      if (totalprice > 0)
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                Payment(price: totalprice, cartid: fcartid)));
                     },
                     child: Container(
                       color: Colors.orange,
