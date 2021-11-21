@@ -65,7 +65,13 @@ restaurant side.
 #### ***Back End :***
 * Firebase/Firestore
 
-![Login](https://github.com/Simran2000-jpg/FoodShades/commit/6150db2ce70da336a5525e06ae22f37252c43767#diff-4e666484b661647054b4ee984b0a9b7dd63b06245afe55a7c24dd6fedc7978f9)
+<img src="https://github.com/Simran2000-jpg/FoodShades/blob/6150db2ce70da336a5525e06ae22f37252c43767/Screenshot_20211121_230927%5B1%5D.jpg" width="300" height="450">
+<img src="https://github.com/Simran2000-jpg/FoodShades/blob/6150db2ce70da336a5525e06ae22f37252c43767/Screenshot_20211121_230208%5B1%5D.jpg" width="300" height="450">
+<img src="https://github.com/Simran2000-jpg/FoodShades/blob/6150db2ce70da336a5525e06ae22f37252c43767/Screenshot_20211121_231400%5B2%5D.jpg" width="300" height="450"> <img src="https://github.com/Simran2000-jpg/FoodShades/blob/f56797655cdae5ead501c0116a53149cf2f477d0/Screenshot_20211121_231330%5B1%5D.jpg" width="300" height="450">
+<img src="https://github.com/Simran2000-jpg/FoodShades/blob/f56797655cdae5ead501c0116a53149cf2f477d0/Screenshot_20211121_231336%5B1%5D.jpg" width="300" height="450">
+<img src="https://github.com/Simran2000-jpg/FoodShades/blob/6150db2ce70da336a5525e06ae22f37252c43767/Screenshot_20211121_230927%5B1%5D.jpg" width="300" height="450">
+
+
 
 
 
