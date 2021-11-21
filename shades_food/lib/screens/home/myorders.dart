@@ -185,12 +185,12 @@ class _MyOrderState extends State<MyOrder> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      "\u{20B9} ${(int.parse(dish[index]["price"]) * (int.parse(orders[index]["dishandcount"][0]["count"]))).toString()}",
-                                      style: TextStyle(
-                                          color: Colors.orange,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    // Text(
+                                    //   "\u{20B9} ${(int.parse(dish[index]["price"]) * (int.parse(orders[index]["dishandcount"][0]["count"]))).toString()}",
+                                    //   style: TextStyle(
+                                    //       color: Colors.orange,
+                                    //       fontWeight: FontWeight.bold),
+                                    // ),
                                     Text(
                                       "Delivered",
                                       style: TextStyle(

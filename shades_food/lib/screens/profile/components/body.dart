@@ -114,8 +114,8 @@ class _BodyState extends State<Body> {
               text: "My Orders",
               icon: "assets/icon/Bell.svg",
               press: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => MyOrder()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyOrder()));
               },
             ),
             ProfileMenu(
