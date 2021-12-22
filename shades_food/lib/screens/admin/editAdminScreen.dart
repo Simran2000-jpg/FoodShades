@@ -20,6 +20,7 @@ class EditAdminScreen extends StatefulWidget {
       time = "",
       description = "",
       dishid = "";
+  int rating = 5;
   EditAdminScreen(
       {Key? key,
       required this.name,
