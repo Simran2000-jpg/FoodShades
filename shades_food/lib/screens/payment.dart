@@ -104,6 +104,7 @@ class _PaymentState extends State<Payment> {
         "orderno": count,
         "userid": userid,
         "totaltime": totaltime,
+        "totalprice": widget.price,
       });
     }
     Navigator.pushReplacement(
