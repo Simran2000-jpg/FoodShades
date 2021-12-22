@@ -119,7 +119,7 @@ class _FoodDetailState extends State<FoodDetail> {
           size: 27,
         ),
         onPressed: () => {
-          Navigator.push(
+          Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => CartScreen()))
         },
       ),

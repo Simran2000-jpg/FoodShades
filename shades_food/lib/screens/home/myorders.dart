@@ -28,6 +28,7 @@ class _MyOrderState extends State<MyOrder> {
         if (it.get("userid") == udata!.uid) {
           orders.add(it);
           for (var item in snap2.docs) {
+            print(it.get("dishandcount")[0]["name"]);
             if (item.id == it.get("dishandcount")[0]["name"]) {
               dish.add(item);
             }
@@ -43,6 +44,8 @@ class _MyOrderState extends State<MyOrder> {
   initState() {
     super.initState();
     getData();
+    // print(orders.length);
+    // print(dish.length);
     // Add listeners to this class
   }
 
@@ -142,10 +145,10 @@ class _MyOrderState extends State<MyOrder> {
                                           height: 10,
                                         ),
                                         Text(
-                                          "DISH"
+                                          // "${dish[index]["name"].toString()}"
                                           // orders[]
                                           // dish[index]["name"],
-                                          ,
+                                          "DISH",
                                           style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),

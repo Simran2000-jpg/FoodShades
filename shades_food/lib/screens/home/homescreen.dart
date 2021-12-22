@@ -32,8 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    print('-----------------------------------' +
-        FirebaseAuth.instance.currentUser!.uid);
+    // print('-----------------------------------' +
+    //     FirebaseAuth.instance.currentUser!.uid);
     if (FirebaseAuth.instance.currentUser == null) {
       Navigator.pop(context);
     }
@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       if (status == true) {
         xOffset = MediaQuery.of(context).size.width * .01;
-        yOffset = MediaQuery.of(context).size.height * .7;
+        yOffset = MediaQuery.of(context).size.height * .70;
         scaleFactor = 1;
         isDrawerOpen = true;
       } else {

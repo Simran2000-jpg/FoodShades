@@ -33,7 +33,7 @@ class _UserOrderListState extends State<UserOrderList> {
                       // dragStartBehavior: DragStartBehavior.start,
                       shrinkWrap: true,
                       children: snapshot.data!.docs.map((document) {
-                        print(document['imageurl']);
+                        // print(document['imageurl']);
                         return InkWell(
                           onTap: () => {
                             Navigator.push(
@@ -46,7 +46,7 @@ class _UserOrderListState extends State<UserOrderList> {
                                           price: document['price'],
                                           description: document['description'],
                                           time: document['time'],
-                                          rate: document['rating'],
+                                          rate: "5",
                                         )))
                           },
                           child: FoodTile(
