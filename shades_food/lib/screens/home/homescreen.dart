@@ -155,69 +155,73 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height * .02),
-                          Container(
-                            height: MediaQuery.of(context).size.height * .128,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 20,
-                                          right: 20,
-                                          bottom: 4.0,
-                                          top: 20),
-                                      child: const Text(
-                                        "Cafe 96",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Montserrat Bold'),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 20,
-                                          right: 20,
-                                          bottom: 15.0,
-                                          top: 2.0),
-                                      child: Text(
-                                        "MNNIT ALLAHABAD",
-                                        style: TextStyle(
-                                            color: Colors.grey.shade600,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Montserrat Bold'),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                          SingleChildScrollView(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * .128,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Icon(Icons.star,
-                                          color: Colors.white, size: 15),
-                                      Text(
-                                        rating,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            bottom: 1.0,
+                                            top: 20),
+                                        child: const Text(
+                                          "Cafe 96",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Montserrat Bold'),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            bottom: 15.0,
+                                            top: 2.0),
+                                        child: Text(
+                                          "MNNIT ALLAHABAD",
+                                          style: TextStyle(
+                                              color: Colors.grey.shade600,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Montserrat Bold'),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(10),
-                                          topLeft: Radius.circular(10)),
-                                      color: Colors.green),
-                                )
-                              ],
+                                  Container(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Icon(Icons.star,
+                                            color: Colors.white, size: 15),
+                                        Text(
+                                          rating,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(10),
+                                            topLeft: Radius.circular(10)),
+                                        color: Colors.green),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           Container(
