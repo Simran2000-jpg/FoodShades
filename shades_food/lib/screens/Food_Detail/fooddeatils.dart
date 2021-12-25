@@ -153,7 +153,7 @@ class _FoodDetailState extends State<FoodDetail> {
             Container(
               child: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: 100),
                   child: Column(
                     children: [
                       Text(

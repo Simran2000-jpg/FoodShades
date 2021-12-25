@@ -150,11 +150,12 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ),
               isLoading == true
-                  ? Expanded(
-                      child: Container(
-                        child: Center(
-                          child: (CircularProgressIndicator()),
-                        ),
+                  ? Container(
+                      // margin: EdgeInsets.only(
+                      //   bottom: MediaQuery.of(context).size.height * .07,
+                      // ),
+                      child: Center(
+                        child: (CircularProgressIndicator()),
                       ),
                     )
                   : (datas.length > 0)
@@ -171,7 +172,9 @@ class _CartScreenState extends State<CartScreen> {
                                     left: MediaQuery.of(context).size.width *
                                         0.03,
                                     right: MediaQuery.of(context).size.width *
-                                        0.03),
+                                        0.03,
+                                    bottom: MediaQuery.of(context).size.height *
+                                        0.01),
                                 child: Container(
                                     // margin: EdgeInsets.only(bottom: 20),
                                     decoration: BoxDecoration(
@@ -194,6 +197,10 @@ class _CartScreenState extends State<CartScreen> {
                                                   .size
                                                   .width *
                                               0.3,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.15,
                                           padding: EdgeInsets.only(left: 15),
                                           child: Image.network(
                                             datas[index]["imageurl"],
@@ -311,7 +318,10 @@ class _CartScreenState extends State<CartScreen> {
                           child: Image.asset(
                             "assets/images/cartempty.jpg",
                             fit: BoxFit.fill,
-                          ))
+                          )),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height * 0.1,
+              // ),
             ],
           ),
           Container(

@@ -28,7 +28,7 @@ class _MyOrderState extends State<MyOrder> {
         if (it.get("userid") == udata!.uid) {
           orders.add(it);
           for (var item in snap2.docs) {
-            print(it.get("dishandcount")[0]["name"]);
+            // print(it.get("dishandcount")[0]["name"]);
             if (item.id == it.get("dishandcount")[0]["name"]) {
               dish.add(item);
             }
@@ -121,10 +121,10 @@ class _MyOrderState extends State<MyOrder> {
                                     Container(
                                       decoration: BoxDecoration(
                                           image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/astro.png'),
-                                              // image: NetworkImage(
-                                              //     dish[index]["imageurl"]),
+                                              // image: AssetImage(
+                                              //     'assets/astro.png'),
+                                              image: NetworkImage(
+                                                  dish[index]["imageurl"]),
                                               fit: BoxFit.cover),
                                           borderRadius:
                                               BorderRadius.circular(10)),
@@ -145,10 +145,7 @@ class _MyOrderState extends State<MyOrder> {
                                           height: 10,
                                         ),
                                         Text(
-                                          // "${dish[index]["name"].toString()}"
-                                          // orders[]
-                                          // dish[index]["name"],
-                                          "DISH",
+                                          "${dish[index]["name"].toString()}",
                                           style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
@@ -157,7 +154,7 @@ class _MyOrderState extends State<MyOrder> {
                                           height: 1,
                                         ),
                                         Text(
-                                          "Qunatity: ${orders[index]["dishandcount"][0]["count"].toString()}",
+                                          "Quantity: ${orders[index]["dishandcount"][0]["count"].toString()}",
                                           style: TextStyle(
                                               fontSize: 14, color: Colors.grey),
                                         ),
@@ -188,12 +185,12 @@ class _MyOrderState extends State<MyOrder> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // Text(
-                                    //   "\u{20B9} ${(int.parse(dish[index]["price"]) * (int.parse(orders[index]["dishandcount"][0]["count"]))).toString()}",
-                                    //   style: TextStyle(
-                                    //       color: Colors.orange,
-                                    //       fontWeight: FontWeight.bold),
-                                    // ),
+                                    Text(
+                                      "\u{20B9} ${(int.parse(dish[index]["price"]) * (int.parse(orders[index]["dishandcount"][0]["count"]))).toString()}",
+                                      style: TextStyle(
+                                          color: Colors.orange,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                     Text(
                                       "Delivered",
                                       style: TextStyle(

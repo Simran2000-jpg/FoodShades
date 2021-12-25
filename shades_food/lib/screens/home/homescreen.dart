@@ -45,8 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // print(status);
     setState(() {
       if (status == true) {
-        xOffset = MediaQuery.of(context).size.width * .01;
-        yOffset = MediaQuery.of(context).size.height * .70;
+        xOffset = MediaQuery.of(context).size.width * .001;
+        yOffset = MediaQuery.of(context).size.height * .73;
         scaleFactor = 1;
         isDrawerOpen = true;
       } else {
@@ -121,12 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       //   fit: BoxFit.cover,
                       // ))
                     ),
-                    SingleChildScrollView(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 40),
-                        child: Column(
-                          children: [
-                            Row(
+                    Container(
+                      margin: const EdgeInsets.only(top: 40),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * .06,
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 GestureDetector(
@@ -151,8 +152,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 20.0),
-                            Row(
+                          ),
+                          SizedBox(
+                              height: MediaQuery.of(context).size.height * .02),
+                          Container(
+                            height: MediaQuery.of(context).size.height * .128,
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
@@ -214,21 +219,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               ],
                             ),
-                            Container(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, bottom: 1.0, top: 20),
-                              child: const Text(
-                                "Dishes Available",
-                                style: TextStyle(
-                                    color: Colors.orange,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'MenuIcon'),
-                              ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * .08,
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, bottom: 1.0, top: 10),
+                            child: const Text(
+                              "Dishes Available",
+                              style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'MenuIcon'),
                             ),
-                            UserOrderList()
-                          ],
-                        ),
+                          ),
+                          Container(
+                              height: MediaQuery.of(context).size.height * .65,
+                              child:
+                                  SingleChildScrollView(child: UserOrderList()))
+                        ],
                       ),
                     ),
                   ]),
