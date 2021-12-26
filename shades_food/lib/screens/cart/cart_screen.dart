@@ -168,7 +168,7 @@ class _CartScreenState extends State<CartScreen> {
                                 // color: Colors.amber,
                                 margin: EdgeInsets.only(
                                     top: MediaQuery.of(context).size.height *
-                                        0.03,
+                                        0.02,
                                     left: MediaQuery.of(context).size.width *
                                         0.03,
                                     right: MediaQuery.of(context).size.width *
@@ -200,12 +200,22 @@ class _CartScreenState extends State<CartScreen> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.15,
-                                          padding: EdgeInsets.only(left: 15),
-                                          child: Image.network(
-                                            datas[index]["imageurl"],
-                                            fit: BoxFit.cover,
-                                          ),
+                                              0.18,
+                                          margin: EdgeInsets.only(right: 15),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(15),
+                                                  bottomLeft:
+                                                      Radius.circular(15)),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    datas[index]["imageurl"]),
+                                                fit: BoxFit.cover,
+                                              )),
+                                          // child: Image.network(
+                                          //   datas[index]["imageurl"],
+                                          //   fit: BoxFit.cover,
+                                          // ),
                                         ),
                                         Column(
                                           children: [
