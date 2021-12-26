@@ -97,112 +97,120 @@ class _MyOrderState extends State<MyOrder> {
                 ? Container(
                     child: Text("Loading"),
                   )
-                : Expanded(
-                    child: ListView.builder(
-                        itemCount: orders.length,
-                        itemBuilder: (context, index) {
-                          Timestamp dt = orders[index]["time"];
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 20),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              // border: Border.all(
-                              //   color: Colors.black,
-                              //   width: 1,
-                              // ),
-                              // borderRadius: BorderRadius.circular(8),
-                            ),
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                : orders.length > 0
+                    ? Expanded(
+                        child: ListView.builder(
+                            itemCount: orders.length,
+                            itemBuilder: (context, index) {
+                              Timestamp dt = orders[index]["time"];
+                              return Container(
+                                margin: EdgeInsets.only(bottom: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  // border: Border.all(
+                                  //   color: Colors.black,
+                                  //   width: 1,
+                                  // ),
+                                  // borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.all(20),
+                                child: Column(
                                   children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              // image: AssetImage(
-                                              //     'assets/astro.png'),
-                                              image: NetworkImage(
-                                                  dish[index]["imageurl"]),
-                                              fit: BoxFit.cover),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      height: 80,
-                                      width: 80,
-                                      child: null,
-                                    ),
-                                    SizedBox(
-                                      width: 25,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                    Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          "${dish[index]["name"].toString()}",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 1,
-                                        ),
-                                        Text(
-                                          "Quantity: ${orders[index]["dishandcount"][0]["count"].toString()}",
-                                          style: TextStyle(
-                                              fontSize: 14, color: Colors.grey),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  // image: AssetImage(
+                                                  //     'assets/astro.png'),
+                                                  image: NetworkImage(
+                                                      dish[index]["imageurl"]),
+                                                  fit: BoxFit.cover),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          height: 80,
+                                          width: 80,
+                                          child: null,
                                         ),
                                         SizedBox(
-                                          height: 10,
+                                          width: 25,
                                         ),
-                                        Text(
-                                          "Ordered on",
-                                          style: TextStyle(
-                                              fontSize: 14, color: Colors.grey),
-                                        ),
-                                        Text(
-                                          " ${dt.toDate().toString().trim().substring(0, dt.toDate().toString().trim().length - 7)}",
-                                          style: TextStyle(
-                                              fontSize: 10, color: Colors.grey),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              "${dish[index]["name"].toString()}",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              height: 1,
+                                            ),
+                                            Text(
+                                              "Quantity: ${orders[index]["dishandcount"][0]["count"].toString()}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              "Ordered on",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey),
+                                            ),
+                                            Text(
+                                              " ${dt.toDate().toString().trim().substring(0, dt.toDate().toString().trim().length - 7)}",
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.grey),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Divider(
+                                      thickness: 1,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "\u{20B9} ${(int.parse(dish[index]["price"]) * (int.parse(orders[index]["dishandcount"][0]["count"]))).toString()}",
+                                          style: TextStyle(
+                                              color: Colors.orange,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          "Delivered",
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Divider(
-                                  thickness: 1,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "\u{20B9} ${(int.parse(dish[index]["price"]) * (int.parse(orders[index]["dishandcount"][0]["count"]))).toString()}",
-                                      style: TextStyle(
-                                          color: Colors.orange,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Delivered",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          );
-                        }))
+                              );
+                            }))
+                    : Container(
+                        child: Text("No orders yet"),
+                      ),
           ],
         ),
       ),
