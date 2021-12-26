@@ -88,14 +88,15 @@ class _UploadState extends State<Upload> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/dosa.jpg'), fit: BoxFit.cover),
+                  image: AssetImage('assets/foodorder.png'),
+                  fit: BoxFit.contain),
             ),
           ),
           Center(
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 400.0,
+                  height: 600.0,
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
