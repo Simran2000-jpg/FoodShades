@@ -119,7 +119,7 @@ class _FoodDetailState extends State<FoodDetail> {
           size: 27,
         ),
         onPressed: () => {
-          Navigator.push(
+          Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => CartScreen()))
         },
       ),
@@ -153,7 +153,7 @@ class _FoodDetailState extends State<FoodDetail> {
             Container(
               child: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: 100),
                   child: Column(
                     children: [
                       Text(

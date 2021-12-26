@@ -6,6 +6,7 @@ import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:shades_food/appcolors.dart';
 import 'package:shades_food/screens/auth/Auth_Service.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class PhoneVerifPage extends StatefulWidget {
   const PhoneVerifPage({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
   int start = 60;
   bool wait = false;
   String buttonName = "Send";
+  bool codesent = false;
 
   TextEditingController phoneController = TextEditingController();
   AuthClass authClass = AuthClass();
@@ -104,6 +106,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
                 height: 30,
               ),
               otpField(),
+
               SizedBox(
                 height: 40,
               ),
@@ -182,6 +185,15 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
         });
       }
     });
+  }
+
+  Widget aot() {
+    return PinFieldAutoFill(
+      codeLength: 6,
+      onCodeChanged: (val) {
+        print('AutoFillField: ' + val!);
+      },
+    );
   }
 
   Widget otpField() {

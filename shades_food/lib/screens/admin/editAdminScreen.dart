@@ -20,6 +20,7 @@ class EditAdminScreen extends StatefulWidget {
       time = "",
       description = "",
       dishid = "";
+  int rating = 5;
   EditAdminScreen(
       {Key? key,
       required this.name,
@@ -185,8 +186,11 @@ class _EditAdminScreenState extends State<EditAdminScreen> {
     setState(() {
       isUploading = true;
     });
-    await compressImage();
-    String mediaUrl = await uploadImage(_image);
+    String mediaUrl = imageurl;
+    if (photochanged) {
+      await compressImage();
+      mediaUrl = await uploadImage(_image);
+    }
     //add data to firebase'
 
     await FirebaseFirestore.instance.collection("Dish").doc(dishid).set({
@@ -211,7 +215,7 @@ class _EditAdminScreenState extends State<EditAdminScreen> {
             Icons.arrow_back,
             color: Colors.black,
           ),
-          onPressed: clearImage,
+          onPressed: () => {clearImage, Navigator.pop(context)},
         ),
         title: Text(
           "Description",
@@ -258,7 +262,7 @@ class _EditAdminScreenState extends State<EditAdminScreen> {
           ),
           ListTile(
             leading: Icon(
-              Icons.description,
+              Icons.food_bank,
               color: Colors.orange,
               size: 35.0,
             ),
@@ -276,7 +280,7 @@ class _EditAdminScreenState extends State<EditAdminScreen> {
           Divider(),
           ListTile(
             leading: Icon(
-              Icons.description,
+              Icons.price_change_outlined,
               color: Colors.orange,
               size: 35.0,
             ),
@@ -313,7 +317,7 @@ class _EditAdminScreenState extends State<EditAdminScreen> {
           Divider(),
           ListTile(
             leading: Icon(
-              Icons.description,
+              Icons.timer,
               color: Colors.orange,
               size: 35.0,
             ),

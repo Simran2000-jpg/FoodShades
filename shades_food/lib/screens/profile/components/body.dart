@@ -150,6 +150,7 @@ class _BodyState extends State<Body> {
                     MaterialPageRoute(builder: (context) => PhoneVerifPage()));
               },
             ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

@@ -6,7 +6,6 @@ import 'package:shades_food/screens/cart/cart_screen.dart';
 import '../order.dart';
 
 // ignore: must_be_immutable
-
 class Payment extends StatefulWidget {
   int price = 0;
   List<String> cartid = <String>[];
@@ -105,6 +104,7 @@ class _PaymentState extends State<Payment> {
         "orderno": count,
         "userid": userid,
         "totaltime": totaltime,
+        "totalprice": widget.price,
       });
     }
     Navigator.pushReplacement(

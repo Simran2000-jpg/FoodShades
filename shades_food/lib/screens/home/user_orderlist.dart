@@ -14,24 +14,25 @@ class UserOrderList extends StatefulWidget {
 class _UserOrderListState extends State<UserOrderList> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('Dish').snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went wrong');
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading");
-              }
-              return snapshot.hasData
-                  ? ListView(
+    return Container(
+      // color: Colors.amber,
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('Dish').snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text("Loading");
+            }
+            return snapshot.hasData
+                ? Container(
+                    // color: Colors.amber,
+                    child: Column(
                       // dragStartBehavior: DragStartBehavior.start,
-                      shrinkWrap: true,
+                      // shrinkWrap: true,
                       children: snapshot.data!.docs.map((document) {
                         print(document['imageurl']);
                         return InkWell(
@@ -57,10 +58,10 @@ class _UserOrderListState extends State<UserOrderList> {
                           ),
                         );
                       }).toList(),
-                    )
-                  : const Text('problem');
-            }),
-      ),
+                    ),
+                  )
+                : const Text('problem');
+          }),
     );
   }
 }

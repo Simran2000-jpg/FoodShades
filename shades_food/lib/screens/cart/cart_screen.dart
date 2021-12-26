@@ -150,11 +150,12 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ),
               isLoading == true
-                  ? Expanded(
-                      child: Container(
-                        child: Center(
-                          child: (CircularProgressIndicator()),
-                        ),
+                  ? Container(
+                      // margin: EdgeInsets.only(
+                      //   bottom: MediaQuery.of(context).size.height * .07,
+                      // ),
+                      child: Center(
+                        child: (CircularProgressIndicator()),
                       ),
                     )
                   : (datas.length > 0)
@@ -167,11 +168,13 @@ class _CartScreenState extends State<CartScreen> {
                                 // color: Colors.amber,
                                 margin: EdgeInsets.only(
                                     top: MediaQuery.of(context).size.height *
-                                        0.03,
+                                        0.02,
                                     left: MediaQuery.of(context).size.width *
                                         0.03,
                                     right: MediaQuery.of(context).size.width *
-                                        0.03),
+                                        0.03,
+                                    bottom: MediaQuery.of(context).size.height *
+                                        0.01),
                                 child: Container(
                                     // margin: EdgeInsets.only(bottom: 20),
                                     decoration: BoxDecoration(
@@ -194,11 +197,25 @@ class _CartScreenState extends State<CartScreen> {
                                                   .size
                                                   .width *
                                               0.3,
-                                          padding: EdgeInsets.only(left: 15),
-                                          child: Image.network(
-                                            datas[index]["imageurl"],
-                                            fit: BoxFit.cover,
-                                          ),
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.18,
+                                          margin: EdgeInsets.only(right: 15),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(15),
+                                                  bottomLeft:
+                                                      Radius.circular(15)),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    datas[index]["imageurl"]),
+                                                fit: BoxFit.cover,
+                                              )),
+                                          // child: Image.network(
+                                          //   datas[index]["imageurl"],
+                                          //   fit: BoxFit.cover,
+                                          // ),
                                         ),
                                         Column(
                                           children: [
@@ -311,7 +328,10 @@ class _CartScreenState extends State<CartScreen> {
                           child: Image.asset(
                             "assets/images/cartempty.jpg",
                             fit: BoxFit.fill,
-                          ))
+                          )),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height * 0.1,
+              // ),
             ],
           ),
           Container(

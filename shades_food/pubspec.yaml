@@ -65,6 +65,7 @@ dependencies:
   rating_dialog: ^2.0.3
   dio: ^4.0.3
   date_time_picker: ^2.1.0
+  sms_autofill: ^2.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

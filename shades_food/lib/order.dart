@@ -179,7 +179,7 @@ class _OrderPageState extends State<OrderPage> {
                           .doc(FirebaseAuth.instance.currentUser!.uid)
                           .delete();
                       createFoodNotifications();
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (builder) => ConfirmPage()));
