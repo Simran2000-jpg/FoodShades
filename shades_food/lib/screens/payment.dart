@@ -9,11 +9,15 @@ import '../order.dart';
 class Payment extends StatefulWidget {
   int price = 0;
   List<String> cartid = <String>[];
+  List<DocumentSnapshot> datas = <DocumentSnapshot>[];
+  List<int> cnt = <int>[];
 
   Payment({
     Key? key,
     required this.price,
     required this.cartid,
+    required this.datas,
+    required this.cnt,
   }) : super(key: key);
 
   @override
@@ -134,32 +138,101 @@ class _PaymentState extends State<Payment> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: Text("Razor Pay"),
+        title: Text("Payment"),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.orange,
+        label: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: Text(
+            "Pay",
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        onPressed: () {
+          openCheckout();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Padding(
-        padding: EdgeInsets.all(30.0),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Your Total Amount is Rs ${widget.price}',
-                style: TextStyle(fontSize: 25.0),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * .3,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    openCheckout();
-                  },
-                  style: ElevatedButton.styleFrom(primary: Colors.orange),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0, vertical: 15),
-                    child: Text("PAY"),
-                  )),
-            ]),
-      ),
+          padding: EdgeInsets.all(30.0),
+          child: Expanded(
+            child: ListView.builder(
+              itemCount: widget.datas.length + 1,
+              itemBuilder: (context, index) {
+                // counter = fcnt[index];
+                return index < widget.datas.length
+                    ? Container(
+                        // color: Colors.amber,
+                        // margin: EdgeInsets.only(
+                        //     top: MediaQuery.of(context).size.height * 0.03,
+                        //     left: MediaQuery.of(context).size.width * 0.03,
+                        //     right: MediaQuery.of(context).size.width * 0.03,
+                        //     bottom: MediaQuery.of(context).size.height * 0.01),
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: 20),
+                            // decoration: BoxDecoration(
+                            // color: Colors.white,
+                            // borderRadius: BorderRadius.circular(15),
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     color: Colors.grey.withOpacity(0.5),
+                            //     spreadRadius: 5,
+                            //     blurRadius: 7,
+                            //     offset: Offset(0, 3), // changes position of shadow
+                            //   ),
+                            // ],
+                            // ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  widget.datas[index]["name"],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 1),
+                                  child: Text(
+                                    '\u{20B9}${widget.datas[index]["price"]} x ${widget.cnt[index].toString()}',
+                                    // textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                        color: Colors.orange),
+                                  ),
+                                ),
+                              ],
+                            )),
+                      )
+                    : Column(
+                        children: [
+                          Divider(
+                            color: Colors.grey,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Total Price",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 15,
+                                    )),
+                                Text(
+                                  '\u{20B9}${widget.price}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                      color: Colors.orange),
+                                )
+                              ])
+                        ],
+                      );
+              },
+            ),
+          )),
     );
   }
 }

@@ -371,8 +371,11 @@ class _CartScreenState extends State<CartScreen> {
                     onTap: () {
                       if (totalprice > 0)
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                Payment(price: totalprice, cartid: fcartid)));
+                            builder: (BuildContext context) => Payment(
+                                price: totalprice,
+                                cartid: fcartid,
+                                datas: datas,
+                                cnt: fcnt)));
                     },
                     child: Container(
                       color: Colors.orange,
