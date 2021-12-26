@@ -11,6 +11,21 @@ class CurrentOrdersAdmin extends StatefulWidget {
 }
 
 class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
+  Map<String, dynamic> dishname = {};
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  void getData() async {
+    var datas = await FirebaseFirestore.instance.collection('Dish').get();
+    for (var data in datas.docs) {
+      dishname[data.id] = data.get('name');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -134,7 +149,7 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(mp[index]['name']),
+                Text(dishname[mp[index]['name']]),
                 SizedBox(width: 20),
                 Text(mp[index]['count']),
               ],
