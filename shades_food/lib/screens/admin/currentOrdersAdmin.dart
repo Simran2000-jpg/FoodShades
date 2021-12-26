@@ -116,17 +116,31 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          TextButton(
-                              onPressed: () {
-                                print('ask to receive pressed');
-                                askToReceive(document.id, document['asktr']);
-                                Navigator.pop(context);
-                              },
-                              child: Text('Ask To Receive'),
-                              style: TextButton.styleFrom(
-                                primary: Colors.white,
-                                backgroundColor: Colors.blue,
-                              )),
+                          document['asktr']
+                              ? TextButton(
+                                  onPressed: () {
+                                    print('ask to receive pressed');
+                                    askToReceive(
+                                        document.id, document['asktr']);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Dont Ask To Receive'),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor: Colors.deepPurple,
+                                  ))
+                              : TextButton(
+                                  onPressed: () {
+                                    print('ask to receive pressed');
+                                    askToReceive(
+                                        document.id, document['asktr']);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Ask To Receive'),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor: Colors.blue,
+                                  )),
                           TextButton(
                             onPressed: () {
                               Navigator.pop(context);
@@ -160,6 +174,17 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                               fontWeight: FontWeight.bold,
                               color: Colors.green),
                         ),
+                        SizedBox(width: 10),
+                        if (document['asktr'])
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )
+                        else
+                          Icon(
+                            Icons.alarm,
+                            color: Colors.red,
+                          )
                       ],
                     ),
                     Text(
@@ -202,7 +227,9 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(dishname[mp[index]['name']]),
+                dishname[mp[index]['name']] == null
+                    ? Text('Item doesnt Exist')
+                    : Text(dishname[mp[index]['name']]),
                 SizedBox(width: 20),
                 Text(mp[index]['count']),
               ],

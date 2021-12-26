@@ -32,17 +32,6 @@ class _AdminScreenState extends State<AdminScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        floatingActionButton: ElevatedButton(
-          style: ButtonStyle(
-              alignment: Alignment.center,
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.orange)),
-          onPressed: () {
-            print("ADD ITEM PRESSED_____________________");
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Upload()));
-          },
-          child: Text('ADD ITEM'),
-        ),
         appBar: AppBar(
           backgroundColor: Color(0xFFFFE0B2),
           elevation: 15,
@@ -87,10 +76,11 @@ class _AdminScreenState extends State<AdminScreen> {
               }),
               destinations: [
                 NavigationDestination(
-                    icon: Icon(Icons.add), label: 'DISH LIST'),
+                    icon: Icon(Icons.list), label: 'DISH LIST'),
                 NavigationDestination(
-                    icon: Icon(Icons.add), label: 'CURRENT ORDERS'),
-                NavigationDestination(icon: Icon(Icons.add), label: 'FEEDBACK'),
+                    icon: Icon(Icons.shopping_cart), label: 'CURRENT ORDERS'),
+                NavigationDestination(
+                    icon: Icon(Icons.feedback), label: 'FEEDBACK'),
               ],
             ),
           ),

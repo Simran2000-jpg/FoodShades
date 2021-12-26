@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:shades_food/screens/admin/editAdminScreen.dart';
 
 import '../../splashscreen.dart';
+import 'additemAdmin.dart';
 
 class Admin_DishList extends StatefulWidget {
   const Admin_DishList({Key? key}) : super(key: key);
@@ -33,6 +34,18 @@ class _Admin_DishListState extends State<Admin_DishList> {
                       fontFamily: 'Montserrat',
                       fontSize: 30),
                 ),
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                    alignment: Alignment.center,
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.orange)),
+                onPressed: () {
+                  print("ADD ITEM PRESSED_____________________");
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Upload()));
+                },
+                child: Text('ADD ITEM'),
               ),
               Container(
                 child: StreamBuilder<QuerySnapshot>(
