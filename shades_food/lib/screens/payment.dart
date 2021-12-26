@@ -105,6 +105,7 @@ class _PaymentState extends State<Payment> {
         "userid": userid,
         "totaltime": totaltime,
         "totalprice": widget.price,
+        "asktr": false,
       });
     }
     Navigator.pushReplacement(

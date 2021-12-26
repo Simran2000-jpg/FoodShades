@@ -31,11 +31,18 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(
-          margin: const EdgeInsets.only(top: 40),
+          margin: const EdgeInsets.only(top: 10),
           padding: const EdgeInsets.all(10),
           child: Column(children: [
-            SizedBox(
-              height: 10,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "CURENT ORDERS",
+                style: TextStyle(
+                    color: Colors.orange,
+                    fontFamily: 'Montserrat',
+                    fontSize: 30),
+              ),
             ),
             Container(
               child: StreamBuilder<QuerySnapshot>(
@@ -61,6 +68,13 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
             )
           ])),
     );
+  }
+
+  void askToReceive(String _id, bool flag) {
+    FirebaseFirestore.instance
+        .collection("CurrentOrders")
+        .doc(_id)
+        .update({'asktr': !flag});
   }
 
   Widget OrderItem(QueryDocumentSnapshot document) {
@@ -90,37 +104,76 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
       elevation: 8,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'OderNo. ${orderno}',
-                        style: TextStyle(
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green),
+      child: InkWell(
+        onTap: () {
+          showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => SimpleDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    title: Text("Select An Option"),
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                              onPressed: () {
+                                print('ask to receive pressed');
+                                askToReceive(document.id, document['asktr']);
+                                Navigator.pop(context);
+                              },
+                              child: Text('Ask To Receive'),
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              )),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Scan QR'),
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.green,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                  Text(
-                      'Time Of Order: ${dt.day} ${month[dt.month]} ${dt.hour}hr ${dt.minute}min'),
-                  Text('Total Price: Rs ${totalprice}'),
-                  Text('Customer Name: ${customer_name}'),
-                  Text('Customer Phn Number: Rs ${customer_phone}'),
-                  listOfItems(document),
-                ],
+                  ));
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'OderNo. ${orderno}',
+                          style: TextStyle(
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green),
+                        ),
+                      ],
+                    ),
+                    Text(
+                        'Time Of Order: ${dt.day} ${month[dt.month]} ${dt.hour}hr ${dt.minute}min'),
+                    Text('Total Price: Rs ${totalprice}'),
+                    Text('Customer Name: ${customer_name}'),
+                    Text('Customer Phn Number: Rs ${customer_phone}'),
+                    listOfItems(document),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

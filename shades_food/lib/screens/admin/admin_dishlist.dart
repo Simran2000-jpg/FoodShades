@@ -21,11 +21,18 @@ class _Admin_DishListState extends State<Admin_DishList> {
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-            margin: const EdgeInsets.only(top: 40),
+            margin: const EdgeInsets.only(top: 10),
             padding: const EdgeInsets.all(10),
             child: Column(children: [
-              SizedBox(
-                height: 10,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "LIST OF DISHES",
+                  style: TextStyle(
+                      color: Colors.orange,
+                      fontFamily: 'Montserrat',
+                      fontSize: 30),
+                ),
               ),
               Container(
                 child: StreamBuilder<QuerySnapshot>(
@@ -74,15 +81,8 @@ class _Admin_DishListState extends State<Admin_DishList> {
                           TextButton(
                               onPressed: () {
                                 print('edit pressed');
-                                // Navigator.pop(context, true);
+                                Navigator.pop(context);
                                 editItem(document);
-                                // Navigator.of(context, rootNavigator: true)
-                                //     .pop('dialog');
-                                // Navigator.of(context, rootNavigator: true)
-                                //     .pop();
-                                // Navigator.of(context).push(MaterialPageRoute(
-                                //     builder: (BuildContext context) =>
-                                //         EditAdminScreen()));
                               },
                               child: Text('EDIT'),
                               style: TextButton.styleFrom(
@@ -92,8 +92,7 @@ class _Admin_DishListState extends State<Admin_DishList> {
                           TextButton(
                             onPressed: () {
                               deleteitem(document.id);
-                              Navigator.of(context, rootNavigator: true)
-                                  .pop('dialog');
+                              Navigator.pop(context);
                             },
                             child: Text('DELETE'),
                             style: TextButton.styleFrom(

@@ -53,7 +53,7 @@ class _AdminScreenState extends State<AdminScreen> {
           //       icon: Icon(Icons.logout),
           //       onPressed: () async {
           //         //signOutUser();
-          //         await FirebaseAuth.instance.signOut();
+          //         // await FirebaseAuth.instance.signOut();
           //         Navigator.pushReplacement(context,
           //             MaterialPageRoute(builder: (context) => SplashScreen()));
           //       }),
@@ -64,24 +64,35 @@ class _AdminScreenState extends State<AdminScreen> {
         // TabBarView(
         //   children: [Admin_DishList(), CurrentOrdersAdmin()],
         // ),
-        bottomNavigationBar: NavigationBarTheme(
-          data: NavigationBarThemeData(
-              backgroundColor: Color(0xFFFFE0B2),
-              indicatorColor: Colors.orange,
-              labelTextStyle: MaterialStateProperty.all(
-                  TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
-          child: NavigationBar(
-            height: 60,
-            selectedIndex: index,
-            onDestinationSelected: (index) => setState(() {
-              this.index = index;
-            }),
-            destinations: [
-              NavigationDestination(icon: Icon(Icons.add), label: 'DISH LIST'),
-              NavigationDestination(
-                  icon: Icon(Icons.add), label: 'CURRENT ORDERS'),
-              NavigationDestination(icon: Icon(Icons.add), label: 'FEEDBACK'),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Colors.black,
+                blurRadius: 10,
+              ),
             ],
+          ),
+          child: NavigationBarTheme(
+            data: NavigationBarThemeData(
+                backgroundColor: Color(0xFFFFE0B2),
+                indicatorColor: Colors.orange,
+                labelTextStyle: MaterialStateProperty.all(
+                    TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
+            child: NavigationBar(
+              height: 60,
+              selectedIndex: index,
+              onDestinationSelected: (index) => setState(() {
+                this.index = index;
+              }),
+              destinations: [
+                NavigationDestination(
+                    icon: Icon(Icons.add), label: 'DISH LIST'),
+                NavigationDestination(
+                    icon: Icon(Icons.add), label: 'CURRENT ORDERS'),
+                NavigationDestination(icon: Icon(Icons.add), label: 'FEEDBACK'),
+              ],
+            ),
           ),
         ),
       ),
