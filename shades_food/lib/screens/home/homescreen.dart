@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String rating = "-";
+  bool f = false;
   bool isDrawerOpen = false;
   double xOffset = 0;
   double yOffset = 0;
@@ -39,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (FirebaseAuth.instance.currentUser == null) {
       Navigator.pop(context);
     }
+    f = false;
     super.initState();
     getRating();
   }
@@ -59,6 +61,19 @@ class _HomeScreenState extends State<HomeScreen> {
           isDrawerOpen = false;
         });
       }
+    });
+  }
+
+  _recommended() {
+    setState(() {
+      f = true;
+    });
+  }
+
+  _allDishes() {
+    setState(() {
+      f = false;
+      ;
     });
   }
 
@@ -243,18 +258,53 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: MediaQuery.of(context).size.height * .1,
                             child: SingleChildScrollView(
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   RaisedButton(
-                                      onPressed: () {},
-                                      child: Text("Recommended"))
+                                      color: (f == false)
+                                          ? Colors.green
+                                          : Colors.grey,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(18.0),
+                                      ),
+                                      onPressed: _allDishes,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: Text(
+                                          "All Dishes",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      )),
+                                  RaisedButton(
+                                      color: (f == true)
+                                          ? Colors.green
+                                          : Colors.grey,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(18.0),
+                                      ),
+                                      onPressed: _recommended,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5.0),
+                                        child: Text(
+                                          "Recommended",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      )),
                                 ],
                               ),
                             ),
                           ),
                           Container(
                               height: MediaQuery.of(context).size.height * .55,
-                              child:
-                                  SingleChildScrollView(child: UserOrderList()))
+                              child: SingleChildScrollView(
+                                  child: UserOrderList(
+                                recommended: f,
+                              )))
                         ],
                       ),
                     ),
