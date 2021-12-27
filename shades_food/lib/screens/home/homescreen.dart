@@ -261,40 +261,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  RaisedButton(
-                                      color: (f == false)
-                                          ? Colors.green
-                                          : Colors.grey,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(18.0),
-                                      ),
-                                      onPressed: _allDishes,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0),
-                                        child: Text(
-                                          "All Dishes",
-                                          style: TextStyle(color: Colors.white),
+                                  SizedBox(
+                                    width: 180.0,
+                                    child: RaisedButton(
+                                        color: (f == false)
+                                            ? Colors.green
+                                            : Colors.grey,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(18.0),
                                         ),
-                                      )),
-                                  RaisedButton(
-                                      color: (f == true)
-                                          ? Colors.green
-                                          : Colors.grey,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(18.0),
-                                      ),
-                                      onPressed: _recommended,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5.0),
-                                        child: Text(
-                                          "Recommended",
-                                          style: TextStyle(color: Colors.white),
+                                        onPressed: _allDishes,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          child: Text(
+                                            "All Dishes",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        )),
+                                  ),
+                                  SizedBox(
+                                    width: 180.0,
+                                    child: RaisedButton(
+                                        color: (f == true)
+                                            ? Colors.green
+                                            : Colors.grey,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(18.0),
                                         ),
-                                      )),
+                                        onPressed: _recommended,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5.0),
+                                          child: Text(
+                                            "Recommended",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        )),
+                                  ),
                                 ],
                               ),
                             ),

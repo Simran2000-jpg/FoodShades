@@ -94,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ],
         ),
-        backgroundColor: Color(0xffFFE699),
+        backgroundColor: Color(0xffFFFFCC),
         body: SingleChildScrollView(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

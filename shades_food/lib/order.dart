@@ -205,6 +205,13 @@ class _OrderPageState extends State<OrderPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black, spreadRadius: 3),
+                        ],
+                      ),
                       margin: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.2),
                       // alignment: Alignment.center,

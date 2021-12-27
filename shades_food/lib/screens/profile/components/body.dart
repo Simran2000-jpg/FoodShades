@@ -75,7 +75,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Color(0xffFFBC97)),
+      decoration: BoxDecoration(color: Color(0xFFFFE0B2)),
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
