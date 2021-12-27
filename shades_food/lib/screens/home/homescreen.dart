@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -238,7 +240,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Container(
-                              height: MediaQuery.of(context).size.height * .65,
+                            height: MediaQuery.of(context).size.height * .1,
+                            child: SingleChildScrollView(
+                              child: Row(
+                                children: [
+                                  RaisedButton(
+                                      onPressed: () {},
+                                      child: Text("Recommended"))
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                              height: MediaQuery.of(context).size.height * .55,
                               child:
                                   SingleChildScrollView(child: UserOrderList()))
                         ],

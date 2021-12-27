@@ -31,27 +31,29 @@ class _CartScreenState extends State<CartScreen> {
         await FirebaseFirestore.instance.collection("cart").get();
     QuerySnapshot sp =
         await FirebaseFirestore.instance.collection("Dish").get();
-    setState(() {
-      for (var it in snap.docs) {
-        if (it.get("userid") == udata!.uid) {
-          did.add(it.get("dishid").toString().trim());
-          cnt.add(it.get("count"));
-          cartid.add(it.id);
+    if (this.mounted) {
+      setState(() {
+        for (var it in snap.docs) {
+          if (it.get("userid") == udata!.uid) {
+            did.add(it.get("dishid").toString().trim());
+            cnt.add(it.get("count"));
+            cartid.add(it.id);
+          }
         }
-      }
-      print(cartid.length);
-      for (var it in sp.docs) {
-        if (did.contains((it.id).toString())) {
-          int ind = did.indexOf(it.id);
-          datas.add(it);
+        print(cartid.length);
+        for (var it in sp.docs) {
+          if (did.contains((it.id).toString())) {
+            int ind = did.indexOf(it.id);
+            datas.add(it);
 
-          fcnt.add(cnt[ind]);
-          fcartid.add(cartid[ind]);
-          totalprice += int.parse(it.get("price")) * cnt[ind];
+            fcnt.add(cnt[ind]);
+            fcartid.add(cartid[ind]);
+            totalprice += int.parse(it.get("price")) * cnt[ind];
+          }
         }
-      }
-      isLoading = false;
-    });
+        isLoading = false;
+      });
+    }
   }
 
   @override
