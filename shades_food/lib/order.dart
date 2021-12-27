@@ -34,7 +34,6 @@ class _OrderPageState extends State<OrderPage> {
         .collection('userAndorder')
         .doc(user_id)
         .get();
-    // print('//////////////// ${data.get('orderid')}');
     if (data.exists) {
       setState(() {
         orderid = data.get('orderid');
