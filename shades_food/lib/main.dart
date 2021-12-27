@@ -43,7 +43,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+<<<<<<< HEAD
       home: HomeScreen(),
+=======
+      home: SplashScreen(),
+>>>>>>> a2e5af60c297cb1b5e23cb1414798a7fe6eb0ab0
     );
   }
 }
