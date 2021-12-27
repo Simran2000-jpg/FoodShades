@@ -37,7 +37,7 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "CURENT ORDERS",
+                "CURRENT ORDERS",
                 style: TextStyle(
                     color: Colors.orange,
                     fontFamily: 'Montserrat',
@@ -168,7 +168,7 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                     Row(
                       children: [
                         Text(
-                          'OderNo. ${orderno}',
+                          'OrderNo. ${orderno}',
                           style: TextStyle(
                               fontSize: 25.0,
                               fontWeight: FontWeight.bold,
@@ -186,6 +186,16 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                             color: Colors.red,
                           )
                       ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 90, top: 1, right: 90, bottom: 0),
+                      child: Divider(
+                        // thickness: 1,
+                        color: Color(0xFFFFC495),
+                        height: 15.0,
+                        indent: 5.0,
+                      ),
                     ),
                     Text(
                         'Time Of Order: ${dt.day} ${month[dt.month]} ${dt.hour}hr ${dt.minute}min'),
