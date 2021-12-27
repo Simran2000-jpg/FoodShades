@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shades_food/screens/admin/ScanQR.dart';
 
 class CurrentOrdersAdmin extends StatefulWidget {
   const CurrentOrdersAdmin({Key? key}) : super(key: key);
@@ -143,7 +144,11 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                                   )),
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => ScanQR()),
+                              );
                             },
                             child: Text('Scan QR'),
                             style: TextButton.styleFrom(
