@@ -12,6 +12,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:shades_food/screens/confirmPage.dart';
+import 'package:shades_food/screens/feedbacks/feedback.dart';
 
 // import 'feedback.dart';
 import 'notifications.dart';
@@ -24,8 +25,13 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
+  CountDownController _controller = CountDownController();
   int totaltime = 0;
   String orderid = "";
+  String orderno = "";
+
+  bool asktr = false;
+  bool isreceived = false;
   var orderdata;
   bool hasOrderd = false;
   void getData() async {
@@ -36,17 +42,20 @@ class _OrderPageState extends State<OrderPage> {
         .get();
     // print('//////////////// ${data.get('orderid')}');
     if (data.exists) {
-      setState(() {
-        orderid = data.get('orderid');
-        hasOrderd = true;
-      });
-
+      orderid = data.get('orderid');
       orderdata = await FirebaseFirestore.instance
           .collection('CurrentOrders')
           .doc(orderid)
           .get();
+      setState(() {
+        orderno = orderdata.get('orderno').toString();
+        hasOrderd = true;
+        totaltime = orderdata.get('totaltime') * 60;
+      });
     }
   }
+
+  void initializedata() async {}
 
   @override
   void initState() {
@@ -54,6 +63,7 @@ class _OrderPageState extends State<OrderPage> {
     totaltime = 10;
     super.initState();
     getData();
+    initializedata();
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         showDialog(
@@ -115,8 +125,6 @@ class _OrderPageState extends State<OrderPage> {
     });
   }
 
-  CountDownController _controller = CountDownController();
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -127,6 +135,50 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (orderid != "") {
+      FirebaseFirestore.instance
+          .collection('CurrentOrders')
+          .doc(orderid)
+          .snapshots()
+          .listen((DocumentSnapshot documentSnapshot) {
+        bool asktr1 = documentSnapshot.get('asktr');
+        bool isreceived1 = documentSnapshot.get('isreceived');
+        asktr = asktr1;
+        isreceived = isreceived1;
+        if (isreceived) {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => ConfirmPage()));
+        }
+        if (asktr) {
+          createFoodNotifications();
+          showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => SimpleDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    title: Text("Please Come To Pick Your Order"),
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('OK'),
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ));
+        }
+      });
+    }
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange,
@@ -149,8 +201,21 @@ class _OrderPageState extends State<OrderPage> {
 
         body: hasOrderd
             ? Ordered()
-            : Container(
-                child: Text('Please Order Something'),
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.2),
+                      // alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: Image.asset(
+                        "assets/images/emptyorder.jpg",
+                        fit: BoxFit.fill,
+                      ))
+                ],
               ));
   }
 
@@ -163,7 +228,20 @@ class _OrderPageState extends State<OrderPage> {
             Center(
               child: Column(
                 children: [
-                  // Text('${orderdata.get('oderno')}'),
+                  Container(
+                    margin: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(color: Colors.green, spreadRadius: 3),
+                      ],
+                    ),
+                    child: Text(
+                      'Order no: ${orderno}',
+                      style: TextStyle(fontSize: 30.0, color: Colors.green),
+                    ),
+                  ),
                   Container(
                     margin: EdgeInsets.fromLTRB(30, 10, 10, 10),
 
@@ -193,38 +271,33 @@ class _OrderPageState extends State<OrderPage> {
                     //       color: Colors.amber),
                     // ),
                   ),
-                  CircularCountDownTimer(
-                    isReverseAnimation: true,
-                    isReverse: true,
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.height / 2,
-                    duration: totaltime,
-                    fillColor: Colors.amber,
-                    ringColor: Colors.white,
-                    controller: _controller,
-                    backgroundColor: Colors.white54,
-                    strokeWidth: 10.0,
-                    strokeCap: StrokeCap.round,
-                    isTimerTextShown: true,
-                    onComplete: () async {
-                      // await FirebaseFirestore.instance
-                      //     .collection('CurrentOrders')
-                      //     .doc(FirebaseAuth.instance.currentUser!.uid)
-                      //     .delete();
-
-                      // createFoodNotifications();
-                      // Navigator.pushReplacement(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (builder) => ConfirmPage()));
-                    },
-                    textStyle: TextStyle(fontSize: 30, color: Colors.black),
+                  Container(
+                    child: CircularCountDownTimer(
+                      duration: totaltime,
+                      isReverseAnimation: true,
+                      isReverse: true,
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: MediaQuery.of(context).size.height / 2,
+                      fillColor: Colors.amber,
+                      ringColor: Colors.white,
+                      controller: _controller,
+                      backgroundColor: Colors.white54,
+                      strokeWidth: 10.0,
+                      strokeCap: StrokeCap.round,
+                      isTimerTextShown: true,
+                      onComplete: () async {
+                        setState(() {
+                          isreceived = true;
+                        });
+                      },
+                      textStyle: TextStyle(fontSize: 30, color: Colors.black),
+                    ),
                   ),
                 ],
               ),
             ),
             Container(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(10),
               child: Center(
                 child: QrImage(
                   data: orderid,
@@ -233,7 +306,7 @@ class _OrderPageState extends State<OrderPage> {
                   gapless: false,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

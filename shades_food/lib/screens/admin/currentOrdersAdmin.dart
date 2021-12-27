@@ -273,16 +273,26 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       ElevatedButton(
-                          onPressed: () {
-                            handleSubmit(orderid);
-                            Navigator.pop(context);
-                          },
-                          child: Text('YES')),
+                        onPressed: () {
+                          handleSubmit(orderid);
+                          Navigator.pop(context);
+                        },
+                        child: Text('YES'),
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          backgroundColor: Colors.green,
+                        ),
+                      ),
                       ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('ClOSE'))
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('ClOSE'),
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          backgroundColor: Colors.yellow,
+                        ),
+                      )
                     ],
                   ),
                 ],
@@ -293,16 +303,27 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
           builder: (BuildContext context) => SimpleDialog(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                title: Text("OOPs Order Doest Seem To Match"),
+                title: Expanded(
+                  child: Text(
+                    "OOPs Order Doest Seem To Match",
+                    style: TextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 children: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('ClOSE')),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('ClOSE'),
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          backgroundColor: Colors.yellow,
+                        ),
+                      ),
                     ],
                   ),
                 ],
