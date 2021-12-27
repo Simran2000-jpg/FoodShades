@@ -5,7 +5,8 @@ import 'package:shades_food/screens/Food_Detail/fooddeatils.dart';
 import 'package:shades_food/screens/home/FoodTile.dart';
 
 class UserOrderList extends StatefulWidget {
-  const UserOrderList({Key? key}) : super(key: key);
+  bool recommended;
+  UserOrderList({Key? key, required this.recommended}) : super(key: key);
 
   @override
   _UserOrderListState createState() => _UserOrderListState();
@@ -35,28 +36,55 @@ class _UserOrderListState extends State<UserOrderList> {
                       // shrinkWrap: true,
                       children: snapshot.data!.docs.map((document) {
                         print(document['imageurl']);
-                        return InkWell(
-                          onTap: () => {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FoodDetail(
-                                          id: document.id,
-                                          image: document['imageurl'],
-                                          title: document['name'],
-                                          price: document['price'],
-                                          description: document['description'],
-                                          time: document['time'],
-                                          rate: document['rating'],
-                                        )))
-                          },
-                          child: FoodTile(
-                            image: document['imageurl'],
-                            title: document['name'],
-                            price: document['price'],
-                            description: document['description'],
-                          ),
-                        );
+                        return (widget.recommended == true)
+                            ? (double.parse(document['rating']) >= 4.0)
+                                ? InkWell(
+                                    onTap: () => {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => FoodDetail(
+                                                    id: document.id,
+                                                    image: document['imageurl'],
+                                                    title: document['name'],
+                                                    price: document['price'],
+                                                    description:
+                                                        document['description'],
+                                                    time: document['time'],
+                                                    rate: document['rating'],
+                                                  )))
+                                    },
+                                    child: FoodTile(
+                                      image: document['imageurl'],
+                                      title: document['name'],
+                                      price: document['price'],
+                                      description: document['description'],
+                                    ),
+                                  )
+                                : Container()
+                            : InkWell(
+                                onTap: () => {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => FoodDetail(
+                                                id: document.id,
+                                                image: document['imageurl'],
+                                                title: document['name'],
+                                                price: document['price'],
+                                                description:
+                                                    document['description'],
+                                                time: document['time'],
+                                                rate: document['rating'],
+                                              )))
+                                },
+                                child: FoodTile(
+                                  image: document['imageurl'],
+                                  title: document['name'],
+                                  price: document['price'],
+                                  description: document['description'],
+                                ),
+                              );
                       }).toList(),
                     ),
                   )
