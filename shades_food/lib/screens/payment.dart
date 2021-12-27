@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shades_food/screens/cart/cart_screen.dart';
@@ -26,6 +27,7 @@ class Payment extends StatefulWidget {
 
 class _PaymentState extends State<Payment> {
   int totaltime = 0;
+  int count = 0;
   Razorpay razorpay = Razorpay();
   TextEditingController textEditingController = TextEditingController();
   @override
@@ -75,15 +77,16 @@ class _PaymentState extends State<Payment> {
         .collection('OrderNo')
         .doc('OrderCount')
         .get();
-    int count = c.get('current');
+    count = c.get('current');
     await FirebaseFirestore.instance
         .collection('OrderNo')
         .doc('OrderCount')
         .set({'current': count + 1});
     var customer;
     List<Map<String, String>> mp = [];
+    var v;
     for (var it in widget.cartid) {
-      var v = await FirebaseFirestore.instance.collection("cart").doc(it).get();
+      v = await FirebaseFirestore.instance.collection("cart").doc(it).get();
       var dish = await FirebaseFirestore.instance
           .collection('Dish')
           .doc(v.get("dishid"))
@@ -92,13 +95,12 @@ class _PaymentState extends State<Payment> {
       int c = await v.get('count');
       totaltime += t * c;
       mp.add({"name": dish.id, "count": v.get("count").toString()});
-      userid = v.get("userid");
-      customer = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userid)
-          .get();
+
       FirebaseFirestore.instance.collection("cart").doc(it).delete();
     }
+    userid = v.get("userid");
+    customer =
+        await FirebaseFirestore.instance.collection('users').doc(userid).get();
     for (var it in mp) {
       FirebaseFirestore.instance.collection("CurrentOrders").add({
         "dishandcount": [it],
@@ -112,12 +114,17 @@ class _PaymentState extends State<Payment> {
         "asktr": false,
       });
     }
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => OrderPage(
-                  totaltime: totaltime,
-                )));
+
+    String order_id = "";
+    QuerySnapshot data =
+        await FirebaseFirestore.instance.collection('CurrentOrders').get();
+    for (var item in data.docs) {
+      if (item['orderno'] == count) order_id = item.id;
+    }
+
+    print('//////////////////////////////// $order_id');
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => OrderPage(orderid: order_id)));
     print("Payment Success");
   }
 

@@ -16,8 +16,8 @@ import 'package:shades_food/screens/confirmPage.dart';
 import 'notifications.dart';
 
 class OrderPage extends StatefulWidget {
-  int totaltime = 0;
-  OrderPage({Key? key, required this.totaltime}) : super(key: key);
+  String orderid = "";
+  OrderPage({Key? key, required this.orderid}) : super(key: key);
 
   @override
   _OrderPageState createState() => _OrderPageState();
@@ -25,10 +25,13 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   int totaltime = 0;
+  String orderid = "";
+
   @override
   void initState() {
     // TODO: implement initState
-    totaltime = widget.totaltime;
+    totaltime = 10;
+    orderid = widget.orderid;
     super.initState();
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
