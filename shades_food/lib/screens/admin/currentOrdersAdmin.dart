@@ -42,7 +42,7 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                 "CURRENT ORDERS",
                 style: TextStyle(
                     color: Colors.orange,
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Montserrat Bold',
                     fontSize: 30),
               ),
             ),
@@ -50,6 +50,7 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('CurrentOrders')
+                      .orderBy('orderno')
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -224,12 +225,21 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
     return ExpansionTile(
       title: Text('List of Items Ordered'),
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text('ITEM'),
-            Text('COUNT'),
-          ],
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'ITEM',
+                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600),
+              ),
+              Text('COUNT',
+                  style:
+                      TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600)),
+            ],
+          ),
         ),
         Divider(height: 1),
         ListView.separated(
@@ -239,16 +249,19 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
             return SizedBox(height: 10);
           },
           itemBuilder: (context, index) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                dishname[mp[index]['name']] == null
-                    ? Text('Item doesnt Exist')
-                    : Text(dishname[mp[index]['name']]),
-                SizedBox(width: 20),
-                Text(mp[index]['count']),
-              ],
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  dishname[mp[index]['name']] == null
+                      ? Text('Item doesnt Exist')
+                      : Text(dishname[mp[index]['name']]),
+                  SizedBox(width: 20),
+                  Text(mp[index]['count']),
+                ],
+              ),
             );
           },
         )
@@ -290,7 +303,7 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                         child: Text('ClOSE'),
                         style: TextButton.styleFrom(
                           primary: Colors.white,
-                          backgroundColor: Colors.yellow,
+                          backgroundColor: Colors.yellow[600],
                         ),
                       )
                     ],

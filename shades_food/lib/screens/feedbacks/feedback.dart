@@ -56,7 +56,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                     "FEEDBACKS",
                     style: TextStyle(
                         color: Colors.orange,
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Montserrat Bold',
                         fontSize: 30),
                   ),
                 ),
@@ -98,7 +98,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
     String customer_name = document['customer_name'];
     String comment = document['comment'];
     int orderno = document['orderno'];
-    double rating = document['rating'];
+    int rating = document['rating'];
     return Card(
       elevation: 8,
       clipBehavior: Clip.antiAlias,

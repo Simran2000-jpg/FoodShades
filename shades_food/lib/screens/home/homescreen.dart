@@ -246,12 +246,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.only(
                                 left: 20, right: 20, bottom: 1.0, top: 10),
                             child: const Text(
-                              "Dishes Available",
+                              "DISHES  AVAILABLE",
                               style: TextStyle(
                                   color: Colors.orange,
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'MenuIcon'),
+                                  fontFamily: 'Montserrat Bold'),
                             ),
                           ),
                           Container(

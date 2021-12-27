@@ -145,9 +145,10 @@ class _CartScreenState extends State<CartScreen> {
                     top: MediaQuery.of(context).size.height * 0.01),
                 alignment: Alignment.center,
                 child: Text(
-                  "Your Cart",
+                  "YOUR CART",
                   style: TextStyle(
                       color: Colors.black,
+                      fontFamily: 'Montserrat Bold',
                       fontSize: MediaQuery.of(context).size.aspectRatio * 60),
                 ),
               ),

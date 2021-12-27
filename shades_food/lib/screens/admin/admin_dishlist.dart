@@ -31,7 +31,7 @@ class _Admin_DishListState extends State<Admin_DishList> {
                   "LIST OF DISHES",
                   style: TextStyle(
                       color: Colors.orange,
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Montserrat Bold',
                       fontSize: 30),
                 ),
               ),

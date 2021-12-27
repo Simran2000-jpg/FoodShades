@@ -155,6 +155,11 @@ flutter:
       fonts:
         - asset: assets/fonts/Montserrat-Bold.ttf
           weight: 700
+
+    - family: Pushster
+      fonts:
+        - asset: assets/fonts/Pushster-Regular.ttf
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

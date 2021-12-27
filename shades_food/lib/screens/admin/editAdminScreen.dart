@@ -20,7 +20,7 @@ class EditAdminScreen extends StatefulWidget {
       time = "",
       description = "",
       dishid = "";
-  int rating = 5;
+
   EditAdminScreen(
       {Key? key,
       required this.name,
@@ -37,6 +37,7 @@ class EditAdminScreen extends StatefulWidget {
 
 class _EditAdminScreenState extends State<EditAdminScreen> {
   String _uid = "";
+  int rating = 3;
   FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController name = TextEditingController();
   final TextEditingController price = TextEditingController();
@@ -200,6 +201,7 @@ class _EditAdminScreenState extends State<EditAdminScreen> {
       'imageurl': mediaUrl,
       'description': description.text,
       'time': time.text,
+      'rating': "3.0",
     });
 
     Navigator.pop(context);
@@ -218,7 +220,7 @@ class _EditAdminScreenState extends State<EditAdminScreen> {
           onPressed: () => {clearImage, Navigator.pop(context)},
         ),
         title: Text(
-          "Description",
+          "Update Your Dish",
           style: TextStyle(color: Colors.black),
         ),
       ),

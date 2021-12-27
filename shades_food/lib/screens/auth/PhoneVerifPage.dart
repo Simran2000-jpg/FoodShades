@@ -46,7 +46,7 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/bgsp.jpg"), fit: BoxFit.cover)),
+                image: AssetImage("assets/images/bg11.jpg"), fit: BoxFit.fill)),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
