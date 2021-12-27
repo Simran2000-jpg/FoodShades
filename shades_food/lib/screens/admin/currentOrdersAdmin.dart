@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shades_food/screens/admin/ScanQR.dart';
 
@@ -101,121 +102,121 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
     DateTime dt = DateTime.fromMillisecondsSinceEpoch(ts.seconds * 1000);
     ts.compareTo(Timestamp.now());
     int orderno = document['orderno'];
-    return Card(
-      elevation: 8,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      child: InkWell(
-        onTap: () {
-          showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => SimpleDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    title: Text("Select An Option"),
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          document['asktr']
-                              ? TextButton(
+    bool isreceived = document['isreceived'];
+    return isreceived
+        ? SizedBox()
+        : Card(
+            elevation: 8,
+            clipBehavior: Clip.antiAlias,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+            child: InkWell(
+              onTap: () {
+                showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => SimpleDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          title: Text("Select An Option"),
+                          children: <Widget>[
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                document['asktr']
+                                    ? TextButton(
+                                        onPressed: () {
+                                          print('ask to receive pressed');
+                                          askToReceive(
+                                              document.id, document['asktr']);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Dont Ask To Receive'),
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.deepPurple,
+                                        ))
+                                    : TextButton(
+                                        onPressed: () {
+                                          print('ask to receive pressed');
+                                          askToReceive(
+                                              document.id, document['asktr']);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Ask To Receive'),
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        )),
+                                TextButton(
                                   onPressed: () {
-                                    print('ask to receive pressed');
-                                    askToReceive(
-                                        document.id, document['asktr']);
-                                    Navigator.pop(context);
+                                    checkQR(document.id);
                                   },
-                                  child: Text('Dont Ask To Receive'),
+                                  child: Text('Scan QR'),
                                   style: TextButton.styleFrom(
                                     primary: Colors.white,
-                                    backgroundColor: Colors.deepPurple,
-                                  ))
-                              : TextButton(
-                                  onPressed: () {
-                                    print('ask to receive pressed');
-                                    askToReceive(
-                                        document.id, document['asktr']);
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('Ask To Receive'),
-                                  style: TextButton.styleFrom(
-                                    primary: Colors.white,
-                                    backgroundColor: Colors.blue,
-                                  )),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (builder) => ScanQR()),
-                              );
-                            },
-                            child: Text('Scan QR'),
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.green,
+                                    backgroundColor: Colors.green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'OrderNo. ${orderno}',
+                                style: TextStyle(
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green),
+                              ),
+                              SizedBox(width: 10),
+                              if (document['asktr'])
+                                Icon(
+                                  Icons.check,
+                                  color: Colors.green,
+                                )
+                              else
+                                Icon(
+                                  Icons.alarm,
+                                  color: Colors.red,
+                                )
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 90, top: 1, right: 90, bottom: 0),
+                            child: Divider(
+                              // thickness: 1,
+                              color: Color(0xFFFFC495),
+                              height: 15.0,
+                              indent: 5.0,
                             ),
                           ),
+                          Text(
+                              'Time Of Order: ${dt.day} ${month[dt.month]} ${dt.hour}hr ${dt.minute}min'),
+                          Text('Total Price: Rs ${totalprice}'),
+                          Text('Customer Name: ${customer_name}'),
+                          Text('Customer Phn Number: Rs ${customer_phone}'),
+                          listOfItems(document),
                         ],
                       ),
-                    ],
-                  ));
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'OrderNo. ${orderno}',
-                          style: TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green),
-                        ),
-                        SizedBox(width: 10),
-                        if (document['asktr'])
-                          Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          )
-                        else
-                          Icon(
-                            Icons.alarm,
-                            color: Colors.red,
-                          )
-                      ],
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 90, top: 1, right: 90, bottom: 0),
-                      child: Divider(
-                        // thickness: 1,
-                        color: Color(0xFFFFC495),
-                        height: 15.0,
-                        indent: 5.0,
-                      ),
-                    ),
-                    Text(
-                        'Time Of Order: ${dt.day} ${month[dt.month]} ${dt.hour}hr ${dt.minute}min'),
-                    Text('Total Price: Rs ${totalprice}'),
-                    Text('Customer Name: ${customer_name}'),
-                    Text('Customer Phn Number: Rs ${customer_phone}'),
-                    listOfItems(document),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   Widget listOfItems(QueryDocumentSnapshot document) {
@@ -253,5 +254,71 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
         )
       ],
     );
+  }
+
+  void checkQR(String orderid) async {
+    String qrdata = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (builder) => ScanQR()),
+    );
+    if (qrdata == orderid) {
+      showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => SimpleDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                title: Text("Confirm Order"),
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      ElevatedButton(
+                          onPressed: () {
+                            handleSubmit(orderid);
+                            Navigator.pop(context);
+                          },
+                          child: Text('YES')),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('ClOSE'))
+                    ],
+                  ),
+                ],
+              ));
+    } else {
+      showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => SimpleDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                title: Text("OOPs Order Doest Seem To Match"),
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('ClOSE')),
+                    ],
+                  ),
+                ],
+              ));
+    }
+  }
+
+  void handleSubmit(String orderid) async {
+    await FirebaseFirestore.instance
+        .collection('CurrentOrders')
+        .doc(orderid)
+        .update({'isreceived': true});
+    await FirebaseFirestore.instance
+        .collection('userAndorder')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .delete();
+    setState(() {});
   }
 }

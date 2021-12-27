@@ -83,6 +83,7 @@ class _ScanQRState extends State<ScanQR> {
                         qrdata = data.rawContent.toString();
                         hasdata = true;
                       });
+                      Navigator.pop(context, qrdata);
                     },
                   ),
                 )

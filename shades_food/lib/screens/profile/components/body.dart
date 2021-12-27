@@ -111,13 +111,22 @@ class _BodyState extends State<Body> {
               },
             ),
             ProfileMenu(
-              text: "My Orders",
+              text: "My Order",
+              icon: "assets/icon/Bell.svg",
+              press: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => OrderPage()));
+              },
+            ),
+            ProfileMenu(
+              text: "Past Orders",
               icon: "assets/icon/Bell.svg",
               press: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => MyOrder()));
               },
             ),
+
             ProfileMenu(
               text: "Admin",
               icon: "assets/icon/Settings.svg",
@@ -131,14 +140,6 @@ class _BodyState extends State<Body> {
                       },
                       child: Text('CANCEL')),
                 );
-              },
-            ),
-            ProfileMenu(
-              text: "Feedbacks",
-              icon: "assets/icon/Bell.svg",
-              press: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FeedBackScreen()));
               },
             ),
             ProfileMenu(

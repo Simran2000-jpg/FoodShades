@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:foodshades/confirm.dart';
 import 'package:awesome_notifications/src/awesome_notifications_core.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 // import 'package:foodshades/notifications.dart';
 // import 'foodshades/Confirmation.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -16,8 +17,7 @@ import 'package:shades_food/screens/confirmPage.dart';
 import 'notifications.dart';
 
 class OrderPage extends StatefulWidget {
-  String orderid = "";
-  OrderPage({Key? key, required this.orderid}) : super(key: key);
+  OrderPage({Key? key}) : super(key: key);
 
   @override
   _OrderPageState createState() => _OrderPageState();
@@ -26,13 +26,34 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   int totaltime = 0;
   String orderid = "";
+  var orderdata;
+  bool hasOrderd = false;
+  void getData() async {
+    String user_id = FirebaseAuth.instance.currentUser!.uid;
+    var data = await FirebaseFirestore.instance
+        .collection('userAndorder')
+        .doc(user_id)
+        .get();
+    // print('//////////////// ${data.get('orderid')}');
+    if (data.exists) {
+      setState(() {
+        orderid = data.get('orderid');
+        hasOrderd = true;
+      });
+
+      orderdata = await FirebaseFirestore.instance
+          .collection('CurrentOrders')
+          .doc(orderid)
+          .get();
+    }
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     totaltime = 10;
-    orderid = widget.orderid;
     super.initState();
+    getData();
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         showDialog(
@@ -107,35 +128,44 @@ class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF2C2C37),
-        title: const Text(
-          'FoodShades',
-          style: TextStyle(
-              fontFamily: "Montserrat Bold",
-              color: Color(0xFFE5E5E5),
-              fontSize: 20),
-        ),
-        elevation: 1,
-        actions: const <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 30.0),
+        appBar: AppBar(
+          backgroundColor: Colors.orange,
+          title: const Text(
+            'FoodShades',
+            style: TextStyle(
+                fontFamily: "Montserrat Bold",
+                color: Color(0xFFE5E5E5),
+                fontSize: 20),
           ),
-        ],
-        centerTitle: false,
-      ),
-      //
-      backgroundColor: Color(0xFF1E1E29),
+          elevation: 1,
+          actions: const <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: 30.0),
+            ),
+          ],
+          centerTitle: false,
+        ),
+        //
 
-      body: SingleChildScrollView(
+        body: hasOrderd
+            ? Ordered()
+            : Container(
+                child: Text('Please Order Something'),
+              ));
+  }
+
+  Widget Ordered() {
+    return SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Center(
               child: Column(
                 children: [
+                  // Text('${orderdata.get('oderno')}'),
                   Container(
-                    margin: EdgeInsets.fromLTRB(30, 30, 10, 30),
+                    margin: EdgeInsets.fromLTRB(30, 10, 10, 10),
 
                     child: Row(
                       children: const [
@@ -166,8 +196,8 @@ class _OrderPageState extends State<OrderPage> {
                   CircularCountDownTimer(
                     isReverseAnimation: true,
                     isReverse: true,
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    height: MediaQuery.of(context).size.height / 1.5,
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: MediaQuery.of(context).size.height / 2,
                     duration: totaltime,
                     fillColor: Colors.amber,
                     ringColor: Colors.white,
@@ -177,47 +207,36 @@ class _OrderPageState extends State<OrderPage> {
                     strokeCap: StrokeCap.round,
                     isTimerTextShown: true,
                     onComplete: () async {
-                      await FirebaseFirestore.instance
-                          .collection('CurrentOrders')
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .delete();
-                      createFoodNotifications();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => ConfirmPage()));
-                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      //     builder: (BuildContext context) =>
-                      //         Payment(price: totalprice, cartid: fcartid)));
+                      // await FirebaseFirestore.instance
+                      //     .collection('CurrentOrders')
+                      //     .doc(FirebaseAuth.instance.currentUser!.uid)
+                      //     .delete();
+
+                      // createFoodNotifications();
+                      // Navigator.pushReplacement(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (builder) => ConfirmPage()));
                     },
-                    textStyle: TextStyle(fontSize: 50, color: Colors.black),
+                    textStyle: TextStyle(fontSize: 30, color: Colors.black),
                   ),
                 ],
               ),
             ),
+            Container(
+              padding: EdgeInsets.all(30),
+              child: Center(
+                child: QrImage(
+                  data: orderid,
+                  version: QrVersions.auto,
+                  size: 250,
+                  gapless: false,
+                ),
+              ),
+            )
           ],
         ),
       ),
-      // body: SingleChildScrollView(
-      //   child: CircularCountDownTimer(
-      //     width: MediaQuery.of(context).size.width / 2,
-      //     height: MediaQuery.of(context).size.height / 2,
-      //     duration: 14,
-      //     fillColor: Colors.amber,
-      //     ringColor: Colors.white,
-      //     controller: _controller,
-      //     backgroundColor: Colors.white54,
-      //     strokeWidth: 10.0,
-      //     strokeCap: StrokeCap.round,
-      //     isTimerTextShown: true,
-      //     isReverse: false,
-      //     onComplete: () {
-      //       Navigator.push(context,
-      //           MaterialPageRoute(builder: (context) => ConfirmPage()));
-      //     },
-      //     textStyle: TextStyle(fontSize: 50, color: Colors.black),
-      //   ),
-      // ),
     );
   }
 }

@@ -101,20 +101,19 @@ class _PaymentState extends State<Payment> {
     userid = v.get("userid");
     customer =
         await FirebaseFirestore.instance.collection('users').doc(userid).get();
-    for (var it in mp) {
-      FirebaseFirestore.instance.collection("CurrentOrders").add({
-        "dishandcount": [it],
-        "customer_name": customer.get('name'),
-        "customer_phnno": customer.get('phone'),
-        "time": DateTime.now(),
-        "orderno": count,
-        "userid": userid,
-        "totaltime": totaltime,
-        "totalprice": widget.price,
-        "asktr": false,
-      });
-    }
-
+    await FirebaseFirestore.instance.collection("CurrentOrders").add({
+      "dishandcount": mp,
+      "customer_name": customer.get('name'),
+      "customer_phnno": customer.get('phone'),
+      "time": DateTime.now(),
+      "orderno": count,
+      "userid": userid,
+      "totaltime": totaltime,
+      "totalprice": widget.price,
+      "asktr": false,
+      "isreceived": false,
+    });
+    // FirebaseFirestore.instance.collection('UserAndOrderId').add(data)
     String order_id = "";
     QuerySnapshot data =
         await FirebaseFirestore.instance.collection('CurrentOrders').get();
@@ -123,8 +122,12 @@ class _PaymentState extends State<Payment> {
     }
 
     print('//////////////////////////////// $order_id');
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => OrderPage(orderid: order_id)));
+    await FirebaseFirestore.instance
+        .collection('userAndorder')
+        .doc(userid)
+        .set({'orderid': order_id});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => OrderPage()));
     print("Payment Success");
   }
 
