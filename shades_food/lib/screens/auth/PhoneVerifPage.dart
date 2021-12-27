@@ -6,7 +6,7 @@ import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:shades_food/appcolors.dart';
 import 'package:shades_food/screens/auth/Auth_Service.dart';
-import 'package:sms_autofill/sms_autofill.dart';
+// import 'package:sms_autofill/sms_autofill.dart';
 
 class PhoneVerifPage extends StatefulWidget {
   const PhoneVerifPage({Key? key}) : super(key: key);
@@ -187,14 +187,14 @@ class _PhoneVerifPageState extends State<PhoneVerifPage> {
     });
   }
 
-  Widget aot() {
-    return PinFieldAutoFill(
-      codeLength: 6,
-      onCodeChanged: (val) {
-        print('AutoFillField: ' + val!);
-      },
-    );
-  }
+  // Widget aot() {
+  //   return PinFieldAutoFill(
+  //     codeLength: 6,
+  //     onCodeChanged: (val) {
+  //       print('AutoFillField: ' + val!);
+  //     },
+  //   );
+  // }
 
   Widget otpField() {
     return OTPTextField(

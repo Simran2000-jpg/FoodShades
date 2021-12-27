@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shades_food/screens/admin/ScanQR.dart';
 
 class CurrentOrdersAdmin extends StatefulWidget {
   const CurrentOrdersAdmin({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "CURENT ORDERS",
+                "CURRENT ORDERS",
                 style: TextStyle(
                     color: Colors.orange,
                     fontFamily: 'Montserrat',
@@ -116,20 +117,38 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          TextButton(
-                              onPressed: () {
-                                print('ask to receive pressed');
-                                askToReceive(document.id, document['asktr']);
-                                Navigator.pop(context);
-                              },
-                              child: Text('Ask To Receive'),
-                              style: TextButton.styleFrom(
-                                primary: Colors.white,
-                                backgroundColor: Colors.blue,
-                              )),
+                          document['asktr']
+                              ? TextButton(
+                                  onPressed: () {
+                                    print('ask to receive pressed');
+                                    askToReceive(
+                                        document.id, document['asktr']);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Dont Ask To Receive'),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor: Colors.deepPurple,
+                                  ))
+                              : TextButton(
+                                  onPressed: () {
+                                    print('ask to receive pressed');
+                                    askToReceive(
+                                        document.id, document['asktr']);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Ask To Receive'),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor: Colors.blue,
+                                  )),
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => ScanQR()),
+                              );
                             },
                             child: Text('Scan QR'),
                             style: TextButton.styleFrom(
@@ -154,13 +173,34 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
                     Row(
                       children: [
                         Text(
-                          'OderNo. ${orderno}',
+                          'OrderNo. ${orderno}',
                           style: TextStyle(
                               fontSize: 25.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.green),
                         ),
+                        SizedBox(width: 10),
+                        if (document['asktr'])
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )
+                        else
+                          Icon(
+                            Icons.alarm,
+                            color: Colors.red,
+                          )
                       ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 90, top: 1, right: 90, bottom: 0),
+                      child: Divider(
+                        // thickness: 1,
+                        color: Color(0xFFFFC495),
+                        height: 15.0,
+                        indent: 5.0,
+                      ),
                     ),
                     Text(
                         'Time Of Order: ${dt.day} ${month[dt.month]} ${dt.hour}hr ${dt.minute}min'),
@@ -202,7 +242,9 @@ class _CurrentOrdersAdminState extends State<CurrentOrdersAdmin> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(dishname[mp[index]['name']]),
+                dishname[mp[index]['name']] == null
+                    ? Text('Item doesnt Exist')
+                    : Text(dishname[mp[index]['name']]),
                 SizedBox(width: 20),
                 Text(mp[index]['count']),
               ],
