@@ -145,6 +145,10 @@ class _OrderPageState extends State<OrderPage> {
         asktr = asktr1;
         isreceived = isreceived1;
         if (isreceived) {
+          FirebaseFirestore.instance
+              .collection('userAndorder')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .delete();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (BuildContext context) => ConfirmPage()));
         }
@@ -305,11 +309,19 @@ class _OrderPageState extends State<OrderPage> {
             Container(
               padding: EdgeInsets.all(10),
               child: Center(
-                child: QrImage(
-                  data: orderid,
-                  version: QrVersions.auto,
-                  size: 250,
-                  gapless: false,
+                child: Column(
+                  children: [
+                    Text(
+                      'Your Generated QR Code:',
+                      style: TextStyle(fontSize: 30.0),
+                    ),
+                    QrImage(
+                      data: orderid,
+                      version: QrVersions.auto,
+                      size: 250,
+                      gapless: false,
+                    ),
+                  ],
                 ),
               ),
             ),
