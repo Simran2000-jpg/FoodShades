@@ -98,7 +98,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
     String customer_name = document['customer_name'];
     String comment = document['comment'];
     int orderno = document['orderno'];
-    int rating = document['rating'];
+    double rating = (document['rating']).toDouble();
     return Card(
       elevation: 8,
       clipBehavior: Clip.antiAlias,

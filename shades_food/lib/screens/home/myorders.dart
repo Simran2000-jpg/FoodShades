@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 import 'homescreen.dart';
 
@@ -14,6 +17,7 @@ class MyOrder extends StatefulWidget {
 class _MyOrderState extends State<MyOrder> {
   List<DocumentSnapshot> orders = <DocumentSnapshot>[];
   List<DocumentSnapshot> dish = <DocumentSnapshot>[];
+  List<int> fb = <int>[];
 
   var udata = FirebaseAuth.instance.currentUser;
   bool isLoading = true;
@@ -23,20 +27,39 @@ class _MyOrderState extends State<MyOrder> {
         await FirebaseFirestore.instance.collection("CurrentOrders").get();
     QuerySnapshot snap2 =
         await FirebaseFirestore.instance.collection("Dish").get();
+    QuerySnapshot snap3 =
+        await FirebaseFirestore.instance.collection("FeedBack").get();
     setState(() {
       for (var it in snap.docs) {
         if (it.get("userid") == udata!.uid) {
           orders.add(it);
           for (var item in snap2.docs) {
-            // print(it.get("dishandcount")[0]["name"]);
             if (item.id == it.get("dishandcount")[0]["name"]) {
               dish.add(item);
             }
           }
         }
       }
-    });
+      for (var it in orders) {
+        bool f = false;
+        for (var tm in snap3.docs) {
+          if (it.id == tm.get("orderid") &&
+              tm.get("customer_id") == udata!.uid) {
+            // print(tm.get("orderid"));
+            // print(it.id);
+            // print(tm.get("customer_id"));
+            // print(tm.get("rating"));
 
+            fb.add(tm.get("rating"));
+            f = true;
+            break;
+          }
+        }
+        if (!f) fb.add(0);
+      }
+    });
+    print(fb.length);
+    for (var x in fb) print(x);
     isLoading = false;
   }
 
@@ -196,12 +219,38 @@ class _MyOrderState extends State<MyOrder> {
                                               color: Colors.orange,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Text(
-                                          "Delivered",
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                          ),
-                                        ),
+                                        fb[index] == 0
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  _showRatingAppDialog(
+                                                      orders[index].id, index);
+                                                },
+                                                child: Text(
+                                                  "Rate",
+                                                  style: TextStyle(
+                                                      color: Colors.green,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w800),
+                                                ),
+                                              )
+                                            : Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: Colors.green,
+                                                    size: 14,
+                                                  ),
+                                                  Text(
+                                                    fb[index].toString() + ".0",
+                                                    style: TextStyle(
+                                                        color: Colors.green,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ],
+                                              ),
                                       ],
                                     )
                                   ],
@@ -214,6 +263,79 @@ class _MyOrderState extends State<MyOrder> {
           ],
         ),
       ),
+    );
+  }
+
+  double roundOffToXDecimal(double number, {int numberOfDecimal = 1}) {
+    String numbersAfterDecimal = number.toString().split('.')[1];
+    if (numbersAfterDecimal != '0') {
+      int existingNumberOfDecimal = numbersAfterDecimal.length;
+      number += 1 / (10 * pow(10, existingNumberOfDecimal));
+    }
+
+    return double.parse(number.toStringAsFixed(numberOfDecimal));
+  }
+
+  var _auth = FirebaseAuth.instance;
+  void _showRatingAppDialog(orderid, index) {
+    final _ratingDialog = RatingDialog(
+      // ratingColor: Colors.amber,
+      title: Text(
+        'Rate this dish and tell others what you think.',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      starSize: 25,
+      image: Image.asset(
+        "assets/saute.png",
+        height: 200,
+      ),
+      submitButtonText: 'Submit',
+      onCancelled: () => print('cancelled'),
+      onSubmitted: (response) async {
+        var customer_id = _auth.currentUser!.uid;
+        var customer = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(customer_id)
+            .get();
+        print('rating: ${response.rating}, '
+            'comment: ${response.comment}');
+        var num = await FirebaseFirestore.instance
+            .collection('OrderNo')
+            .doc('OrderCount')
+            .get();
+        if (response.rating > 0) {
+          setState(() {
+            fb[index] = response.rating.ceil();
+          });
+          await FirebaseFirestore.instance.collection('FeedBack').add({
+            'rating': response.rating.ceil(),
+            'comment': response.comment,
+            'customer_id': _auth.currentUser!.uid,
+            'orderno': num.get('current') - 1,
+            'orderid': orderid,
+            'customer_name': customer.get('name'),
+          });
+          var r = await FirebaseFirestore.instance
+              .collection('Rating')
+              .doc('CurrentRating')
+              .get();
+          double rating = r.get('rating');
+          rating = (rating * 5 + response.rating) / 6;
+          var rrating = roundOffToXDecimal(rating);
+          rating.truncateToDouble();
+          await FirebaseFirestore.instance
+              .collection('Rating')
+              .doc('CurrentRating')
+              .set({'rating': rrating});
+        }
+      },
+    );
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => _ratingDialog,
     );
   }
 }

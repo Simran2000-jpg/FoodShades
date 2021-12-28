@@ -111,7 +111,7 @@ class _BodyState extends State<Body> {
               },
             ),
             ProfileMenu(
-              text: "My Order",
+              text: "Current Orders",
               icon: "assets/icon/Bell.svg",
               press: () {
                 Navigator.push(context,
@@ -119,7 +119,7 @@ class _BodyState extends State<Body> {
               },
             ),
             ProfileMenu(
-              text: "Past Orders",
+              text: "Order Hisory",
               icon: "assets/icon/Bell.svg",
               press: () {
                 Navigator.push(context,
